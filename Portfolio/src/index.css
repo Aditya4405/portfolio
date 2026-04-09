@@ -69,6 +69,36 @@ textarea {
   mask-image: radial-gradient(circle at center, black 40%, transparent 85%);
 }
 
+.hero-content {
+  max-width: 41rem;
+  padding-top: 2.5rem;
+}
+
+.hero-roleline {
+  color: #b7c4dd;
+}
+
+.hero-metrics-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  max-width: 35rem;
+}
+
+.hero-metric {
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.35rem;
+  padding: 1rem 1rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02)),
+    linear-gradient(180deg, rgba(8, 12, 24, 0.92), rgba(6, 10, 20, 0.9));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 20px 44px rgba(2, 6, 23, 0.32);
+}
+
 .glass-panel,
 .story-card,
 .highlight-card,
@@ -180,21 +210,22 @@ textarea {
 
 .profile-shell {
   position: relative;
-  width: min(100%, 24rem);
-  max-width: 24rem;
-  min-height: 28rem;
-  margin-inline: auto;
+  width: min(100%, 30rem);
+  max-width: 30rem;
+  min-height: 36rem;
+  margin-inline: auto 0;
   display: grid;
   place-items: center;
   overflow: hidden;
-  padding: 0.4rem;
+  padding: 1rem;
 }
 
 .profile-card {
   position: relative;
-  width: min(20rem, 100%);
-  border-radius: 1.5rem;
-  padding: 0.75rem;
+  width: 100%;
+  max-width: 27rem;
+  border-radius: 2rem;
+  padding: 0.95rem;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.07), rgba(255, 255, 255, 0.03)),
@@ -206,18 +237,19 @@ textarea {
 
 .profile-image {
   width: 100%;
-  height: 20.5rem;
+  height: 31rem;
   object-fit: cover;
-  border-radius: 1.2rem;
+  object-position: center top;
+  border-radius: 1.55rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .profile-card__footer {
-  margin-top: 0.75rem;
-  border-radius: 1.1rem;
-  padding: 0.85rem;
+  margin-top: 0.85rem;
+  border-radius: 1.35rem;
+  padding: 1rem 1rem 1.05rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .profile-rings,
@@ -230,33 +262,40 @@ textarea {
 }
 
 .profile-rings {
-  inset: 4rem 2.8rem;
+  inset: 5.25rem 3.4rem;
 }
 
 .profile-rings--secondary {
-  inset: 0.9rem;
+  inset: 1.15rem;
   border-color: rgba(168, 85, 247, 0.2);
   animation-duration: 9s;
 }
 
 .orbit-chip {
   position: absolute;
-  padding: 0.56rem 0.82rem;
+  padding: 0.55rem 0.8rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.1);
-  background: rgba(15, 23, 42, 0.8);
+  background: rgba(10, 16, 32, 0.86);
   color: #dbeafe;
   font-size: 0.68rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  z-index: 3;
 }
 
-.orbit-chip--1 { top: 12%; left: 13%; }
-.orbit-chip--2 { top: 16%; right: 13%; }
-.orbit-chip--3 { top: 46%; left: 8%; }
-.orbit-chip--4 { top: 50%; right: 8%; }
-.orbit-chip--5 { bottom: 15%; left: 15%; }
-.orbit-chip--6 { bottom: 13%; right: 15%; }
+.orbit-chip--1 { top: 12%; left: 10%; }
+.orbit-chip--2 { top: 18%; right: 9%; }
+.orbit-chip--3 { top: 48%; left: 4%; }
+.orbit-chip--4 { top: 52%; right: 3%; }
+.orbit-chip--5 { bottom: 22%; left: 10%; }
+.orbit-chip--6 { bottom: 16%; right: 10%; }
+
+.hero-visual-column {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 2rem;
+}
 
 .about-showcase {
   display: grid;
@@ -704,18 +743,39 @@ textarea {
 }
 
 @media (max-width: 1200px) {
+  .hero-content {
+    padding-top: 1.5rem;
+  }
+
   .profile-shell {
-    min-height: 25rem;
+    min-height: 31rem;
+    width: min(100%, 26rem);
   }
 
   .profile-image {
-    height: 18rem;
+    height: 25rem;
   }
 }
 
 @media (max-width: 768px) {
+  .hero-content {
+    padding-top: 0.75rem;
+  }
+
+  .hero-metrics-strip {
+    grid-template-columns: 1fr;
+    max-width: 100%;
+  }
+
+  .hero-visual-column {
+    padding-top: 0;
+    justify-content: center;
+  }
+
   .profile-shell {
-    min-height: 23rem;
+    width: 100%;
+    min-height: 26rem;
+    margin-inline: auto;
   }
 
   .profile-card {
@@ -723,13 +783,18 @@ textarea {
   }
 
   .profile-image {
-    height: 17rem;
+    height: 22rem;
   }
 
   .orbit-chip {
     font-size: 0.64rem;
     letter-spacing: 0.12em;
     padding: 0.5rem 0.7rem;
+  }
+
+  .orbit-chip--3,
+  .orbit-chip--4 {
+    top: 44%;
   }
 
   .skills-orbit-shell {

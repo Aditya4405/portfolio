@@ -15,33 +15,35 @@ const socialIcons = {
 
 function HeroSection({ personalInfo, heroMetrics, floatingSkills, resumeUrl }) {
   return (
-    <section id="home" className="relative overflow-hidden px-6 pb-8 pt-8 lg:px-10">
+    <section id="home" className="relative overflow-hidden px-6 pb-10 pt-10 lg:px-10">
       <div className="hero-grid pointer-events-none absolute inset-0 opacity-45" />
-      <div className="absolute inset-x-0 top-12 mx-auto h-[16rem] max-w-5xl rounded-full bg-[radial-gradient(circle,rgba(34,211,238,0.12),transparent_56%)] blur-3xl" />
-      <div className="mx-auto grid min-h-[64vh] max-w-7xl items-center gap-6 lg:grid-cols-[1.12fr_0.88fr]">
-        <MotionPrimitive.div variants={stagger} initial="hidden" animate="show" className="relative z-10">
+      <div className="absolute inset-x-0 top-10 mx-auto h-[18rem] max-w-5xl rounded-full bg-[radial-gradient(circle,rgba(34,211,238,0.12),transparent_56%)] blur-3xl" />
+      <div className="mx-auto grid min-h-[calc(100vh-5rem)] max-w-7xl items-start gap-10 lg:grid-cols-[minmax(0,0.98fr)_minmax(360px,0.82fr)] xl:gap-14">
+        <MotionPrimitive.div variants={stagger} initial="hidden" animate="show" className="hero-content relative z-10">
           <MotionPrimitive.div variants={fadeUp} className="inline-flex items-center gap-3 rounded-full border border-cyan-300/20 bg-white/6 px-4 py-2 text-xs uppercase tracking-[0.35em] text-cyan-200">
             <Sparkles size={16} />
             Full-Stack + AI Engineer
           </MotionPrimitive.div>
 
-          <MotionPrimitive.h1 variants={fadeUp} className="mt-5 max-w-[13ch] font-display text-[3.35rem] font-semibold leading-[0.92] text-white md:text-[4.35rem] xl:text-[4.7rem]">
-            Designing polished products around{' '}
-            <span className="bg-[linear-gradient(120deg,#e0f2fe_10%,#67e8f9_42%,#c084fc_100%)] bg-clip-text text-transparent">
-              backend depth
-            </span>{' '}
-            and intelligent systems.
-          </MotionPrimitive.h1>
-
-          <MotionPrimitive.p variants={fadeUp} className="mt-3.5 text-[0.98rem] text-slate-300 md:text-[1.18rem]">
+          <MotionPrimitive.p variants={fadeUp} className="mt-6 text-[1rem] font-medium text-slate-300 md:text-[1.18rem]">
             Hi, I&apos;m {personalInfo.name}
           </MotionPrimitive.p>
 
-          <MotionPrimitive.div variants={fadeUp} className="mt-3.5 max-w-2xl text-[0.92rem] leading-7 text-slate-400 md:text-[0.98rem]">
+          <MotionPrimitive.h1 variants={fadeUp} className="mt-3 max-w-[10.5ch] font-display text-[3.25rem] font-semibold leading-[0.92] text-white md:text-[4.5rem] xl:text-[5rem]">
+            Building premium web products with{' '}
+            <span className="bg-[linear-gradient(120deg,#e0f2fe_10%,#67e8f9_42%,#c084fc_100%)] bg-clip-text text-transparent">
+              Java backend depth
+            </span>{' '}
+            and AI thinking.
+          </MotionPrimitive.h1>
+
+          <MotionPrimitive.p variants={fadeUp} className="hero-roleline mt-5 max-w-2xl text-[1rem] text-slate-300 md:text-[1.08rem]">
+            {personalInfo.title}
+          </MotionPrimitive.p>
+
+          <MotionPrimitive.div variants={fadeUp} className="mt-3 max-w-2xl text-[0.92rem] leading-7 text-slate-400 md:text-[0.98rem]">
             <TypeAnimation
               sequence={[
-                personalInfo.title,
-                1600,
                 'Building scalable web apps, elegant APIs, and impactful AI experiences.',
                 1600,
                 ...personalInfo.roles.flatMap((role) => [role, 1000]),
@@ -51,8 +53,8 @@ function HeroSection({ personalInfo, heroMetrics, floatingSkills, resumeUrl }) {
             />
           </MotionPrimitive.div>
 
-          <MotionPrimitive.p variants={fadeUp} className="mt-5 max-w-[38rem] text-[0.94rem] leading-7 text-slate-400">
-            Inspired by editorial developer portfolios, this experience frames Aditya as an engineer who cares equally about interface quality, service architecture, and practical AI execution.
+          <MotionPrimitive.p variants={fadeUp} className="mt-5 max-w-[34rem] text-[0.96rem] leading-8 text-slate-400">
+            I focus on clean interfaces, reliable service architecture, and practical AI execution, shaping products that feel calm, useful, and production-ready.
           </MotionPrimitive.p>
 
           <MotionPrimitive.div variants={fadeUp} className="mt-5 flex flex-wrap gap-2.5">
@@ -82,17 +84,17 @@ function HeroSection({ personalInfo, heroMetrics, floatingSkills, resumeUrl }) {
             })}
           </MotionPrimitive.div>
 
-          <MotionPrimitive.div variants={fadeUp} className="mt-6 grid gap-3 sm:grid-cols-3">
+          <MotionPrimitive.div variants={fadeUp} className="hero-metrics-strip mt-7">
             {heroMetrics.map((metric) => (
-              <div key={metric.label} className="glass-panel">
-                <p className="text-[2rem] font-semibold text-white">{metric.value}</p>
-                <p className="mt-2 text-xs uppercase tracking-[0.3em] text-slate-400">{metric.label}</p>
+              <div key={metric.label} className="hero-metric">
+                <p className="text-[1.55rem] font-semibold text-white">{metric.value}</p>
+                <p className="mt-1.5 text-[11px] uppercase tracking-[0.28em] text-slate-400">{metric.label}</p>
               </div>
             ))}
           </MotionPrimitive.div>
         </MotionPrimitive.div>
 
-        <MotionPrimitive.div variants={scaleIn} initial="hidden" animate="show" className="relative self-center">
+        <MotionPrimitive.div variants={scaleIn} initial="hidden" animate="show" className="hero-visual-column relative">
           <div className="profile-shell">
             <div className="profile-rings" />
             <div className="profile-rings profile-rings--secondary" />
@@ -100,8 +102,8 @@ function HeroSection({ personalInfo, heroMetrics, floatingSkills, resumeUrl }) {
               <img src={personalInfo.profileImage} alt="Aditya Prajapati portrait" className="profile-image" />
               <div className="profile-card__footer">
                 <div>
-                  <p className="text-xs uppercase tracking-[0.35em] text-cyan-200">Current Focus</p>
-                  <p className="mt-2 text-[1.02rem] font-semibold text-white md:text-[1.08rem]">Premium full-stack products with Java + AI</p>
+                  <p className="text-[11px] uppercase tracking-[0.35em] text-cyan-200">Current Focus</p>
+                  <p className="mt-2 text-[1.15rem] font-semibold text-white">Backend systems, polished frontends, and AI-led product workflows.</p>
                 </div>
               </div>
             </div>
