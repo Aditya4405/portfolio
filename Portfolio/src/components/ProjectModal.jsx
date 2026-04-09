@@ -1,80 +1,74 @@
 import { AnimatePresence, motion as Motion } from 'framer-motion'
-import { FiArrowUpRight, FiGithub, FiX } from 'react-icons/fi'
+import { ArrowUpRight, X } from 'lucide-react'
 
 function ProjectModal({ project, onClose }) {
   return (
     <AnimatePresence>
       {project ? (
         <Motion.div
-          className="fixed inset-0 z-[80] flex items-center justify-center bg-slate-950/75 px-4 py-8 backdrop-blur-md"
+          className="fixed inset-0 z-[90] flex items-center justify-center bg-slate-950/80 px-4 py-8 backdrop-blur-xl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose}
         >
           <Motion.div
-            className="relative max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(9,14,28,0.92))] p-8 shadow-[0_30px_100px_rgba(14,165,233,0.18)]"
-            initial={{ scale: 0.94, y: 24 }}
-            animate={{ scale: 1, y: 0 }}
-            exit={{ scale: 0.94, y: 24 }}
-            transition={{ duration: 0.3 }}
+            className="relative max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-[2rem] border border-white/10 bg-[linear-gradient(180deg,rgba(8,12,24,0.98),rgba(12,18,34,0.95))] p-6 shadow-[0_40px_120px_rgba(15,23,42,0.65)]"
+            initial={{ opacity: 0, y: 24, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.96 }}
             onClick={(event) => event.stopPropagation()}
           >
             <button
               type="button"
               onClick={onClose}
-              className="absolute right-5 top-5 rounded-full border border-white/10 bg-white/5 p-3 text-slate-200 transition hover:border-cyan-400/50 hover:text-cyan-300"
-              aria-label="Close project details"
+              className="absolute right-5 top-5 rounded-full border border-white/10 bg-white/6 p-3 text-slate-200 transition hover:border-cyan-300/40 hover:text-cyan-200"
             >
-              <FiX />
+              <X size={18} />
             </button>
 
-            <div className="mb-8 overflow-hidden rounded-[1.6rem] border border-white/10 bg-[radial-gradient(circle_at_top_left,rgba(103,232,249,0.24),transparent_38%),linear-gradient(135deg,rgba(30,41,59,0.8),rgba(12,18,34,0.95))] p-8">
-              <p className="mb-3 text-sm uppercase tracking-[0.35em] text-cyan-300/75">
-                Premium Project View
-              </p>
-              <h3 className="text-3xl font-semibold text-white">{project.title}</h3>
-              <p className="mt-4 max-w-2xl text-slate-300">{project.description}</p>
+            <div className="overflow-hidden rounded-[1.6rem] border border-white/10">
+              <img src={project.preview} alt={`${project.title} case study`} className="h-80 w-full object-cover" />
             </div>
 
-            <div className="mb-8 flex flex-wrap gap-3">
-              {project.tech.map((badge) => (
-                <span
-                  key={badge}
-                  className="rounded-full border border-cyan-400/20 bg-cyan-400/10 px-4 py-2 text-sm text-cyan-100"
-                >
-                  {badge}
+            <div className="mt-8">
+              <p className="text-xs uppercase tracking-[0.35em] text-cyan-200">Case Study</p>
+              <h3 className="mt-3 text-3xl font-semibold text-white">{project.title}</h3>
+              <p className="mt-4 max-w-3xl text-base leading-8 text-slate-300">{project.summary}</p>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              {project.stack.map((icon, index) => (
+                <span key={`${project.title}-stack-${index}`} className="case-icon-badge">
+                  <img src={icon} alt="" className="h-6 w-6" />
                 </span>
               ))}
             </div>
 
-            <div className="grid gap-4 md:grid-cols-3">
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
               {project.features.map((feature) => (
-                <div
-                  key={feature}
-                  className="rounded-3xl border border-white/10 bg-white/5 p-5 text-sm leading-6 text-slate-300"
-                >
+                <div key={feature} className="rounded-[1.5rem] border border-white/10 bg-white/5 p-5 text-sm leading-7 text-slate-300">
                   {feature}
                 </div>
               ))}
             </div>
 
+            <div className="mt-8 grid gap-4 md:grid-cols-3">
+              {project.metrics.map((metric) => (
+                <div key={metric.label} className="rounded-[1.4rem] border border-white/10 bg-slate-950/50 p-5">
+                  <p className="text-lg font-semibold text-white">{metric.value}</p>
+                  <p className="mt-2 text-xs uppercase tracking-[0.24em] text-slate-500">{metric.label}</p>
+                </div>
+              ))}
+            </div>
+
             <div className="mt-8 flex flex-wrap gap-4">
-              <a
-                href={project.github}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-5 py-3 text-sm font-medium text-slate-100 transition hover:border-cyan-400/40 hover:bg-cyan-400/10"
-              >
-                <FiGithub />
+              <a href={project.github} target="_blank" rel="noreferrer" className="secondary-button premium-button">
                 View GitHub
               </a>
-              <a
-                href={project.demo}
-                className="inline-flex items-center gap-2 rounded-full bg-[linear-gradient(135deg,#22d3ee,#a855f7)] px-5 py-3 text-sm font-semibold text-slate-950 transition hover:scale-[1.02]"
-              >
-                <FiArrowUpRight />
-                Live Experience
+              <a href={project.demo} className="primary-button premium-button">
+                Live Demo
+                <ArrowUpRight size={18} />
               </a>
             </div>
           </Motion.div>

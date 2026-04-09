@@ -1,21 +1,63 @@
+import profilePortrait from '../assets/images/profile-portrait.svg'
+import healthPreview from '../assets/images/health-report-analyzer.svg'
+import voicePreview from '../assets/images/voice-assistant.svg'
+import signPreview from '../assets/images/sign-language.svg'
+import mapPreview from '../assets/images/mapmypsit.svg'
+import reactLogo from '../assets/icons/react-logo.svg'
+import javaLogo from '../assets/icons/java-logo.svg'
+import springLogo from '../assets/icons/springboot-logo.svg'
+import mysqlLogo from '../assets/icons/mysql-logo.svg'
+import firebaseLogo from '../assets/icons/firebase-logo.svg'
+import githubLogo from '../assets/icons/github-logo.svg'
+import dockerLogo from '../assets/icons/docker-logo.svg'
+import aiLogo from '../assets/icons/ai-logo.svg'
+import cloudLogo from '../assets/icons/cloud-logo.svg'
+import restLogo from '../assets/icons/rest-logo.svg'
+import tailwindLogo from '../assets/icons/tailwind-logo.svg'
+import vercelLogo from '../assets/icons/vercel-logo.svg'
+
 export const personalInfo = {
   name: 'Aditya Prajapati',
-  shortTitle: 'Full Stack Developer | Java Backend Engineer | AI Innovator',
+  title: 'Full Stack Developer | Java Backend Engineer | AI Innovator',
   email: 'adityaprajapati.dev@gmail.com',
   githubUsername: 'adityaprajapati',
+  profileImage: profilePortrait,
+  roles: ['Spring Boot Developer', 'AI Enthusiast', 'Full Stack Builder'],
   socials: [
     { label: 'GitHub', href: 'https://github.com/adityaprajapati' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/adityaprajapati' },
     { label: 'Email', href: 'mailto:adityaprajapati.dev@gmail.com' },
     { label: 'LeetCode', href: 'https://leetcode.com/' },
   ],
-  roles: ['Spring Boot Developer', 'AI Enthusiast', 'Full Stack Builder'],
 }
 
 export const heroMetrics = [
-  { value: '12+', label: 'Projects Delivered' },
-  { value: '3+', label: 'Years Learning & Building' },
-  { value: '10+', label: 'Core Technologies' },
+  { value: '12+', label: 'Shipped Projects' },
+  { value: '95%', label: 'Backend Focus' },
+  { value: '24/7', label: 'Builder Mindset' },
+]
+
+export const floatingSkills = ['Java', 'React', 'Spring Boot', 'AI Systems', 'Cloud', 'APIs']
+
+export const storyCards = [
+  {
+    title: 'Frontend Foundation',
+    text: 'Started with HTML, CSS, and JavaScript, learning how polished interfaces shape user trust and product clarity.',
+  },
+  {
+    title: 'Backend Depth',
+    text: 'Moved into Java, Spring Boot, MySQL, and secure API design to build reliable systems that can scale beyond prototypes.',
+  },
+  {
+    title: 'AI Exploration',
+    text: 'Applied computer vision, assistants, and intelligent workflows to real project ideas with practical product thinking.',
+  },
+]
+
+export const miniAchievements = [
+  { icon: 'Sparkles', value: '3+', label: 'Years building' },
+  { icon: 'Trophy', value: '4', label: 'Flagship projects' },
+  { icon: 'BadgeCheck', value: '6+', label: 'Learning milestones' },
 ]
 
 export const timeline = [
@@ -23,157 +65,173 @@ export const timeline = [
     year: '2024',
     title: 'Web Development Foundation',
     description:
-      'Built a strong front-end base with HTML, CSS, JavaScript, and responsive UI design while shipping early project work.',
+      'Built a strong base in responsive UI design, modern layouts, and interaction-driven web development.',
   },
   {
     year: '2025',
     title: 'Java Backend + AI Projects',
     description:
-      'Focused on Spring Boot, REST APIs, MySQL, Firebase, and AI-powered prototypes with real-time interaction and automation.',
+      'Deepened into Spring Boot, REST architecture, Firebase sync, and early AI experimentation through applied projects.',
   },
   {
     year: '2026',
-    title: 'Full-Stack Product Thinking',
+    title: 'Full-stack + Healthcare Systems',
     description:
-      'Combined modern UI engineering, healthcare-focused backend architecture, and intelligent systems into production-style builds.',
+      'Combined polished frontend delivery with backend architecture and healthcare-oriented workflows into production-style builds.',
   },
 ]
 
-export const education = [
+export const aboutHighlights = [
   {
-    title: 'Bachelor of Technology',
+    title: 'Education',
     subtitle: 'Computer Science and Engineering',
-    description:
-      'Focused on software engineering, backend systems, and applied AI problem solving.',
+    body: 'Focused on software engineering, backend systems, and problem solving through product-led development.',
   },
   {
-    title: 'Smart India Hackathon 2024',
-    subtitle: 'Innovation & Team Collaboration',
-    description:
-      'Worked on impactful idea validation, rapid prototyping, and solution storytelling under pressure.',
+    title: 'Hackathon',
+    subtitle: 'Smart India Hackathon 2024',
+    body: 'Strengthened ideation, rapid prototyping, pitching, and team execution under real deadlines.',
+  },
+  {
+    title: 'Backend Specialization',
+    subtitle: 'Java + Spring Boot',
+    body: 'Special interest in secure REST APIs, data-heavy systems, and backend flows that support rich UI experiences.',
   },
 ]
 
 export const skills = [
-  { name: 'React', level: 90, description: 'Modern component systems and SPA architecture' },
-  { name: 'JavaScript', level: 92, description: 'Interactive UI, APIs, and application logic' },
-  { name: 'Java', level: 94, description: 'Backend design, OOP, and scalable services' },
-  { name: 'Spring Boot', level: 90, description: 'REST APIs, security, and service orchestration' },
-  { name: 'MySQL', level: 85, description: 'Schema design, queries, and relational data' },
-  { name: 'Firebase', level: 82, description: 'Realtime sync, auth, and lightweight cloud services' },
-  { name: 'REST APIs', level: 91, description: 'Clean resource modeling and integration patterns' },
-  { name: 'AI/ML', level: 80, description: 'Vision, assistants, and applied experimentation' },
-  { name: 'Cloud Computing', level: 76, description: 'Deployment, scalability, and service readiness' },
-  { name: 'Git & GitHub', level: 88, description: 'Version control, collaboration, and CI-friendly flow' },
-]
-
-export const techCards = [
-  'HTML',
-  'CSS',
-  'JavaScript',
-  'React',
-  'Java',
-  'Spring Boot',
-  'MySQL',
-  'Firebase',
-  'REST APIs',
-  'GitHub',
-  'Cloud',
-  'AI Systems',
+  { name: 'React', icon: reactLogo },
+  { name: 'Java', icon: javaLogo },
+  { name: 'Spring Boot', icon: springLogo },
+  { name: 'MySQL', icon: mysqlLogo },
+  { name: 'Firebase', icon: firebaseLogo },
+  { name: 'GitHub', icon: githubLogo },
+  { name: 'REST API', icon: restLogo },
+  { name: 'AI', icon: aiLogo },
+  { name: 'Cloud', icon: cloudLogo },
+  { name: 'Docker', icon: dockerLogo },
+  { name: 'Tailwind', icon: tailwindLogo },
+  { name: 'Vercel', icon: vercelLogo },
 ]
 
 export const projects = [
   {
     title: 'Health Report Analyzer',
-    description:
-      'A healthcare-focused platform with secure report handling, role-based access, and synchronized data flow for streamlined report management.',
-    tech: ['Spring Boot', 'MySQL', 'Firebase'],
+    preview: healthPreview,
+    summary:
+      'A healthcare-focused reporting platform with clean role control, synchronized records, and structured report management.',
+    stack: [springLogo, mysqlLogo, firebaseLogo],
+    metrics: [
+      { label: 'Roles', value: '3 access layers' },
+      { label: 'Response', value: '<220ms' },
+      { label: 'Sync', value: 'Realtime updates' },
+    ],
     features: [
-      'Role-based authentication and access control',
-      'Structured report management workflows',
-      'Realtime sync with Firebase-backed updates',
+      'Role-based access control',
+      'Report lifecycle management',
+      'Realtime synchronization support',
     ],
     github: 'https://github.com/adityaprajapati',
     demo: '#contact',
   },
   {
-    title: 'Voice Controlled Cooking & Media Assistant',
-    description:
-      'An AI-assisted voice command experience for managing cooking flows, contextual help, and media actions in one seamless interface.',
-    tech: ['AI', 'Voice Commands', 'Media Integration'],
+    title: 'Voice Controlled Cooking Assistant',
+    preview: voicePreview,
+    summary:
+      'An AI-assisted voice workflow for recipe guidance, contextual prompts, and media control in one fluid experience.',
+    stack: [aiLogo, reactLogo, cloudLogo],
+    metrics: [
+      { label: 'Input', value: 'Voice-first UX' },
+      { label: 'Guidance', value: 'Step-based flow' },
+      { label: 'Media', value: 'Integrated controls' },
+    ],
     features: [
       'Voice-first interaction model',
-      'Cooking workflow assistance with smart prompts',
-      'Media playback control and contextual responses',
+      'Cooking workflow help',
+      'Media-integrated commands',
     ],
     github: 'https://github.com/adityaprajapati',
     demo: '#contact',
   },
   {
     title: 'AI Sign Language Translator',
-    description:
-      'A real-time gesture recognition system that translates sign language into meaningful output using computer vision driven AI pipelines.',
-    tech: ['Computer Vision', 'AI/ML', 'Realtime Detection'],
+    preview: signPreview,
+    summary:
+      'A computer vision system for real-time gesture capture and AI-powered translation into usable output.',
+    stack: [aiLogo, pythonLogoFallback(aiLogo), cloudLogo],
+    metrics: [
+      { label: 'Detection', value: 'Realtime flow' },
+      { label: 'Output', value: 'Accessible translation' },
+      { label: 'Focus', value: 'Vision pipeline' },
+    ],
     features: [
-      'Realtime gesture detection pipeline',
-      'Translation layer for accessible output',
-      'Vision-focused AI experimentation',
+      'Realtime gesture detection',
+      'Translation-focused output layer',
+      'AI experimentation with computer vision',
     ],
     github: 'https://github.com/adityaprajapati',
     demo: '#contact',
   },
   {
     title: 'MapmyPSIT',
-    description:
-      'An indoor navigation and guidance product designed to help users move across campus spaces with map-backed direction flows and backend APIs.',
-    tech: ['Maps', 'Backend APIs', 'Navigation'],
+    preview: mapPreview,
+    summary:
+      'An indoor navigation system with map-backed direction flow and backend APIs supporting campus guidance.',
+    stack: [reactLogo, githubLogo, cloudLogo],
+    metrics: [
+      { label: 'Routing', value: 'Indoor focused' },
+      { label: 'UX', value: 'Map guidance' },
+      { label: 'Backend', value: 'API-driven' },
+    ],
     features: [
-      'Indoor routing and guidance flows',
-      'Map-based contextual navigation',
-      'Backend APIs supporting route logic',
+      'Indoor college navigation',
+      'Map-based direction support',
+      'Backend API system design',
     ],
     github: 'https://github.com/adityaprajapati',
     demo: '#contact',
   },
 ]
 
+function pythonLogoFallback(icon) {
+  return icon
+}
+
+export const milestones = [
+  {
+    title: 'Smart India Hackathon 2024',
+    text: 'Collaborated on solution framing, rapid product thinking, and presentation under tight constraints.',
+  },
+  {
+    title: 'CodSoft Internship',
+    text: 'Built consistency around implementation, ownership, and real-world development expectations.',
+  },
+  {
+    title: 'AI Workshop Participation',
+    text: 'Expanded interest in intelligent systems, experimentation loops, and applied learning.',
+  },
+  {
+    title: 'Healthcare Backend Project',
+    text: 'Delivered a backend-heavy project with practical architecture and workflow depth.',
+  },
+]
+
 export const counters = [
   { value: 12, suffix: '+', label: 'Projects Completed' },
-  { value: 3, suffix: '+', label: 'Hackathons' },
+  { value: 3, suffix: '+', label: 'Hackathons & Workshops' },
   { value: 6, suffix: '+', label: 'Certifications' },
   { value: 14, suffix: '+', label: 'Technologies Learned' },
 ]
 
-export const achievements = [
-  'Smart India Hackathon 2024',
-  'CodSoft Internship',
-  'AI Workshop participation',
-  'Major backend healthcare project',
-  'Continuous learning certifications',
-]
-
-export const commandResponses = {
-  help: 'Available commands: help, projects, skills, resume, contact, github',
-  projects:
-    'Featured projects: Health Report Analyzer, Voice Controlled Cooking & Media Assistant, AI Sign Language Translator, MapmyPSIT.',
-  skills:
-    'Core stack: React, JavaScript, Java, Spring Boot, MySQL, Firebase, REST APIs, AI/ML, Cloud Computing, GitHub.',
-  resume:
-    'Use the resume button in the hero or contact section. Replace the placeholder PDF in public/resume.pdf.',
-  contact:
-    'Reach out at adityaprajapati.dev@gmail.com or use the contact form for direct collaboration.',
-  github: 'GitHub profile: https://github.com/adityaprajapati',
-}
-
 export const chatbotReplies = {
   about:
-    'Aditya is a full stack developer and Java backend engineer who enjoys building scalable products, AI systems, and polished user experiences.',
+    'Aditya is a full stack developer and Java backend engineer focused on modern interfaces, reliable backend systems, and AI-inspired product building.',
   projects:
-    'Highlighted work includes Health Report Analyzer, Voice Controlled Cooking & Media Assistant, AI Sign Language Translator, and MapmyPSIT.',
+    'Featured case studies include Health Report Analyzer, Voice Controlled Cooking Assistant, AI Sign Language Translator, and MapmyPSIT.',
   skills:
-    'Top strengths include React, Java, Spring Boot, REST APIs, MySQL, Firebase, and AI-oriented prototyping.',
+    'Core strengths include React, Java, Spring Boot, MySQL, Firebase, GitHub, Docker, cloud fundamentals, and applied AI work.',
   resume:
-    'Use the Download Resume button in the hero section. Replace the placeholder PDF with the final resume before deployment.',
+    'Use the Download Resume button in the hero or contact section after replacing the placeholder PDF.',
   contact:
-    'You can contact Aditya via the form, email at adityaprajapati.dev@gmail.com, or through GitHub and LinkedIn.',
+    'Reach out via the contact form, email at adityaprajapati.dev@gmail.com, or social links in the portfolio.',
 }

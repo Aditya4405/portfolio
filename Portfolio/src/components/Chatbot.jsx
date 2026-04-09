@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion as Motion } from 'framer-motion'
-import { FiMessageSquare, FiMinus, FiSend } from 'react-icons/fi'
-import { chatbotReplies } from '../data/portfolio'
+import { Bot, MessageCircleMore, SendHorizonal, Sparkles, X } from 'lucide-react'
+import { chatbotReplies as fallbackReplies } from '../data/portfolio'
 
 const quickReplies = [
   'Tell me about Aditya',
@@ -11,30 +11,27 @@ const quickReplies = [
   'Contact',
 ]
 
-const inferReply = (prompt) => {
+function inferReply(prompt, replies) {
   const normalized = prompt.toLowerCase()
-  if (normalized.includes('project')) return chatbotReplies.projects
-  if (normalized.includes('skill')) return chatbotReplies.skills
-  if (normalized.includes('resume')) return chatbotReplies.resume
-  if (normalized.includes('contact')) return chatbotReplies.contact
-  return chatbotReplies.about
+  if (normalized.includes('project')) return replies.projects
+  if (normalized.includes('skill')) return replies.skills
+  if (normalized.includes('resume')) return replies.resume
+  if (normalized.includes('contact')) return replies.contact
+  return replies.about
 }
 
-function Chatbot() {
+function Chatbot({ replies = fallbackReplies }) {
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState('')
   const [typing, setTyping] = useState(false)
   const [messages, setMessages] = useState([
-    {
-      role: 'assistant',
-      text: 'Ask about Aditya, projects, skills, resume, or contact details.',
-    },
+    { role: 'assistant', text: 'Ask about Aditya, projects, skills, resume, or how to get in touch.' },
   ])
-  const containerRef = useRef(null)
+  const scrollRef = useRef(null)
 
   useEffect(() => {
-    if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
   }, [messages, typing])
 
@@ -45,94 +42,81 @@ function Chatbot() {
     setTyping(true)
 
     window.setTimeout(() => {
-      setMessages((current) => [
-        ...current,
-        { role: 'assistant', text: inferReply(text) },
-      ])
+      setMessages((current) => [...current, { role: 'assistant', text: inferReply(text, replies) }])
       setTyping(false)
-    }, 700)
+    }, 650)
   }
 
   return (
-    <div className="fixed bottom-5 right-5 z-[70]">
+    <div className="fixed bottom-5 right-5 z-[85]">
       <AnimatePresence>
         {open ? (
           <Motion.div
             initial={{ opacity: 0, y: 20, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.96 }}
-            className="mb-4 flex h-[32rem] w-[min(92vw,24rem)] flex-col overflow-hidden rounded-[1.8rem] border border-white/10 bg-[linear-gradient(180deg,rgba(15,23,42,0.96),rgba(8,12,24,0.96))] shadow-[0_30px_90px_rgba(34,211,238,0.18)]"
+            className="chatbot-shell"
           >
-            <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
-              <div>
-                <p className="text-sm font-semibold text-white">AI Portfolio Assistant</p>
-                <p className="text-xs text-slate-400">Fast answers with quick prompts</p>
+            <div className="chatbot-header">
+              <div className="flex items-center gap-3">
+                <span className="chatbot-orb">
+                  <Bot size={18} />
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-white">AI Portfolio Assistant</p>
+                  <p className="text-xs text-slate-500">Instant answers with premium UI</p>
+                </div>
               </div>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="rounded-full border border-white/10 p-2 text-slate-300 transition hover:border-cyan-400/40 hover:text-cyan-300"
-                aria-label="Minimize chatbot"
-              >
-                <FiMinus />
+              <button type="button" onClick={() => setOpen(false)} className="chatbot-close">
+                <X size={16} />
               </button>
             </div>
 
-            <div ref={containerRef} className="flex-1 space-y-3 overflow-y-auto px-4 py-4">
+            <div ref={scrollRef} className="chatbot-messages">
               {messages.map((message, index) => (
                 <Motion.div
                   key={`${message.role}-${index}`}
-                  initial={{ opacity: 0, y: 12 }}
+                  initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className={`max-w-[85%] rounded-3xl px-4 py-3 text-sm leading-6 ${
-                    message.role === 'assistant'
-                      ? 'bg-white/6 text-slate-200'
-                      : 'ml-auto bg-[linear-gradient(135deg,#22d3ee,#8b5cf6)] text-slate-950'
-                  }`}
+                  className={message.role === 'assistant' ? 'chat-bubble chat-bubble--assistant' : 'chat-bubble chat-bubble--user'}
                 >
                   {message.text}
                 </Motion.div>
               ))}
               {typing ? (
-                <div className="inline-flex rounded-full bg-white/6 px-4 py-3 text-sm text-slate-300">
-                  Typing...
+                <div className="chat-bubble chat-bubble--assistant">
+                  <span className="typing-dot" />
+                  <span className="typing-dot" />
+                  <span className="typing-dot" />
                 </div>
               ) : null}
             </div>
 
-            <div className="border-t border-white/10 px-4 py-4">
+            <div className="p-4">
               <div className="mb-3 flex flex-wrap gap-2">
-                {quickReplies.map((chip) => (
-                  <button
-                    key={chip}
-                    type="button"
-                    onClick={() => sendMessage(chip)}
-                    className="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-slate-200 transition hover:border-cyan-400/40 hover:bg-cyan-400/10"
-                  >
-                    {chip}
+                {quickReplies.map((reply) => (
+                  <button key={reply} type="button" onClick={() => sendMessage(reply)} className="suggestion-chip">
+                    <Sparkles size={14} />
+                    {reply}
                   </button>
                 ))}
               </div>
               <form
-                className="flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-3 py-2"
+                className="chatbot-input-wrap"
                 onSubmit={(event) => {
                   event.preventDefault()
                   sendMessage(input)
                 }}
               >
-                <FiMessageSquare className="text-slate-400" />
+                <MessageCircleMore size={16} className="text-slate-500" />
                 <input
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
-                  placeholder="Ask something..."
                   className="flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-500"
+                  placeholder="Ask something smart..."
                 />
-                <button
-                  type="submit"
-                  className="rounded-full bg-[linear-gradient(135deg,#22d3ee,#a855f7)] p-2 text-slate-950"
-                  aria-label="Send message"
-                >
-                  <FiSend />
+                <button type="submit" className="chatbot-send">
+                  <SendHorizonal size={16} />
                 </button>
               </form>
             </div>
@@ -140,13 +124,9 @@ function Chatbot() {
         ) : null}
       </AnimatePresence>
 
-      <button
-        type="button"
-        onClick={() => setOpen((current) => !current)}
-        className="group flex h-16 w-16 items-center justify-center rounded-full border border-cyan-300/30 bg-[linear-gradient(135deg,rgba(34,211,238,0.18),rgba(168,85,247,0.22))] text-cyan-100 shadow-[0_18px_50px_rgba(34,211,238,0.25)] transition duration-300 hover:scale-105"
-        aria-label="Toggle AI chatbot"
-      >
-        <FiMessageSquare className="text-2xl transition group-hover:rotate-6" />
+      <button type="button" onClick={() => setOpen((current) => !current)} className="chatbot-trigger">
+        <span className="chatbot-trigger__halo" />
+        <Bot size={24} />
       </button>
     </div>
   )
