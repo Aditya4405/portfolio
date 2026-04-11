@@ -20,11 +20,11 @@ export const personalInfo = {
   name: 'Aditya Prajapati',
   title: 'Full Stack Developer | Java Backend Engineer | AI Innovator',
   email: 'adityaprajapati.dev@gmail.com',
-  githubUsername: 'adityaprajapati',
+  githubUsername: 'Aditya4405',
   profileImage: profilePortrait,
   roles: ['Spring Boot Developer', 'AI Enthusiast', 'Full Stack Builder'],
   socials: [
-    { label: 'GitHub', href: 'https://github.com/adityaprajapati' },
+    { label: 'GitHub', href: 'https://github.com/Aditya4405' },
     { label: 'LinkedIn', href: 'https://www.linkedin.com/in/adityaprajapati' },
     { label: 'Email', href: 'mailto:adityaprajapati.dev@gmail.com' },
     { label: 'LeetCode', href: 'https://leetcode.com/' },

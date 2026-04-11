@@ -1,27 +1,18 @@
+// The exact Adarsh-style scroll reveal:
+// Pure opacity + y translate, no blur, no scale, fast easeOut
+// Each element independently triggers when it enters the viewport
+
 export const fadeUp = {
-  hidden: { opacity: 0, y: 28 },
+  hidden: { opacity: 0, y: 40 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.7, ease: 'easeOut' },
   },
 }
 
-export const stagger = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.08,
-    },
-  },
-}
-
-export const scaleIn = {
-  hidden: { opacity: 0, scale: 0.94 },
-  show: {
-    opacity: 1,
-    scale: 1,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-  },
-}
+// Alias exports kept for backward compat
+export const cinematicReveal = fadeUp
+export const scaleIn = fadeUp
+export const stagger = {}
+export const staggerContainer = {}
