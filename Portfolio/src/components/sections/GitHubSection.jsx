@@ -1,15 +1,18 @@
-import { motion as Motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { GitHubCalendar } from 'react-github-calendar'
 import { GitBranch, Layers3, UserRound, Zap } from 'lucide-react'
 import SectionHeading from '../SectionHeading'
-import { fadeUp, stagger } from '../../motion/variants'
+
+const VP = { once: true, amount: 0.1 }
+const base = { initial: { opacity: 0, y: 40 }, whileInView: { opacity: 1, y: 0 }, viewport: VP }
+const t = (delay = 0) => ({ transition: { duration: 0.7, ease: 'easeOut', delay } })
 
 function GitHubSection({ personalInfo, github, githubHighlights }) {
   const languageTotal = github.languages.reduce((sum, [, count]) => sum + count, 0)
   const pieStops = github.languages.length
     ? github.languages.reduce(
         (acc, [, count], index) => {
-          const colors = ['#22d3ee', '#8b5cf6', '#38bdf8', '#10b981', '#f59e0b']
+          const colors = ['#00D4FF', '#8b5cf6', '#60A5FA', '#a855f7', '#38bdf8']
           const start = acc.offset
           const end = start + (count / languageTotal) * 100
           acc.stops.push(`${colors[index % colors.length]} ${start}% ${end}%`)
@@ -18,92 +21,103 @@ function GitHubSection({ personalInfo, github, githubHighlights }) {
         },
         { offset: 0, stops: [] },
       ).stops.join(', ')
-    : '#0f172a'
+    : '#050816'
 
   return (
-    <section id="github" className="px-6 py-20 lg:px-10">
+    <section id="github" className="px-6 py-24 lg:px-10">
       <div className="mx-auto max-w-7xl">
-        <SectionHeading
-          eyebrow="GitHub"
-          title="A tighter GitHub snapshot with heatmap and compact repository cards"
-          description="The GitHub area is designed to feel alive with real activity, visual stats, and richer storytelling around coding momentum."
-        />
 
-        <div className="grid items-start gap-4 xl:grid-cols-[minmax(360px,0.32fr)_minmax(0,0.68fr)]">
-          <Motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} className="github-profile-card">
-            <div className="flex items-center gap-3">
+        <motion.div {...base} {...t()}>
+          <SectionHeading
+            eyebrow="GitHub Activity"
+            title="Engineering momentum in numbers"
+            description="Real activity, visual stats, and storytelling around coding momentum."
+          />
+        </motion.div>
+
+        <div className="grid items-start gap-10 xl:gap-14 xl:grid-cols-[minmax(360px,0.32fr)_minmax(0,0.68fr)] mt-12">
+
+          {/* Left column */}
+          <div className="flex flex-col gap-6">
+            <motion.div {...base} {...t(0.05)}
+              className="flex items-center gap-4 border border-white/10 bg-[#0B1120]/50 rounded-2xl p-5">
               <img
                 src={github.profile?.avatar_url ?? personalInfo.profileImage}
                 alt="GitHub avatar"
-                className="h-[4.5rem] w-[4.5rem] rounded-2xl border border-white/10 object-cover"
+                className="h-16 w-16 rounded-xl border border-white/10 object-cover"
               />
               <div>
-                <p className="text-xs uppercase tracking-[0.35em] text-cyan-200">Profile Snapshot</p>
-                <h3 className="mt-1.5 text-[1.2rem] font-semibold leading-tight text-white">{github.profile?.name ?? personalInfo.name}</h3>
-                <p className="mt-1 text-[0.92rem] leading-6 text-slate-400">{github.profile?.bio ?? 'Full-stack engineer with a backend and AI mindset.'}</p>
+                <p className="text-[0.65rem] uppercase tracking-[0.3em] text-[#00D4FF] font-bold">Profile Snapshot</p>
+                <h3 className="mt-1 text-lg font-bold text-white">{github.profile?.name ?? personalInfo.name}</h3>
+                <p className="mt-0.5 text-xs text-slate-400 leading-5">{github.profile?.bio ?? 'Full-stack engineer with a backend and AI mindset.'}</p>
               </div>
-            </div>
+            </motion.div>
 
-            <div className="mt-5 grid gap-2.5 sm:grid-cols-2">
-              {githubHighlights.map((item, index) => {
+            <div className="grid gap-3 sm:grid-cols-2">
+              {githubHighlights.map((item, i) => {
                 const icons = [GitBranch, UserRound, Layers3, Zap]
-                const Icon = icons[index] ?? GitBranch
+                const Icon = icons[i] ?? GitBranch
                 return (
-                  <div key={item.label} className="github-stat-card">
-                    <Icon size={18} className="text-cyan-300" />
-                    <p className="mt-2.5 text-[1.65rem] font-semibold text-white">{item.value}</p>
-                    <p className="mt-1 text-xs uppercase tracking-[0.25em] text-slate-500">{item.label}</p>
-                  </div>
+                  <motion.div key={item.label} {...base} {...t(i * 0.07)}
+                    className="border border-white/10 bg-[#0B1120]/50 rounded-2xl p-5 hover:border-[#00D4FF]/30 transition-colors">
+                    <Icon size={20} className="text-[#00D4FF]" />
+                    <p className="mt-3 text-[1.75rem] font-bold text-white">{item.value}</p>
+                    <p className="mt-1 text-[0.65rem] uppercase tracking-[0.25em] text-[#94A3B8] font-bold">{item.label}</p>
+                  </motion.div>
                 )
               })}
             </div>
 
-            <div className="mt-5 grid gap-3">
-              <div className="language-pie-card">
-                <div className="language-pie" style={{ background: `conic-gradient(${pieStops})` }} />
-                <p className="mt-4 text-xs uppercase tracking-[0.28em] text-slate-500">Top Languages</p>
-              </div>
-              <div className="space-y-2">
-                {github.languages.map(([language, count]) => (
-                  <div key={language} className="language-row">
-                    <span>{language}</span>
-                    <span>{count}</span>
+            <motion.div {...base} {...t(0.1)}
+              className="border border-white/10 bg-[#0B1120]/50 rounded-2xl p-6 flex flex-col items-center">
+              <div className="w-20 h-20 rounded-full"
+                style={{ background: `conic-gradient(${pieStops})` }} />
+              <p className="mt-4 text-[0.65rem] uppercase tracking-[0.28em] text-[#94A3B8] font-bold">Language Graph</p>
+              <div className="mt-4 w-full space-y-2">
+                {github.languages.map(([lang, count]) => (
+                  <div key={lang} className="flex justify-between text-[0.85rem] text-slate-400 border-b border-white/5 py-1.5">
+                    <span>{lang}</span>
+                    <span className="text-slate-500">{count} Repos</span>
                   </div>
                 ))}
               </div>
-            </div>
-          </Motion.div>
+            </motion.div>
+          </div>
 
-          <div className="space-y-3">
-            <Motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} className="github-heatmap-card">
-              <p className="text-xs uppercase tracking-[0.35em] text-cyan-200">Contribution Heatmap</p>
-              <div className="mt-4 overflow-x-auto">
+          {/* Right column */}
+          <div className="space-y-6">
+            <motion.div {...base} {...t(0.05)}
+              className="border border-white/10 bg-[#0B1120]/50 rounded-2xl p-6 overflow-hidden">
+              <p className="text-[0.65rem] uppercase tracking-[0.35em] text-[#00D4FF] font-bold mb-5">Contribution Grid</p>
+              <div className="overflow-x-auto">
                 <GitHubCalendar
                   username={personalInfo.githubUsername}
                   colorScheme="dark"
                   fontSize={11}
-                  blockSize={10}
-                  blockMargin={3}
-                  theme={{ dark: ['#0f172a', '#083344', '#155e75', '#0891b2', '#22d3ee'] }}
+                  blockSize={11}
+                  blockMargin={4}
+                  theme={{ dark: ['#050816', '#083344', '#155e75', '#0891b2', '#00D4FF'] }}
                 />
               </div>
-            </Motion.div>
+            </motion.div>
 
-            <Motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} className="grid gap-3 md:grid-cols-2">
-              {github.repos.slice(0, 4).map((repo) => (
-                <Motion.a key={repo.id} variants={fadeUp} href={repo.html_url} target="_blank" rel="noreferrer" className="repo-card">
-                  <p className="text-xs uppercase tracking-[0.3em] text-cyan-200">Repository</p>
-                  <h3 className="mt-1.5 text-[1rem] font-semibold text-white">{repo.name}</h3>
-                  <p className="mt-2 text-[0.9rem] leading-6 text-slate-400">
-                    {repo.description ?? 'A public project from Aditya&apos;s GitHub profile.'}
+            <div className="grid gap-4 sm:grid-cols-2">
+              {github.repos.slice(0, 4).map((repo, i) => (
+                <motion.a key={repo.id} href={repo.html_url} target="_blank" rel="noreferrer"
+                  {...base} {...t(i * 0.08)}
+                  className="flex flex-col border border-white/5 bg-[#0B1120] rounded-2xl p-5 hover:border-[#00D4FF]/30 hover:bg-white/5 transition-all hover:-translate-y-1">
+                  <p className="text-[0.65rem] uppercase tracking-[0.3em] text-[#00D4FF] font-bold">Repository</p>
+                  <h3 className="mt-2 text-lg font-bold text-white truncate">{repo.name}</h3>
+                  <p className="mt-2 text-[0.85rem] leading-6 text-slate-400 line-clamp-2">
+                    {repo.description ?? "A public project from Aditya's GitHub."}
                   </p>
-                  <div className="mt-auto flex items-center justify-between pt-4 text-[0.85rem] text-slate-500">
-                    <span>{repo.language ?? 'Mixed stack'}</span>
-                    <span>{repo.stargazers_count ?? 0} stars</span>
+                  <div className="mt-auto flex items-center justify-between pt-4 text-[0.75rem] text-slate-500">
+                    <span>{repo.language ?? 'Mixed'}</span>
+                    <span className="flex items-center gap-1.5"><Zap size={12} className="text-[#A855F7]" />{repo.stargazers_count ?? 0}</span>
                   </div>
-                </Motion.a>
+                </motion.a>
               ))}
-            </Motion.div>
+            </div>
           </div>
         </div>
       </div>
