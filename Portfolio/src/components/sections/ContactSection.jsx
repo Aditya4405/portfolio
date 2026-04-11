@@ -1,87 +1,217 @@
 import { motion } from 'framer-motion'
-import { ArrowUpRight, Download, Mail, Send } from 'lucide-react'
-import SectionHeading from '../SectionHeading'
+import { Download, Mail, Send } from 'lucide-react'
+import { FiGithub, FiLinkedin } from 'react-icons/fi'
 
-const VP = { once: true, amount: 0.15 }
-const base = { initial: { opacity: 0, y: 40 }, whileInView: { opacity: 1, y: 0 }, viewport: VP }
-const t = (delay = 0) => ({ transition: { duration: 0.7, ease: 'easeOut', delay } })
+const fadeUp = (delay = 0) => ({
+  initial: { opacity: 0, y: 32 },
+  whileInView: { opacity: 1, y: 0 },
+  viewport: { once: true, amount: 0.12 },
+  transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1], delay },
+})
 
 function ContactSection({ personalInfo, resumeUrl, formState, setFormState, sendEmail, formStatus }) {
   return (
-    <section id="contact" className="px-6 py-24 lg:px-10">
-      <div className="mx-auto max-w-7xl">
+    <div className="container">
 
-        <motion.div {...base} {...t()}>
-          <SectionHeading
-            eyebrow="Contact"
-            title="Let's build something premium together"
-            description="Open for backend engineering roles, AI collaboration, and premium product building."
-          />
+      {/* Section Header — centered */}
+      <motion.div {...fadeUp(0)} style={{ textAlign: 'center', marginBottom: '64px' }}>
+        <span className="section-eyebrow">Contact</span>
+        <h2 className="section-title" style={{ maxWidth: '600px', margin: '0 auto 16px' }}>
+          Let's build something great together
+        </h2>
+        <p className="section-description" style={{ margin: '0 auto', textAlign: 'center', maxWidth: '520px' }}>
+          Open for backend engineering roles, AI collaboration, and premium product building.
+        </p>
+      </motion.div>
+
+      {/* 2-column: links + form */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+        gap: '32px',
+        alignItems: 'start',
+      }}>
+
+        {/* LEFT: Contact links */}
+        <motion.div {...fadeUp(0.1)} style={{
+          background: 'var(--card-bg)',
+          border: '1px solid var(--border)',
+          borderRadius: '24px',
+          padding: '32px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px',
+        }}>
+          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '8px' }}>
+            Get in touch
+          </h3>
+
+          <a
+            href={`mailto:${personalInfo.email}`}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '14px 16px',
+              borderRadius: '14px',
+              border: '1px solid var(--border)',
+              background: 'rgba(255,255,255,0.02)',
+              color: 'var(--text-soft)',
+              fontSize: '0.9rem',
+              transition: 'border-color 0.25s ease, color 0.25s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--accent)'
+              e.currentTarget.style.color = 'var(--text-main)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border)'
+              e.currentTarget.style.color = 'var(--text-soft)'
+            }}
+          >
+            <Mail size={18} style={{ color: 'var(--accent)', flexShrink: 0 }} />
+            {personalInfo.email}
+          </a>
+
+          <a
+            href={personalInfo.socials.find(s => s.label === 'LinkedIn')?.href ?? '#'}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '14px 16px',
+              borderRadius: '14px',
+              border: '1px solid var(--border)',
+              background: 'rgba(255,255,255,0.02)',
+              color: 'var(--text-soft)',
+              fontSize: '0.9rem',
+              transition: 'border-color 0.25s ease, color 0.25s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--accent)'
+              e.currentTarget.style.color = 'var(--text-main)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border)'
+              e.currentTarget.style.color = 'var(--text-soft)'
+            }}
+          >
+            <FiLinkedin size={18} style={{ color: 'var(--accent)', flexShrink: 0 }} />
+            LinkedIn Profile
+          </a>
+
+          <a
+            href={personalInfo.socials.find(s => s.label === 'GitHub')?.href ?? '#'}
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              padding: '14px 16px',
+              borderRadius: '14px',
+              border: '1px solid var(--border)',
+              background: 'rgba(255,255,255,0.02)',
+              color: 'var(--text-soft)',
+              fontSize: '0.9rem',
+              transition: 'border-color 0.25s ease, color 0.25s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.borderColor = 'var(--accent)'
+              e.currentTarget.style.color = 'var(--text-main)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.borderColor = 'var(--border)'
+              e.currentTarget.style.color = 'var(--text-soft)'
+            }}
+          >
+            <FiGithub size={18} style={{ color: 'var(--accent)', flexShrink: 0 }} />
+            GitHub Profile
+          </a>
+
+          <a
+            href={resumeUrl}
+            download
+            className="btn-primary"
+            style={{ marginTop: '8px', justifyContent: 'center' }}
+          >
+            <Download size={17} /> Download Resume
+          </a>
         </motion.div>
 
-        <div className="grid items-start gap-8 xl:grid-cols-[minmax(300px,0.38fr)_minmax(0,0.62fr)] mt-12">
+        {/* RIGHT: Contact Form */}
+        <motion.form
+          {...fadeUp(0.15)}
+          onSubmit={sendEmail}
+          style={{
+            background: 'var(--card-bg)',
+            border: '1px solid var(--border)',
+            borderRadius: '24px',
+            padding: '32px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '18px',
+          }}
+        >
+          <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-main)', marginBottom: '4px' }}>
+            Send a message
+          </h3>
 
-          <motion.div {...base} {...t(0.1)}
-            className="border border-white/5 bg-[#0B1120]/50 rounded-2xl p-8">
-            <p className="text-[0.96rem] leading-7 text-slate-300">
-              Open to internships, backend engineering opportunities, AI-focused collaboration, and premium product building.
-            </p>
-            <div className="mt-6 flex flex-col gap-3">
-              <a href={`mailto:${personalInfo.email}`}
-                className="flex items-center gap-3 text-slate-300 hover:text-[#00D4FF] transition-colors text-sm">
-                <Mail size={18} />{personalInfo.email}
-              </a>
-              <a href={resumeUrl} download
-                className="primary-button compact-button w-fit bg-[linear-gradient(135deg,#00D4FF_0%,#60A5FA_50%,#A855F7_100%)] text-[#050816] mt-2">
-                <Download size={18} />Download Resume
-              </a>
-              <a href="#home" className="secondary-button compact-button w-fit hover:bg-white/5">
-                Back to top <ArrowUpRight size={18} />
-              </a>
-            </div>
-          </motion.div>
+          <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.16em', color: 'var(--text-soft)' }}>
+              Name
+            </span>
+            <input
+              className="contact-input"
+              value={formState.name}
+              onChange={(e) => setFormState(c => ({ ...c, name: e.target.value }))}
+              placeholder="Your name"
+              required
+            />
+          </label>
 
-          <motion.form {...base} {...t(0.15)} onSubmit={sendEmail}
-            className="border border-white/5 bg-[#0B1120]/50 rounded-2xl p-8">
-            <div className="grid gap-5">
-              <label className="space-y-2">
-                <span className="text-[0.75rem] uppercase tracking-widest text-slate-400 font-bold">Name</span>
-                <input
-                  value={formState.name}
-                  onChange={(e) => setFormState(c => ({ ...c, name: e.target.value }))}
-                  className="contact-input w-full bg-transparent border border-white/10 focus:border-[#00D4FF]/50 outline-none p-3.5 rounded-xl text-white placeholder-slate-600 transition-colors"
-                  placeholder="Your name" required
-                />
-              </label>
-              <label className="space-y-2">
-                <span className="text-[0.75rem] uppercase tracking-widest text-slate-400 font-bold">Email</span>
-                <input
-                  type="email"
-                  value={formState.email}
-                  onChange={(e) => setFormState(c => ({ ...c, email: e.target.value }))}
-                  className="contact-input w-full bg-transparent border border-white/10 focus:border-[#00D4FF]/50 outline-none p-3.5 rounded-xl text-white placeholder-slate-600 transition-colors"
-                  placeholder="your@email.com" required
-                />
-              </label>
-              <label className="space-y-2">
-                <span className="text-[0.75rem] uppercase tracking-widest text-slate-400 font-bold">Message</span>
-                <textarea
-                  value={formState.message}
-                  onChange={(e) => setFormState(c => ({ ...c, message: e.target.value }))}
-                  className="contact-input w-full min-h-32 resize-none bg-transparent border border-white/10 focus:border-[#00D4FF]/50 outline-none p-3.5 rounded-xl text-white placeholder-slate-600 transition-colors"
-                  placeholder="Tell me about your idea" required
-                />
-              </label>
-              <button type="submit"
-                className="primary-button compact-button w-fit bg-[linear-gradient(135deg,#00D4FF_0%,#60A5FA_50%,#A855F7_100%)] text-[#050816] hover:shadow-[0_0_20px_rgba(0,212,255,0.3)] hover:-translate-y-0.5 transition-all">
-                <Send size={18} />Send Message
-              </button>
-              {formStatus && <p className="text-sm text-slate-400">{formStatus}</p>}
-            </div>
-          </motion.form>
-        </div>
+          <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.16em', color: 'var(--text-soft)' }}>
+              Email
+            </span>
+            <input
+              type="email"
+              className="contact-input"
+              value={formState.email}
+              onChange={(e) => setFormState(c => ({ ...c, email: e.target.value }))}
+              placeholder="your@email.com"
+              required
+            />
+          </label>
+
+          <label style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+            <span style={{ fontSize: '0.75rem', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.16em', color: 'var(--text-soft)' }}>
+              Message
+            </span>
+            <textarea
+              className="contact-input"
+              value={formState.message}
+              onChange={(e) => setFormState(c => ({ ...c, message: e.target.value }))}
+              placeholder="Tell me about your project or opportunity"
+              rows={4}
+              style={{ resize: 'none' }}
+              required
+            />
+          </label>
+
+          <button type="submit" className="btn-primary" style={{ justifyContent: 'center' }}>
+            <Send size={17} /> Send Message
+          </button>
+
+          {formStatus && (
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-soft)', textAlign: 'center' }}>{formStatus}</p>
+          )}
+        </motion.form>
+
       </div>
-    </section>
+    </div>
   )
 }
 
