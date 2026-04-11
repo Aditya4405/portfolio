@@ -1,76 +1,85 @@
-import { motion as Motion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { BadgeCheck, GraduationCap, Sparkles, Trophy } from 'lucide-react'
 import SectionHeading from '../SectionHeading'
-import { fadeUp, stagger } from '../../motion/variants'
 
-const miniIcons = {
-  Sparkles,
-  Trophy,
-  BadgeCheck,
-}
+const miniIcons = { Sparkles, Trophy, BadgeCheck }
+const VP = { once: true, amount: 0.15 }
+const base = { initial: { opacity: 0, y: 40 }, whileInView: { opacity: 1, y: 0 }, viewport: VP }
+const t = (delay = 0, duration = 0.7) => ({ transition: { duration, ease: 'easeOut', delay } })
 
 function AboutSection({ personalInfo, storyCards, miniAchievements, timeline, aboutHighlights }) {
   return (
-    <section id="about" className="px-6 py-20 lg:px-10">
+    <section id="about" className="relative px-6 py-24 lg:px-10 overflow-hidden">
       <div className="mx-auto max-w-7xl">
-        <SectionHeading
-          eyebrow="About"
-          title="A backend-first builder with a product eye"
-          description="A storytelling section that frames Aditya's transition from frontend curiosity into full-stack systems, cloud readiness, and applied AI exploration."
-        />
 
-        <div className="grid gap-4 xl:grid-cols-[0.8fr_1.2fr]">
-          <Motion.div variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} className="about-showcase">
-            <div className="about-image-card">
-              <img src={personalInfo.profileImage} alt="Aditya portrait showcase" className="about-image" />
-            </div>
+        {/* Section heading */}
+        <motion.div {...base} {...t()}>
+          <SectionHeading
+            eyebrow="Backstory & Transition"
+            title="A backend-first builder with a product eye"
+            description="From frontend curiosity to full-stack systems, cloud readiness, and applied AI exploration."
+          />
+        </motion.div>
+
+        <div className="grid gap-14 xl:grid-cols-[0.8fr_1.2fr] mt-12">
+
+          {/* Left column */}
+          <div className="flex flex-col gap-6">
+            <motion.div {...base} {...t(0.1)}
+              className="relative overflow-hidden rounded-2xl border border-white/5 bg-[#0B1120] p-1 shadow-2xl">
+              <img src={personalInfo.profileImage} alt="Aditya portrait"
+                className="w-full h-auto aspect-square object-cover rounded-xl" />
+            </motion.div>
+
             <div className="grid gap-3 sm:grid-cols-3">
-              {miniAchievements.map((item) => {
+              {miniAchievements.map((item, i) => {
                 const Icon = miniIcons[item.icon]
                 return (
-                  <div key={item.label} className="mini-achievement">
-                    <Icon size={18} className="text-cyan-300" />
-                    <p className="mt-2 text-[1.4rem] font-semibold text-white">{item.value}</p>
-                    <p className="mt-1 text-xs uppercase tracking-[0.24em] text-slate-400">{item.label}</p>
-                  </div>
+                  <motion.div key={item.label} {...base} {...t(i * 0.08)}
+                    className="border border-white/10 bg-[#0B1120]/50 rounded-xl p-4 flex flex-col items-center text-center">
+                    <Icon size={18} className="text-[#3B82F6]" />
+                    <p className="mt-2 text-[1.4rem] font-bold text-white">{item.value}</p>
+                    <p className="mt-1 text-[0.65rem] uppercase tracking-[0.24em] text-[#94A3B8] font-bold">{item.label}</p>
+                  </motion.div>
                 )
               })}
             </div>
-          </Motion.div>
+          </div>
 
-          <div className="space-y-4">
-            <Motion.div variants={stagger} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} className="grid gap-3 md:grid-cols-3">
-              {storyCards.map((card) => (
-                <Motion.div key={card.title} variants={fadeUp} className="story-card">
-                  <p className="story-card__title">{card.title}</p>
+          {/* Right column */}
+          <div className="space-y-6">
+            <div className="grid gap-4 md:grid-cols-3">
+              {storyCards.map((card, i) => (
+                <motion.div key={card.title} {...base} {...t(i * 0.08)}
+                  className="border border-white/5 bg-[#0B1120]/40 rounded-xl p-6 hover:border-white/10 transition-colors">
+                  <p className="text-[1rem] font-bold text-white">{card.title}</p>
                   <p className="mt-2.5 text-[0.92rem] leading-7 text-slate-400">{card.text}</p>
-                </Motion.div>
-              ))}
-            </Motion.div>
-
-            <div className="grid gap-3 md:grid-cols-3">
-              {aboutHighlights.map((item) => (
-                <Motion.div key={item.title} variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} className="highlight-card">
-                  <div className="inline-flex rounded-2xl border border-white/10 bg-white/6 p-3 text-cyan-200">
-                    {item.title === 'Education' ? <GraduationCap size={18} /> : item.title === 'Hackathon' ? <Trophy size={18} /> : <Sparkles size={18} />}
-                  </div>
-                  <p className="mt-3 text-[11px] uppercase tracking-[0.28em] text-cyan-200">{item.title}</p>
-                  <h3 className="mt-2.5 text-[1rem] font-semibold leading-snug text-white">{item.subtitle}</h3>
-                  <p className="mt-2 text-[0.92rem] leading-7 text-slate-400">{item.body}</p>
-                </Motion.div>
+                </motion.div>
               ))}
             </div>
 
-            <div className="timeline-roadmap">
-              {timeline.map((item) => (
-                <Motion.div key={item.year} variants={fadeUp} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} className="timeline-roadmap__item">
-                  <div className="timeline-roadmap__node" />
-                  <div className="timeline-roadmap__content">
-                    <p className="text-xs uppercase tracking-[0.35em] text-cyan-300">{item.year}</p>
-                    <h3 className="mt-2 text-[1.15rem] font-semibold text-white">{item.title}</h3>
-                    <p className="mt-2 text-[0.92rem] leading-7 text-slate-400">{item.description}</p>
+            <div className="grid gap-4 md:grid-cols-3">
+              {aboutHighlights.map((item, i) => (
+                <motion.div key={item.title} {...base} {...t(i * 0.08)}
+                  className="border border-white/5 bg-[#0B1120]/40 rounded-xl p-6 flex flex-col hover:border-[#3B82F6]/30 transition-colors">
+                  <div className="inline-flex rounded-xl border border-white/10 bg-[#0B1120] p-3 text-[#3B82F6] w-fit">
+                    {item.title === 'Education' ? <GraduationCap size={18} /> : item.title === 'Hackathon' ? <Trophy size={18} /> : <Sparkles size={18} />}
                   </div>
-                </Motion.div>
+                  <p className="mt-4 text-[0.65rem] uppercase tracking-[0.28em] text-[#3B82F6] font-bold">{item.title}</p>
+                  <h3 className="mt-1.5 text-[1rem] font-bold text-white">{item.subtitle}</h3>
+                  <p className="mt-2 text-[0.92rem] leading-7 text-slate-400">{item.body}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="border-l border-white/10 ml-2 pl-6 space-y-6">
+              {timeline.map((item, i) => (
+                <motion.div key={item.year} {...base} {...t(i * 0.08)} className="relative">
+                  <div className="absolute -left-[30px] top-1.5 w-2 h-2 rounded-full bg-[#00D4FF] shadow-[0_0_10px_rgba(0,212,255,0.8)]" />
+                  <p className="text-[0.65rem] uppercase tracking-[0.35em] text-[#3B82F6] font-bold">{item.year}</p>
+                  <h3 className="mt-1 text-[1.1rem] font-bold text-white">{item.title}</h3>
+                  <p className="mt-2 text-[0.92rem] leading-7 text-slate-400 max-w-[500px]">{item.description}</p>
+                </motion.div>
               ))}
             </div>
           </div>
