@@ -4,7 +4,7 @@ import Lenis from '@studio-freight/lenis'
 import { motion as Motion } from 'framer-motion'
 import emailjs from 'emailjs-com'
 import { ArrowUpRight, Sparkles } from 'lucide-react'
-import CursorSpotlight from './components/CursorSpotlight'
+import ScrollProgress from './components/Effects/ScrollProgress'
 import ProjectModal from './components/ProjectModal'
 import AboutSection from './components/sections/AboutSection'
 import AchievementsSection from './components/sections/AchievementsSection'
@@ -111,19 +111,8 @@ function App() {
 
     frame = requestAnimationFrame(raf)
 
-    const float = gsap.to('.ambient-blob', {
-      yPercent: 12,
-      xPercent: 4,
-      duration: 7,
-      repeat: -1,
-      yoyo: true,
-      stagger: 0.7,
-      ease: 'sine.inOut',
-    })
-
     return () => {
       cancelAnimationFrame(frame)
-      float.kill()
       lenis.destroy()
     }
   }, [])
@@ -171,43 +160,23 @@ function App() {
   }
 
   return (
-    <div className="app-shell bg-[#020617] text-white">
-      <CursorSpotlight />
-
-      <div className="pointer-events-none fixed inset-0 -z-20 bg-[radial-gradient(circle_at_20%_15%,rgba(34,211,238,0.14),transparent_22%),radial-gradient(circle_at_80%_0%,rgba(168,85,247,0.18),transparent_26%),linear-gradient(180deg,#020617,#030712_48%,#020617)]" />
-      <div className="pointer-events-none fixed inset-0 -z-20 opacity-60">
-        {Array.from({ length: 14 }).map((_, index) => (
-          <span
-            key={index}
-            className="ambient-blob absolute rounded-full bg-[radial-gradient(circle,rgba(103,232,249,0.24),rgba(103,232,249,0.02)_64%,transparent_70%)] blur-3xl"
-            style={{
-              width: `${160 + index * 8}px`,
-              height: `${160 + index * 8}px`,
-              left: `${(index * 14) % 100}%`,
-              top: `${(index * 13) % 100}%`,
-            }}
-          />
-        ))}
-      </div>
-
-      <header className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/55 backdrop-blur-2xl">
-        <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10">
-          <a href="#home" className="inline-flex items-center gap-3 text-sm uppercase tracking-[0.45em] text-slate-100">
-            <span className="inline-flex rounded-full border border-cyan-300/20 bg-white/6 p-2 text-cyan-300">
-              <Sparkles size={14} />
-            </span>
-            AP
+    <div className="app-shell bg-[#050816] text-[#F8FAFC] min-h-screen selection:bg-[#00D4FF]/30">
+      <ScrollProgress />
+      
+      <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-[#050816]/60 backdrop-blur-2xl">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
+          <a href="#home" className="inline-flex items-center text-xl font-bold tracking-tight text-white transition-opacity hover:opacity-80">
+            Aditya<span className="text-[#00D4FF] drop-shadow-[0_0_8px_rgba(0,212,255,0.8)]">.</span>
           </a>
-          <div className="hidden items-center gap-6 text-sm text-slate-300 md:flex">
-            <a href="#about" className="hover:text-cyan-300">About</a>
-            <a href="#skills" className="hover:text-cyan-300">Skills</a>
-            <a href="#projects" className="hover:text-cyan-300">Projects</a>
-            <a href="#github" className="hover:text-cyan-300">GitHub</a>
-            <a href="#contact" className="hover:text-cyan-300">Contact</a>
+          <div className="hidden items-center gap-8 text-[0.82rem] font-medium md:flex tracking-wide">
+            <a href="#about" className="nav-link">About</a>
+            <a href="#skills" className="nav-link">Skills</a>
+            <a href="#projects" className="nav-link">Projects</a>
+            <a href="#github" className="nav-link">GitHub</a>
+            <a href="#contact" className="nav-link">Contact</a>
           </div>
-          <a href="#contact" className="secondary-button premium-button hidden md:inline-flex">
+          <a href="#contact" className="primary-button premium-button hidden md:inline-flex shadow-[0_0_15px_rgba(0,212,255,0.2)] hover:shadow-[0_0_25px_rgba(0,212,255,0.4)] transition-shadow">
             Hire Me
-            <ArrowUpRight size={18} />
           </a>
         </nav>
       </header>
