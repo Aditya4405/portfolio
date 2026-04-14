@@ -1,4 +1,5 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import {useEffect, useState } from 'react'
+import Chatbot from './components/Chatbot'
 import Lenis from '@studio-freight/lenis'
 import { ArrowUp } from 'lucide-react'
 import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi'
@@ -18,7 +19,6 @@ import {
   projects,
 } from './data/portfolio'
 
-const LazyChatbot = lazy(() => import('./components/Chatbot'))
 const resumeUrl = '/resume.pdf'
 
 const NAV_LINKS = ['about', 'skills', 'projects', 'achievements', 'contact']
@@ -209,9 +209,7 @@ function App() {
         </div>
       </footer>
 
-      <Suspense fallback={null}>
-        <LazyChatbot replies={chatbotReplies} />
-      </Suspense>
+    <Chatbot replies={chatbotReplies} />
     </div>
   )
 }
