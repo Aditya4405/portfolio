@@ -1,36 +1,30 @@
 import { motion } from 'framer-motion'
 
 const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 32 },
+  initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, amount: 0.12 },
-  transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1], delay },
+  transition: { duration: 0.4, ease: 'easeOut', delay },
 })
 
 const categories = [
   {
-    icon: '🖥️',
+    emoji: '🖥️',
     title: 'Frontend',
-    color: '#A78BFA',
-    skills: ['React', 'JavaScript', 'HTML & CSS', 'Tailwind CSS', 'Vite', 'Framer Motion'],
+    color: '#3B82F6',
+    skills: ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS'],
   },
   {
-    icon: '⚙️',
+    emoji: '⚙️',
     title: 'Backend',
-    color: '#7C5CFC',
-    skills: ['Java', 'Spring Boot', 'REST APIs', 'Node.js', 'Express', 'Microservices'],
+    color: '#3B82F6',
+    skills: ['Node.js', 'Express', 'Java', 'Spring Boot', 'REST APIs'],
   },
   {
-    icon: '🗄️',
-    title: 'Database',
-    color: '#60A5FA',
-    skills: ['MySQL', 'Firebase', 'MongoDB', 'PostgreSQL', 'Redis', 'ORM / JPA'],
-  },
-  {
-    icon: '🤖',
-    title: 'AI & Tools',
-    color: '#34D399',
-    skills: ['Python', 'Computer Vision', 'OpenAI API', 'Docker', 'Git & GitHub', 'Vercel / Cloud'],
+    emoji: '🛠️',
+    title: 'Tools & Databases',
+    color: '#3B82F6',
+    skills: ['MongoDB', 'MySQL', 'Firebase', 'Git', 'GitHub', 'Postman'],
   },
 ]
 
@@ -39,43 +33,31 @@ function SkillsSection() {
     <div className="container">
 
       {/* Section Header */}
-      <motion.div {...fadeUp(0)} style={{ marginBottom: '64px' }}>
-        <span className="section-eyebrow">Technical Skills</span>
+      <motion.div {...fadeUp(0)} style={{ marginBottom: '56px' }}>
+        <span className="section-eyebrow">Skills</span>
         <h2 className="section-title">What I work with</h2>
         <p className="section-description">
-          A curated set of technologies across frontend, backend, databases, and AI — the stack I ship production-grade projects with.
+          Technologies I've used in real projects — nothing I haven't actually touched.
         </p>
       </motion.div>
 
-      {/* 2×2 Grid */}
+      {/* 3-column grid */}
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-        gap: '24px',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+        gap: '20px',
       }}>
         {categories.map((cat, i) => (
           <motion.div
             key={cat.title}
-            {...fadeUp(i * 0.08)}
+            {...fadeUp(i * 0.07)}
             className="card"
             style={{ padding: '28px', cursor: 'default' }}
           >
             {/* Card header */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '24px' }}>
-              <div style={{
-                width: '44px',
-                height: '44px',
-                borderRadius: '12px',
-                background: `${cat.color}18`,
-                border: `1px solid ${cat.color}30`,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontSize: '1.3rem',
-              }}>
-                {cat.icon}
-              </div>
-              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-main)', letterSpacing: '-0.01em' }}>{cat.title}</h3>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
+              <span style={{ fontSize: '1.4rem' }}>{cat.emoji}</span>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-main)' }}>{cat.title}</h3>
             </div>
 
             {/* Skill pills */}
