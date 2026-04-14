@@ -11,7 +11,7 @@ const socialIcons = {
   LeetCode: SiLeetcode,
 }
 
-const ROLES = ['Full-Stack Developer', 'MERN Stack Learner', 'Open to Internships']
+const ROLES = ['JAVA Backend Developer', 'Interested in AI/ML', 'Open to Internships']
 
 function TypewriterText({ strings }) {
   const [displayed, setDisplayed] = useState('')
@@ -164,7 +164,7 @@ function HeroSection({ personalInfo, resumeUrl }) {
                 marginBottom: '32px',
               }}
             >
-              I enjoy building full-stack web apps and solving problems with code. Currently looking for internship opportunities where I can contribute and grow.
+              I’m a 3rd-year Computer Science student passionate about building scalable full-stack applications and solving real-world problems through clean, impactful code. I love turning ideas into products and am actively seeking internship opportunities to grow as a software engineer.
             </motion.p>
 
             {/* CTAs */}
@@ -210,57 +210,59 @@ function HeroSection({ personalInfo, resumeUrl }) {
 
           {/* ── RIGHT: Profile Image Column ── */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
-            style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}
-          >
-            {/* Clean card around image */}
-            <div style={{
-              position: 'relative',
-              borderRadius: '50%',
-              border: '3px solid var(--border)',
-              padding: '6px',
-              background: 'var(--card-bg)',
-              maxWidth: '320px',
-              width: '100%',
-            }}>
-              <img
-                src={personalInfo.profileImage}
-                alt="Aditya Prajapati"
-                style={{
-                  width: '100%',
-                  height: 'auto',
-                  aspectRatio: '1/1',
-                  objectFit: 'cover',
-                  borderRadius: '50%',
-                  display: 'block',
-                }}
-              />
-            </div>
+  initial={{ opacity: 0, scale: 0.96 }}
+  animate={{ opacity: 1, scale: 1 }}
+  transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
+  style={{
+    display: 'flex',
+    justifyContent: 'center',
+    position: 'relative',
+  }}
+>
+  <img
+    src={personalInfo.profileImage}
+    alt="Aditya Prajapati"
+    style={{
+      width: '100%',
+      maxWidth: '420px',
+      height: '520px',
+      objectFit: 'cover',
+      borderRadius: '24px',
+      display: 'block',
+      boxShadow: '0 20px 50px rgba(0,0,0,0.35)',
+    }}
+  />
 
-            {/* Floating badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.6 }}
-              style={{
-                position: 'absolute',
-                bottom: '16px',
-                right: '0px',
-                background: 'var(--card-bg)',
-                border: '1px solid var(--border)',
-                borderRadius: '10px',
-                padding: '10px 16px',
-                boxShadow: '0 8px 20px rgba(0,0,0,0.25)',
-              }}
-            >
-              <p style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--accent-light)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                3rd Year
-              </p>
-              <p style={{ fontSize: '0.68rem', color: 'var(--text-soft)', marginTop: '2px' }}>B.Tech CSE</p>
-            </motion.div>
-          </motion.div>
+  {/* Floating badge */}
+  <motion.div
+    initial={{ opacity: 0, y: 12 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.5, delay: 0.6 }}
+    style={{
+      position: 'absolute',
+      bottom: '24px',
+      right: '-20px',
+      background: 'var(--card-bg)',
+      border: '1px solid var(--border)',
+      borderRadius: '12px',
+      padding: '12px 18px',
+      boxShadow: '0 8px 20px rgba(0,0,0,0.25)',
+    }}
+  >
+    <p style={{
+      fontSize: '0.75rem',
+      fontWeight: 700,
+      color: 'var(--accent-light)',
+      letterSpacing: '0.08em',
+      textTransform: 'uppercase',
+    }}>
+      3rd Year
+    </p>
+    <p style={{ fontSize: '0.75rem', color: 'var(--text-soft)', marginTop: '2px' }}>
+      B.Tech CSE
+    </p>
+  </motion.div>
+</motion.div>
 
         </div>
       </div>
