@@ -1,4 +1,5 @@
-import profilePortrait from '../assets/images/profile-portrait.svg'
+import profilePortrait from '../assets/images/p1.jpeg'
+import aboutPhoto from '../assets/images/p2.png'
 import healthPreview from '../assets/images/health-report-analyzer.svg'
 import voicePreview from '../assets/images/voice-assistant.svg'
 import signPreview from '../assets/images/sign-language.svg'
@@ -6,17 +7,18 @@ import mapPreview from '../assets/images/mapmypsit.svg'
 
 export const personalInfo = {
   name: 'Aditya Prajapati',
-  title: 'Full-Stack Developer · MERN Stack Learner · Open to Internships',
-  email: 'adityaprajapati.dev@gmail.com',
+  title: 'JAVA Backend Developer · Interested in AI/ML · Open to Internships',
+  email: 'adityaprajapati4405@gmail.com',
   githubUsername: 'Aditya4405',
   college: 'PSIT Kanpur',
   profileImage: profilePortrait,
-  roles: ['Full-Stack Developer', 'MERN Stack Learner', 'Open to Internships'],
+  aboutImage: aboutPhoto,
+  roles: ['JAVA Backend Developer', 'Interested in AI/ML', 'Open to Internships'],
   socials: [
     { label: 'GitHub', href: 'https://github.com/Aditya4405' },
-    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/adityaprajapati' },
-    { label: 'Email', href: 'mailto:adityaprajapati.dev@gmail.com' },
-    { label: 'LeetCode', href: 'https://leetcode.com/' },
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/aditya-prajapati-4405q' },
+    { label: 'Email', href: 'mailto:adityaprajapati4405@gmail.com' },
+    { label: 'LeetCode', href: 'https://leetcode.com/Aditya_4405' },
   ],
 }
 
@@ -24,7 +26,7 @@ export const aboutHighlights = [
   {
     icon: '💻',
     title: 'Full-Stack Dev',
-    body: 'I build end-to-end web apps using the MERN stack and Java.',
+    body: 'I build end-to-end web apps using the React and Java Backend.',
   },
   {
     icon: '🧩',
@@ -45,8 +47,8 @@ export const aboutHighlights = [
 
 export const skills = {
   frontend: ['HTML', 'CSS', 'JavaScript', 'React', 'Tailwind CSS'],
-  backend: ['Node.js', 'Express', 'Java', 'Spring Boot', 'REST APIs'],
-  tools: ['MongoDB', 'MySQL', 'Git', 'GitHub', 'Postman', 'Firebase'],
+  backend: ['Java', 'Spring Boot', 'REST APIs','Authentication'],
+  tools: ['MySQL', 'Git', 'GitHub', 'Postman','Eclipse','VS Code'],
 }
 
 export const projects = [
