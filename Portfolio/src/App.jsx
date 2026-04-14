@@ -1,34 +1,33 @@
 import { lazy, Suspense, useEffect, useState } from 'react'
 import Lenis from '@studio-freight/lenis'
-import { motion } from 'framer-motion'
-import emailjs from 'emailjs-com'
 import { ArrowUp } from 'lucide-react'
+import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi'
 import ScrollProgress from './components/Effects/ScrollProgress'
-import ProjectModal from './components/ProjectModal'
 import AboutSection from './components/sections/AboutSection'
+import AchievementsSection from './components/sections/AchievementsSection'
 import ContactSection from './components/sections/ContactSection'
-import ExperienceSection from './components/sections/ExperienceSection'
 import HeroSection from './components/sections/HeroSection'
 import ProjectsSection from './components/sections/ProjectsSection'
 import SkillsSection from './components/sections/SkillsSection'
+import emailjs from 'emailjs-com'
 import {
+  aboutHighlights,
+  achievements,
   chatbotReplies,
-  miniAchievements,
-  milestones,
   personalInfo,
   projects,
-  skills,
-  timeline,
 } from './data/portfolio'
 
 const LazyChatbot = lazy(() => import('./components/Chatbot'))
 const resumeUrl = '/resume.pdf'
 
+const NAV_LINKS = ['about', 'skills', 'projects', 'achievements', 'contact']
+
 function App() {
-  const [selectedProject, setSelectedProject] = useState(null)
   const [formState, setFormState] = useState({ name: '', email: '', message: '' })
   const [formStatus, setFormStatus] = useState('')
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const lenis = new Lenis({ duration: 1.1, smoothWheel: true })
@@ -82,53 +81,100 @@ function App() {
           right: 0,
           zIndex: 50,
           transition: 'background 0.3s ease, border-color 0.3s ease',
-          background: scrolled ? 'rgba(30,31,34,0.85)' : 'transparent',
+          background: scrolled ? 'rgba(15,15,15,0.88)' : 'transparent',
           borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
-          backdropFilter: 'blur(18px)',
-          WebkitBackdropFilter: 'blur(18px)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
         }}
       >
         <nav className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 0' }}>
-          <a href="#home" style={{ fontSize: '1.15rem', fontWeight: 800, color: 'var(--text-main)', letterSpacing: '-0.03em' }}>
+          {/* Logo */}
+          <a href="#home" style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-main)', letterSpacing: '-0.02em' }}>
             Aditya<span style={{ color: 'var(--accent)' }}>.</span>
           </a>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-              {['about', 'skills', 'projects', 'experience', 'contact'].map((id) => (
-                <a key={id} href={`#${id}`} className="nav-link">
+          {/* Desktop links */}
+          <div className="nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
+            {NAV_LINKS.map((id) => (
+              <a key={id} href={`#${id}`} className="nav-link">
+                {id.charAt(0).toUpperCase() + id.slice(1)}
+              </a>
+            ))}
+          </div>
+
+          {/* Hamburger (mobile) */}
+          <button
+            className="hamburger"
+            onClick={() => setMenuOpen((v) => !v)}
+            aria-label="Toggle menu"
+            style={{
+              display: 'none',
+              flexDirection: 'column',
+              gap: '5px',
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '4px',
+            }}
+          >
+            {[0, 1, 2].map((i) => (
+              <span key={i} style={{
+                display: 'block',
+                width: '22px',
+                height: '2px',
+                background: 'var(--text-main)',
+                borderRadius: '2px',
+                transition: 'transform 0.25s ease, opacity 0.25s ease',
+              }} />
+            ))}
+          </button>
+        </nav>
+
+        {/* Mobile menu */}
+        {menuOpen && (
+          <div style={{
+            background: 'var(--bg-main)',
+            borderTop: '1px solid var(--border)',
+            padding: '16px 0',
+          }}>
+            <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              {NAV_LINKS.map((id) => (
+                <a
+                  key={id}
+                  href={`#${id}`}
+                  className="nav-link"
+                  style={{ padding: '10px 0', fontSize: '1rem' }}
+                  onClick={() => setMenuOpen(false)}
+                >
                   {id.charAt(0).toUpperCase() + id.slice(1)}
                 </a>
               ))}
             </div>
-            <a href="#contact" className="btn-primary" style={{ padding: '10px 22px', fontSize: '0.83rem' }}>
-              Hire Me
-            </a>
           </div>
-        </nav>
+        )}
       </header>
 
       {/* ── MAIN ── */}
       <main>
         <HeroSection personalInfo={personalInfo} resumeUrl={resumeUrl} />
 
-        <section id="about" className="alt-bg" style={{ padding: '110px 0' }}>
-          <AboutSection personalInfo={personalInfo} miniAchievements={miniAchievements} />
+        <section id="about" className="alt-bg" style={{ padding: '90px 0' }}>
+          <AboutSection personalInfo={personalInfo} aboutHighlights={aboutHighlights} />
         </section>
 
-        <section id="skills" style={{ padding: '110px 0' }}>
-          <SkillsSection skills={skills} />
+        <section id="skills" style={{ padding: '90px 0' }}>
+          <SkillsSection />
         </section>
 
-        <section id="projects" className="alt-bg" style={{ padding: '110px 0' }}>
-          <ProjectsSection projects={projects} onOpen={setSelectedProject} />
+        <section id="projects" className="alt-bg" style={{ padding: '90px 0' }}>
+          <ProjectsSection projects={projects} />
         </section>
 
-        <section id="experience" style={{ padding: '110px 0' }}>
-          <ExperienceSection milestones={milestones} timeline={timeline} />
+        <section id="achievements" style={{ padding: '90px 0' }}>
+          <AchievementsSection achievements={achievements} />
         </section>
 
-        <section id="contact" className="alt-bg" style={{ padding: '110px 0' }}>
+        <section id="contact" className="alt-bg" style={{ padding: '90px 0' }}>
           <ContactSection
             personalInfo={personalInfo}
             resumeUrl={resumeUrl}
@@ -141,18 +187,28 @@ function App() {
       </main>
 
       {/* ── FOOTER ── */}
-      <footer style={{ borderTop: '1px solid var(--border)', padding: '32px 0' }}>
+      <footer style={{ borderTop: '1px solid var(--border)', padding: '28px 0' }}>
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
           <p style={{ fontSize: '0.85rem', color: 'var(--text-soft)' }}>
-            © {new Date().getFullYear()} Aditya Prajapati — Built with React & passion.
+            © {new Date().getFullYear()} Aditya Prajapati · Built with React · Open to Internships
           </p>
-          <a href="#home" className="btn-secondary" style={{ padding: '8px 18px', fontSize: '0.82rem', borderRadius: '10px' }}>
-            <ArrowUp size={15} /> Back to top
-          </a>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            {[
+              { icon: FiGithub, href: 'https://github.com/Aditya4405', label: 'GitHub' },
+              { icon: FiLinkedin, href: 'https://www.linkedin.com/in/adityaprajapati', label: 'LinkedIn' },
+              { icon: FiMail, href: 'mailto:adityaprajapati.dev@gmail.com', label: 'Email' },
+            ].map(({ icon: Icon, href, label }) => (
+              <a key={label} href={href} target="_blank" rel="noreferrer" className="social-icon-btn" title={label}>
+                <Icon size={16} />
+              </a>
+            ))}
+            <a href="#home" className="btn-secondary" style={{ padding: '7px 16px', fontSize: '0.8rem', borderRadius: '8px', marginLeft: '8px' }}>
+              <ArrowUp size={14} /> Top
+            </a>
+          </div>
         </div>
       </footer>
 
-      <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
       <Suspense fallback={null}>
         <LazyChatbot replies={chatbotReplies} />
       </Suspense>
