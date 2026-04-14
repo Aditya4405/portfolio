@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import aboutPhoto from "../../assets/images/p2.png"
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -35,7 +36,7 @@ function AboutSection({ personalInfo, aboutHighlights }) {
             padding: '8px',
           }}>
             <img
-              src={personalInfo.profileImage}
+              src={personalInfo.aboutImage}
               alt="Aditya Prajapati"
               style={{
                 width: '100%',
@@ -52,13 +53,13 @@ function AboutSection({ personalInfo, aboutHighlights }) {
         {/* RIGHT: bio */}
         <motion.div {...fadeUp(0.12)} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           <p style={{ fontSize: '1.05rem', lineHeight: 1.85, color: 'var(--text-soft)' }}>
-            I'm a 3rd-year Computer Science student at PSIT Kanpur, with a passion for building full-stack web applications. My journey started with curiosity about how websites work, and since then I've been learning by building real projects — from a healthcare reporting system to a campus indoor navigation app.
+            I'm a 3rd-year Computer Science student at PSIT Kanpur who loves building real-world software products that solve meaningful problems. My journey started with curiosity about how digital systems work, and today that curiosity has evolved into designing full-stack applications, backend-heavy systems, and AI-powered solutions.
           </p>
           <p style={{ fontSize: '1.05rem', lineHeight: 1.85, color: 'var(--text-soft)' }}>
-            I mostly work with the MERN stack, and I've been sharpening my DSA skills on LeetCode alongside my coursework. I believe in learning by doing, and I'm actively looking for internships where I can contribute and grow.
+            My core strength lies in React, Node.js, Java, Spring Boot, REST APIs, MySQL, MongoDB, and Firebase. I enjoy architecting scalable backend workflows, building clean user interfaces, and turning product ideas into practical solutions — from healthcare reporting platforms to campus navigation systems and intelligent AI assistants.
           </p>
           <p style={{ fontSize: '1.05rem', lineHeight: 1.85, color: 'var(--text-soft)' }}>
-            When I'm not coding, you'll find me at hackathons, exploring new frameworks, or watching tech talks.
+           Beyond development, I actively sharpen my problem-solving skills through DSA, hackathons, and continuous project building. I’m driven by learning through execution.
           </p>
 
           {/* Education card */}
