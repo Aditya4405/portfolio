@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowRight, Download } from 'lucide-react'
 import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi'
@@ -10,11 +11,48 @@ const socialIcons = {
   LeetCode: SiLeetcode,
 }
 
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 32 },
-  animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1], delay },
-})
+const ROLES = ['Full-Stack Developer', 'MERN Stack Learner', 'Open to Internships']
+
+function TypewriterText({ strings }) {
+  const [displayed, setDisplayed] = useState('')
+  const [roleIdx, setRoleIdx] = useState(0)
+  const [charIdx, setCharIdx] = useState(0)
+  const [deleting, setDeleting] = useState(false)
+
+  useEffect(() => {
+    const current = strings[roleIdx]
+    let timeout
+
+    if (!deleting && charIdx < current.length) {
+      timeout = setTimeout(() => setCharIdx((c) => c + 1), 65)
+    } else if (!deleting && charIdx === current.length) {
+      timeout = setTimeout(() => setDeleting(true), 1800)
+    } else if (deleting && charIdx > 0) {
+      timeout = setTimeout(() => setCharIdx((c) => c - 1), 35)
+    } else if (deleting && charIdx === 0) {
+      setDeleting(false)
+      setRoleIdx((r) => (r + 1) % strings.length)
+    }
+
+    setDisplayed(current.slice(0, charIdx))
+    return () => clearTimeout(timeout)
+  }, [charIdx, deleting, roleIdx, strings])
+
+  return (
+    <span>
+      {displayed}
+      <span style={{
+        display: 'inline-block',
+        width: '2px',
+        height: '1.1em',
+        background: 'var(--accent)',
+        marginLeft: '3px',
+        verticalAlign: 'middle',
+        animation: 'blink 1s step-end infinite',
+      }} />
+    </span>
+  )
+}
 
 function HeroSection({ personalInfo, resumeUrl }) {
   return (
@@ -26,11 +64,7 @@ function HeroSection({ personalInfo, resumeUrl }) {
         alignItems: 'center',
         paddingTop: '100px',
         paddingBottom: '60px',
-        background: `
-          radial-gradient(circle at 18% 20%, rgba(124,92,252,0.13), transparent 35%),
-          radial-gradient(circle at 82% 28%, rgba(124,92,252,0.08), transparent 32%),
-          var(--bg-main)
-        `,
+        background: 'var(--bg-main)',
       }}
     >
       <div className="container">
@@ -44,66 +78,117 @@ function HeroSection({ personalInfo, resumeUrl }) {
           {/* ── LEFT: Text Column ── */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
 
-            {/* Eyebrow badge */}
-            <motion.div {...fadeUp(0)} style={{ marginBottom: '24px' }}>
+            {/* Status badge */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
+              style={{ marginBottom: '24px' }}
+            >
               <span style={{
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: '10px',
+                gap: '8px',
                 padding: '6px 14px',
                 borderRadius: '50px',
-                border: '1px solid rgba(124,92,252,0.35)',
-                background: 'rgba(124,92,252,0.08)',
-                fontSize: '0.75rem',
+                border: '1px solid rgba(59,130,246,0.35)',
+                background: 'rgba(59,130,246,0.08)',
+                fontSize: '0.8rem',
                 fontWeight: 600,
                 color: 'var(--accent-light)',
-                letterSpacing: '0.08em',
+                letterSpacing: '0.04em',
               }}>
-                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--accent)', display: 'inline-block' }} />
-                Available for opportunities
+                <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#22c55e', display: 'inline-block', boxShadow: '0 0 6px #22c55e' }} />
+                Open to internships
               </span>
             </motion.div>
 
-            {/* Heading */}
-            <motion.h1 {...fadeUp(0.1)} style={{
-              fontSize: 'clamp(3rem, 6vw, 5rem)',
-              fontWeight: 800,
-              lineHeight: 1.05,
-              letterSpacing: '-1px',
-              color: 'var(--text-main)',
-              marginBottom: '20px',
-            }}>
-              Hi, I'm{' '}
-              <span style={{ color: 'var(--accent-light)' }}>Aditya</span>
-              <br />
-              Full Stack &{' '}
-              <br />
-              <span style={{ color: 'var(--text-soft)' }}>AI Developer</span>
+            {/* Main heading */}
+            <motion.h1
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, ease: 'easeOut', delay: 0.1 }}
+              style={{
+                fontSize: 'clamp(2.8rem, 6vw, 4.5rem)',
+                fontWeight: 800,
+                lineHeight: 1.08,
+                letterSpacing: '-1.5px',
+                color: 'var(--text-main)',
+                marginBottom: '16px',
+              }}
+            >
+              Aditya Prajapati
             </motion.h1>
 
-            {/* Subtitle */}
-            <motion.p {...fadeUp(0.2)} style={{
-              fontSize: '1.05rem',
-              color: 'var(--text-soft)',
-              maxWidth: '520px',
-              lineHeight: 1.8,
-              marginBottom: '36px',
-            }}>
-              I build clean interfaces, reliable Java backend systems, and practical AI-powered experiences. Focused on code that feels calm, useful, and production-ready.
+            {/* Typewriter role */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
+              style={{
+                fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+                fontWeight: 600,
+                color: 'var(--accent-light)',
+                marginBottom: '12px',
+                minHeight: '2rem',
+              }}
+            >
+              <TypewriterText strings={ROLES} />
+            </motion.div>
+
+            {/* Tagline */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.25 }}
+              style={{
+                fontSize: '0.92rem',
+                color: 'var(--text-soft)',
+                marginBottom: '20px',
+                fontWeight: 500,
+              }}
+            >
+              B.Tech CSE · 3rd Year · {personalInfo.college}
+            </motion.p>
+
+            {/* Bio */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.3 }}
+              style={{
+                fontSize: '1rem',
+                color: 'var(--text-soft)',
+                maxWidth: '500px',
+                lineHeight: 1.8,
+                marginBottom: '32px',
+              }}
+            >
+              I enjoy building full-stack web apps and solving problems with code. Currently looking for internship opportunities where I can contribute and grow.
             </motion.p>
 
             {/* CTAs */}
-            <motion.div {...fadeUp(0.3)} style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '36px' }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.38 }}
+              style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '32px' }}
+            >
               <a href="#projects" className="btn-primary">
-                View Projects <ArrowRight size={17} />
+                View My Work <ArrowRight size={16} />
               </a>
               <a href={resumeUrl} download className="btn-secondary">
-                <Download size={17} /> Resume
+                <Download size={16} /> Download Resume
               </a>
             </motion.div>
 
             {/* Social icons */}
-            <motion.div {...fadeUp(0.4)} style={{ display: 'flex', gap: '10px' }}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.45 }}
+              style={{ display: 'flex', gap: '10px' }}
+            >
               {personalInfo.socials.map((social) => {
                 const Icon = socialIcons[social.label]
                 if (!Icon) return null
@@ -121,55 +206,23 @@ function HeroSection({ personalInfo, resumeUrl }) {
                 )
               })}
             </motion.div>
-
-            {/* Stats row */}
-            <motion.div {...fadeUp(0.5)} style={{
-              display: 'flex',
-              gap: '40px',
-              marginTop: '44px',
-              paddingTop: '28px',
-              borderTop: '1px solid var(--border)',
-            }}>
-              {[
-                { value: '12+', label: 'Projects Shipped' },
-                { value: '3+', label: 'Years Building' },
-                { value: '6+', label: 'Certifications' },
-              ].map((stat) => (
-                <div key={stat.label}>
-                  <p style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-main)', marginBottom: '4px' }}>{stat.value}</p>
-                  <p style={{ fontSize: '0.72rem', textTransform: 'uppercase', letterSpacing: '0.18em', color: 'var(--text-soft)', fontWeight: 600 }}>{stat.label}</p>
-                </div>
-              ))}
-            </motion.div>
           </div>
 
           {/* ── RIGHT: Profile Image Column ── */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.94 }}
+            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.15 }}
             style={{ display: 'flex', justifyContent: 'center', position: 'relative' }}
           >
-            {/* Glow ring behind image */}
-            <div style={{
-              position: 'absolute',
-              inset: '-24px',
-              borderRadius: '32px',
-              background: 'radial-gradient(circle, rgba(124,92,252,0.22) 0%, transparent 70%)',
-              filter: 'blur(32px)',
-              zIndex: 0,
-            }} />
-
-            {/* Glass card */}
+            {/* Clean card around image */}
             <div style={{
               position: 'relative',
-              zIndex: 1,
-              borderRadius: '28px',
-              border: '1px solid var(--border)',
+              borderRadius: '50%',
+              border: '3px solid var(--border)',
+              padding: '6px',
               background: 'var(--card-bg)',
-              padding: '12px',
-              boxShadow: '0 30px 80px rgba(0,0,0,0.35), 0 0 0 1px rgba(124,92,252,0.12)',
-              maxWidth: '400px',
+              maxWidth: '320px',
               width: '100%',
             }}>
               <img
@@ -178,9 +231,9 @@ function HeroSection({ personalInfo, resumeUrl }) {
                 style={{
                   width: '100%',
                   height: 'auto',
-                  aspectRatio: '4/5',
+                  aspectRatio: '1/1',
                   objectFit: 'cover',
-                  borderRadius: '20px',
+                  borderRadius: '50%',
                   display: 'block',
                 }}
               />
@@ -188,25 +241,24 @@ function HeroSection({ personalInfo, resumeUrl }) {
 
             {/* Floating badge */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.7 }}
+              transition={{ duration: 0.5, delay: 0.6 }}
               style={{
                 position: 'absolute',
-                bottom: '28px',
-                right: '-12px',
+                bottom: '16px',
+                right: '0px',
                 background: 'var(--card-bg)',
                 border: '1px solid var(--border)',
-                borderRadius: '12px',
+                borderRadius: '10px',
                 padding: '10px 16px',
-                boxShadow: '0 8px 24px rgba(0,0,0,0.3)',
-                zIndex: 2,
+                boxShadow: '0 8px 20px rgba(0,0,0,0.25)',
               }}
             >
-              <p style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--accent-light)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>
-                AI + Full Stack
+              <p style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--accent-light)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                3rd Year
               </p>
-              <p style={{ fontSize: '0.68rem', color: 'var(--text-soft)', marginTop: '2px' }}>Developer</p>
+              <p style={{ fontSize: '0.68rem', color: 'var(--text-soft)', marginTop: '2px' }}>B.Tech CSE</p>
             </motion.div>
           </motion.div>
 
