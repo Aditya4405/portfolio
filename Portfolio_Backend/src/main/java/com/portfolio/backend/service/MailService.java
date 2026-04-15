@@ -24,6 +24,9 @@ public class MailService {
     @Value("${EMAILJS_PRIVATE_KEY}")
     private String privateKey;
 
+    @Value("${ADMIN_EMAIL:adityaprajapati4405@gmail.com}")
+    private String adminEmail;
+
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String EMAILJS_URL = "https://api.emailjs.com/api/v1.0/email/send";
 
@@ -49,8 +52,9 @@ public class MailService {
         body.put("accessToken", privateKey);
 
         Map<String, String> templateParams = new HashMap<>();
-        templateParams.put("from_name", request.getFullName());
-        templateParams.put("from_email", request.getEmail());
+        templateParams.put("name", request.getFullName());
+        templateParams.put("email", request.getEmail());
+        templateParams.put("to_email", adminEmail);
         templateParams.put("subject", request.getSubject());
         templateParams.put("message", request.getMessage());
         // Ensure these keys match the {{variables}} in your EmailJS template!
