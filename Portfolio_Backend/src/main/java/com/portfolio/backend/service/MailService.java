@@ -18,6 +18,7 @@ public class MailService {
 
     public void sendConfirmation(String toEmail, String name) {
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(adminEmail);
         message.setTo(toEmail);
         message.setSubject("Message Received!");
         message.setText("Hi " + name + ",\n\n" +
@@ -30,6 +31,7 @@ public class MailService {
 
     public void sendToAdmin(ContactRequest request) {
         SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(adminEmail);
         message.setTo(adminEmail);
         message.setSubject("Portfolio Contact: " + request.getSubject());
         message.setText("New message from: " + request.getFullName() + " (" + request.getEmail() + ")\n\n" +
