@@ -36,7 +36,7 @@ export default function MatrixBackground({ theme }) {
       if (gridOffset > cellSize) gridOffset = 0
 
       const isDark = theme === 'dark'
-      const baseLineColor = isDark ? 'rgba(255, 255, 255, 0.03)' : 'rgba(0, 0, 0, 0.04)'
+      const baseLineColor = isDark ? 'rgba(192, 57, 43, 0.04)' : 'rgba(192, 57, 43, 0.05)'
       
       ctx.lineWidth = 1
       ctx.strokeStyle = baseLineColor
@@ -62,7 +62,8 @@ export default function MatrixBackground({ theme }) {
           
           if(dist < 180) {
              const opacity = 1 - (dist / 180)
-             ctx.fillStyle = isDark ? `rgba(34, 211, 238, ${opacity * 0.12})` : `rgba(99, 102, 241, ${opacity * 0.08})`
+             // Crimson red glow on mouse proximity
+             ctx.fillStyle = `rgba(192, 57, 43, ${opacity * 0.1})`
              ctx.fillRect(cx, cy, cellSize, cellSize)
           }
         }
