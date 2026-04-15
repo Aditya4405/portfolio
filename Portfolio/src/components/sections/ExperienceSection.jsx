@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { Award, BookOpen, Briefcase, Code2, Trophy } from 'lucide-react'
 
 const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 32 },
+  initial: { opacity: 0, y: 28 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, amount: 0.1 },
   transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1], delay },
@@ -58,10 +58,9 @@ const experienceItems = [
 
 function ExperienceSection({ milestones, timeline }) {
   return (
-    <div className="container">
-
+    <div className="container" style={{ position: 'relative' }}>
       {/* Section Header */}
-      <motion.div {...fadeUp(0)} style={{ marginBottom: '64px' }}>
+      <motion.div {...fadeUp(0)} style={{ marginBottom: '64px', position: 'relative', zIndex: 10 }}>
         <span className="section-eyebrow">Experience & Education</span>
         <h2 className="section-title">The journey so far</h2>
         <p className="section-description">
@@ -70,7 +69,7 @@ function ExperienceSection({ milestones, timeline }) {
       </motion.div>
 
       {/* Timeline */}
-      <div style={{ position: 'relative', paddingLeft: '28px' }}>
+      <div style={{ position: 'relative', paddingLeft: '28px', zIndex: 10 }}>
 
         {/* Vertical accent line */}
         <div style={{
@@ -78,8 +77,8 @@ function ExperienceSection({ milestones, timeline }) {
           left: 0,
           top: 0,
           bottom: 0,
-          width: '3px',
-          background: `linear-gradient(to bottom, var(--accent), transparent)`,
+          width: '2px',
+          background: `linear-gradient(to bottom, #c0392b, rgba(192,57,43,0.1))`,
           borderRadius: '3px',
         }} />
 
@@ -94,12 +93,12 @@ function ExperienceSection({ milestones, timeline }) {
                   position: 'absolute',
                   left: '-35px',
                   top: '20px',
-                  width: '12px',
-                  height: '12px',
+                  width: '10px',
+                  height: '10px',
                   borderRadius: '50%',
-                  background: 'var(--accent)',
-                  border: '2px solid var(--bg-main)',
-                  boxShadow: '0 0 0 3px rgba(124,92,252,0.25)',
+                  background: '#c0392b',
+                  border: '2px solid #0a0000',
+                  boxShadow: '0 0 10px rgba(192,57,43,0.7), 0 0 20px rgba(192,57,43,0.3)',
                 }} />
 
                 {/* Card */}
@@ -110,28 +109,28 @@ function ExperienceSection({ milestones, timeline }) {
                         width: '36px',
                         height: '36px',
                         borderRadius: '10px',
-                        background: 'rgba(124,92,252,0.12)',
-                        border: '1px solid rgba(124,92,252,0.25)',
+                        background: 'rgba(192,57,43,0.12)',
+                        border: '1px solid rgba(192,57,43,0.25)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         flexShrink: 0,
                       }}>
-                        <Icon size={16} style={{ color: 'var(--accent-light)' }} />
+                        <Icon size={16} style={{ color: '#e05030' }} />
                       </div>
                       <div>
-                        <p style={{ fontSize: '0.7rem', fontWeight: 600, color: 'var(--accent-light)', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '2px' }}>
+                        <p style={{ fontSize: '0.7rem', fontWeight: 600, color: '#e05030', textTransform: 'uppercase', letterSpacing: '0.15em', marginBottom: '2px' }}>
                           {item.organization}
                         </p>
-                        <h3 style={{ fontSize: '1.02rem', fontWeight: 700, color: 'var(--text-main)' }}>{item.title}</h3>
+                        <h3 style={{ fontSize: '1.02rem', fontWeight: 700, color: 'var(--text-primary)' }}>{item.title}</h3>
                       </div>
                     </div>
                     <span style={{
                       fontSize: '0.72rem',
                       fontWeight: 600,
-                      color: 'var(--text-soft)',
-                      background: 'rgba(255,255,255,0.05)',
-                      border: '1px solid var(--border)',
+                      color: 'var(--text-secondary)',
+                      background: 'var(--card-bg)',
+                      border: '1px solid var(--card-border)',
                       padding: '4px 10px',
                       borderRadius: '6px',
                       whiteSpace: 'nowrap',
@@ -140,7 +139,7 @@ function ExperienceSection({ milestones, timeline }) {
                     </span>
                   </div>
 
-                  <p style={{ fontSize: '0.92rem', lineHeight: 1.75, color: 'var(--text-soft)', marginBottom: '14px' }}>
+                  <p style={{ fontSize: '0.92rem', lineHeight: 1.75, color: 'var(--text-secondary)', marginBottom: '14px' }}>
                     {item.description}
                   </p>
 
