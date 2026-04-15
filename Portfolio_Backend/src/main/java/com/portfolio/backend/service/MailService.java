@@ -15,7 +15,7 @@ public class MailService {
     @Value("${RESEND_API_KEY}")
     private String resendApiKey;
 
-    @Value("${GMAIL_USERNAME:adityaprajapati4405@gmail.com}")
+    @Value("${GMAIL_USERNAME:2k23.cs2313644@gmail.com}")
     private String adminEmail;
 
     private final RestTemplate restTemplate = new RestTemplate();
