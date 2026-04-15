@@ -1,9 +1,14 @@
 import profilePortrait from '../assets/images/p1.jpeg'
 import aboutPhoto from '../assets/images/p2.png'
-import healthPreview from '../assets/images/health-report-analyzer.svg'
-import voicePreview from '../assets/images/voice-assistant.svg'
-import signPreview from '../assets/images/sign-language.svg'
-import mapPreview from '../assets/images/mapmypsit.svg'
+import petCarePreview from '../assets/images/smart-pet-care.png'
+import sortingPreview from '../assets/images/sorting-visualizer.png'
+import mapMockup from '../assets/images/mapmypsit-mockup.png'
+import parkEaseMockup from '../assets/images/parkease-mockup.png'
+
+// Certificate Imports
+import nptelJava from '../assets/images/nptel.jpg'
+import codsoftWeb from '../assets/images/cods.jpg'
+import icpcCert from '../assets/images/icpc.png'
 
 export const personalInfo = {
   name: 'Aditya Prajapati',
@@ -53,96 +58,95 @@ export const skills = {
 
 export const projects = [
   {
-    title: 'Health Report Analyzer',
-    preview: healthPreview,
-    summary: 'A web app that lets doctors upload, manage, and share patient health reports across roles. Built with Spring Boot and MySQL. Learned how to design role-based access control and keep data in sync with Firebase in real time.',
-    stack: ['Spring Boot', 'MySQL', 'Firebase'],
-    github: 'https://github.com/Aditya4405',
-    demo: '#contact',
+    title: 'Smart Pet Care',
+    preview: petCarePreview,
+    summary: 'A full-stack SaaS-style Smart Pet Care Management System designed to bridge the gap between pet owners and veterinarians. Features centralized health records, automated reminders, and an intelligent dashboard for holistic pet parenting.',
+    stack: ['React', 'Spring Boot', 'MySQL', 'Tailwind CSS'],
+    github: 'https://github.com/Aditya4405/smart-pet-care',
+    demo: 'https://smart-pet-care-two.vercel.app/',
     featured: true,
   },
   {
-    title: 'Voice Controlled Cooking Assistant',
-    preview: voicePreview,
-    summary: 'A React app that guides users through recipes using voice commands. Built with React and the Web Speech API. Learned about browser-native voice recognition and building hands-free UI flows.',
-    stack: ['React', 'Web Speech API', 'Node.js'],
-    github: 'https://github.com/Aditya4405',
-    demo: '#contact',
-    featured: true,
-  },
-  {
-    title: 'AI Sign Language Translator',
-    preview: signPreview,
-    summary: 'A computer vision project that captures hand gestures via webcam and translates them into text in real time. Built with Python and OpenCV. My first deep dive into image processing and ML pipelines.',
-    stack: ['Python', 'OpenCV', 'TensorFlow'],
-    github: 'https://github.com/Aditya4405',
-    demo: '#contact',
+    title: 'Sorting Visualizer',
+    preview: sortingPreview,
+    summary: 'An advanced algorithm visualization tool that brings complex sorting logic to life. Features real-time analytics, step-by-step execution, and support for multiple algorithms like Quick, Merge, and Radix sort.',
+    stack: ['JavaScript', 'Tailwind CSS', 'HTML5', 'Netlify'],
+    github: 'https://github.com/Aditya4405/shorting-vizualizer',
+    demo: 'https://sorting-view.netlify.app/',
     featured: true,
   },
   {
     title: 'MapmyPSIT',
-    preview: mapPreview,
-    summary: 'An indoor campus navigation app for PSIT college. Users can find rooms, labs, and facilities on an interactive map. Built with React and a custom backend API.',
-    stack: ['React', 'Node.js', 'Express'],
+    preview: mapMockup,
+    summary: 'An indoor campus navigation app for PSIT college. Users can find rooms, labs, and facilities on an interactive map. Built with React and a custom backend API to provide seamless wayfinding.',
+    stack: ['React', 'Node.js', 'Express', 'Leaflet'],
     github: 'https://github.com/Aditya4405',
-    demo: '#contact',
+    demo: 'https://github.com/Aditya4405',
+    featured: false,
+  },
+  {
+    title: 'ParkEase',
+    preview: parkEaseMockup,
+    summary: 'A smart parking and reservation application featuring a production-level role-based access system. Designed to streamline parking management through automated booking and user management.',
+    stack: ['Java', 'Spring Boot', 'React', 'MySQL'],
+    github: 'https://github.com/Aditya4405',
+    demo: '#',
+    status: 'Under Development',
     featured: false,
   },
 ]
 
 export const achievements = [
   {
-    title: 'Smart India Hackathon 2024',
-    org: 'Government of India',
-    year: '2024',
-    description: 'Participated at the national level. Worked on a real problem statement with a team of 6 — from ideation to prototype in 36 hours.',
-    type: 'hackathon',
-  },
-  {
-    title: 'Java Development Internship',
-    org: 'CodSoft',
-    year: '2024',
-    description: 'Built Java projects and got hands-on experience with real-world development expectations, code quality, and delivery timelines.',
-    type: 'internship',
-  },
-  {
-    title: 'AI Workshop',
-    org: 'PSIT Kanpur',
+    title: 'Programming In Java (Elite)',
+    org: 'Indian Institute of Technology Kharagpur',
+    platform: 'NPTEL / SWAYAM',
     year: '2025',
-    description: 'Attended a hands-on workshop on AI and computer vision. Built small experiments with image recognition during the sessions.',
-    type: 'workshop',
+    skills: ['Java SE', 'Multithreading', 'Generics', 'GUI'],
+    category: 'Java',
+    description: 'Successfully completed the 12-week intensive course with an Elite certification score of 75%. Mastered core Java concepts and industrial implementation patterns.',
+    image: nptelJava,
   },
   {
-    title: 'B.Tech CSE — 3rd Year',
-    org: 'PSIT Kanpur',
-    year: '2023 – Present',
-    description: 'Currently in 3rd year of B.Tech Computer Science & Engineering. Coursework includes DSA, OS, DBMS, and networking.',
-    type: 'education',
+    title: 'ICPC Asia Kanpur Preliminary',
+    org: 'ICPC Foundation',
+    platform: 'Pranveer Singh Institute of Technology',
+    year: '2024',
+    skills: ['Algorithms', 'Data Structures', 'Competitive Programming'],
+    category: 'DSA',
+    description: 'Participated in the prestigious International Collegiate Programming Contest. Solved complex algorithmic challenges under strict competition constraints.',
+    image: icpcCert,
+  },
+  {
+    title: 'Web Development Internship',
+    org: 'CodSoft',
+    platform: 'Virtual Internship',
+    year: '2024',
+    skills: ['Frontend', 'UI Design', 'API Integration', 'Portfolio Development'],
+    category: 'Web',
+    description: 'Completed a 4-week virtual internship program. Delivered production-style web features with emphasis on implementation ownership and site execution standards.',
+    image: codsoftWeb,
   },
 ]
 
 export const milestones = [
   {
-    title: 'Smart India Hackathon 2024',
-    text: 'Collaborated on solution framing, rapid prototyping, and presenting under real deadlines.',
+    title: 'IIT Kharagpur Elite Certified',
+    text: 'Achieved elite status in NPTEL Programming in Java course with a 75% score.',
   },
   {
-    title: 'CodSoft Internship',
-    text: 'Built Java projects with consistent implementation, ownership, and real-world expectations.',
+    title: 'ICPC Regional Participant',
+    text: 'Represented PSIT at the prestigious ICPC Asia Kanpur Preliminary Contest 2024.',
   },
   {
-    title: 'AI Workshop Participation',
-    text: 'Expanded hands-on understanding of intelligent systems and applied computer vision.',
-  },
-  {
-    title: 'Healthcare Backend Project',
-    text: 'Delivered a full backend-heavy project with practical Spring Boot architecture.',
+    title: 'CodSoft Internship Graduate',
+    text: 'Successfully delivered production-style web projects during Java/Web development stint.',
   },
 ]
 
 export const counters = [
   { value: 4, suffix: '+', label: 'Projects Completed' },
-  { value: 2, suffix: '+', label: 'Hackathons & Workshops' },
+  { value: 1, suffix: '+', label: 'Internships' },
   { value: 3, suffix: '+', label: 'Certifications' },
   { value: 12, suffix: '+', label: 'Technologies Used' },
 ]
@@ -151,7 +155,7 @@ export const chatbotReplies = {
   about:
     'Aditya is a 3rd-year B.Tech CSE student at PSIT Kanpur, focusing on Java Backend Development and building robust applications with Spring Boot.',
   projects:
-    'Featured projects include Health Report Analyzer, Voice Cooking Assistant, AI Sign Language Translator, and MapmyPSIT.',
+    'Featured projects include Smart Pet Care, Sorting Visualizer, MapmyPSIT, and the upcoming ParkEase application.',
   skills:
     'Aditya is strong in React, Node.js, Java, Spring Boot, REST APIs, MySQL, MongoDB, and Firebase.',
   resume:
