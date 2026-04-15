@@ -1,99 +1,327 @@
-import { motion } from 'framer-motion'
-import { Award, BookOpen, Briefcase, Code2, Trophy } from 'lucide-react'
-
-const fadeUp = (delay = 0) => ({
-  initial: { opacity: 0, y: 20, filter: 'blur(4px)' },
-  whileInView: { opacity: 1, y: 0, filter: 'blur(0px)' },
-  viewport: { once: true, amount: 0.1 },
-  transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay },
-})
-
-const typeIcons = {
-  hackathon: Trophy,
-  internship: Briefcase,
-  workshop: Award,
-  education: BookOpen,
-  project: Code2,
-}
+import { useState, useRef } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronLeft, ChevronRight, Maximize2, ExternalLink, Award, Cpu, BookOpen, Trophy } from 'lucide-react'
+import { useTheme } from '../../hooks/useTheme.jsx'
 
 function AchievementsSection({ achievements }) {
+  const { theme } = useTheme()
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const isDark = theme === 'dark'
+
+  const nextSlide = () => {
+    setCurrentIndex((prev) => (prev + 1) % achievements.length)
+  }
+
+  const prevSlide = () => {
+    setCurrentIndex((prev) => (prev - 1 + achievements.length) % achievements.length)
+  }
+
+  const cert = achievements[currentIndex]
+
+  const slideVariants = {
+    enter: (direction) => ({
+      x: direction > 0 ? 100 : -100,
+      opacity: 0,
+      scale: 0.95,
+    }),
+    center: {
+      zIndex: 1,
+      x: 0,
+      opacity: 1,
+      scale: 1,
+    },
+    exit: (direction) => ({
+      zIndex: 0,
+      x: direction < 0 ? 100 : -100,
+      opacity: 0,
+      scale: 0.95,
+    }),
+  }
+
+  const [[page, direction], setPage] = useState([0, 0])
+  const paginate = (newDirection) => {
+    const nextIndex = (currentIndex + newDirection + achievements.length) % achievements.length
+    setPage([page + newDirection, newDirection])
+    setCurrentIndex(nextIndex)
+  }
+
   return (
-    <section id="achievements">
-      <div className="container" style={{ position: 'relative' }}>
+    <section id="achievements" style={{ padding: '100px 0', background: 'var(--bg-primary)', position: 'relative', overflow: 'hidden' }}>
+      <div className="container">
         {/* Section Header */}
-        <motion.div {...fadeUp(0)} style={{ marginBottom: '64px', position: 'relative', zIndex: 10 }}>
-          <span className="section-eyebrow">Highlights</span>
-          <h2 className="section-title">Achievements so far</h2>
-          <p className="section-description">
-            Hackathons, internships, and workshops that have shaped me as a developer.
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          style={{ marginBottom: '60px', textAlign: 'center' }}
+        >
+          <span className="section-eyebrow">Validations</span>
+          <h2 className="section-title">Certifying Excellence</h2>
+          <p className="section-description" style={{ margin: '0 auto' }}>
+            A compilation of professional certifications and competitive wins that validate my technical journey.
           </p>
         </motion.div>
 
-        {/* Cards grid */}
+        {/* Certificate Showcase Split Layout */}
         <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-          gap: '24px',
+          display: 'flex',
+          gap: '40px',
+          alignItems: 'stretch',
+          minHeight: '520px',
           position: 'relative',
           zIndex: 10,
-        }}>
-          {achievements.map((item, i) => {
-            const Icon = typeIcons[item.type] || Award
-            return (
+        }} className="achievements-split">
+          <style>{`
+            @media (max-width: 1024px) {
+              .achievements-split { flex-direction: column !important; }
+              .cert-viewer-side { flex: 1 1 100% !important; height: 350px !important; }
+              .cert-details-side { flex: 1 1 100% !important; padding: 0 !important; }
+            }
+          `}</style>
+          
+          {/* Left Side: Image Viewer (60%) */}
+          <div className="cert-viewer-side" style={{
+            flex: '0 0 60%',
+            position: 'relative',
+            borderRadius: '24px',
+            overflow: 'hidden',
+            background: 'var(--card-bg)',
+            border: '1px solid var(--card-border)',
+            boxShadow: 'var(--card-shadow)',
+          }}>
+             <AnimatePresence initial={false} custom={direction}>
               <motion.div
-                key={item.title}
-                {...fadeUp(i * 0.07)}
-                className="card"
-                style={{ padding: '28px' }}
+                key={currentIndex}
+                custom={direction}
+                variants={slideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  x: { type: "spring", stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.3 }
+                }}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '30px',
+                }}
               >
-                {/* Icon + year row */}
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+                {/* Browser Frame Accent */}
+                <div style={{
+                  position: 'relative',
+                  width: '100%',
+                  height: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                  <img 
+                    src={cert.image} 
+                    alt={cert.title} 
+                    style={{ 
+                      maxWidth: '100%', 
+                      maxHeight: '100%', 
+                      objectFit: 'contain', 
+                      borderRadius: '8px',
+                      boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+                      border: '1px solid var(--card-border)',
+                    }} 
+                  />
+                  
+                  {/* Zoom Overlay */}
                   <div style={{
-                    width: '42px',
-                    height: '42px',
-                    borderRadius: '12px',
-                    background: 'rgba(239, 68, 68, 0.08)',
-                    border: '1px solid rgba(239, 68, 68, 0.25)',
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'rgba(0,0,0,0.2)',
+                    opacity: 0,
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    flexShrink: 0,
-                  }}>
-                    <Icon size={18} style={{ color: '#ef4444' }} />
-                  </div>
-                  <span style={{
-                    fontSize: '0.75rem',
-                    fontWeight: 700,
-                    color: 'var(--text-secondary)',
-                    background: 'var(--input-bg)',
-                    border: '1px solid var(--card-border)',
-                    padding: '4px 12px',
                     borderRadius: '8px',
+                    transition: 'opacity 0.3s ease',
+                    cursor: 'pointer',
+                  }} className="zoom-overlay">
+                    <Maximize2 color="white" size={32} />
+                  </div>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Navigation Controls */}
+            <button 
+              onClick={() => paginate(-1)}
+              style={{
+                position: 'absolute',
+                left: '20px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: '44px',
+                height: '44px',
+                borderRadius: '50%',
+                background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                border: '1px solid var(--card-border)',
+                color: 'var(--text-primary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                zIndex: 20,
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button 
+              onClick={() => paginate(1)}
+              style={{
+                position: 'absolute',
+                right: '20px',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                width: '44px',
+                height: '44px',
+                borderRadius: '50%',
+                background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                border: '1px solid var(--card-border)',
+                color: 'var(--text-primary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                zIndex: 20,
+                backdropFilter: 'blur(10px)',
+              }}
+            >
+              <ChevronRight size={20} />
+            </button>
+
+            {/* Progress Dots */}
+            <div style={{
+              position: 'absolute',
+              bottom: '20px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              display: 'flex',
+              gap: '8px',
+              zIndex: 20,
+            }}>
+              {achievements.map((_, i) => (
+                <div 
+                  key={i} 
+                  onClick={() => setCurrentIndex(i)}
+                  style={{
+                    width: i === currentIndex ? '24px' : '8px',
+                    height: '8px',
+                    borderRadius: '4px',
+                    background: i === currentIndex ? 'var(--primary)' : 'var(--text-secondary)',
+                    opacity: i === currentIndex ? 1 : 0.4,
+                    transition: 'all 0.3s ease',
+                    cursor: 'pointer',
+                  }} 
+                />
+              ))}
+            </div>
+          </div>
+
+          {/* Right Side: Details Side (40%) */}
+          <div className="cert-details-side" style={{
+            flex: '0 0 40%',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            padding: '20px',
+          }}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={currentIndex}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.3 }}
+                style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}
+              >
+                {/* Badge + Counter */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                  <div style={{
+                    padding: '4px 12px',
+                    borderRadius: '6px',
+                    background: 'var(--primary-glow)',
+                    color: 'var(--primary)',
+                    fontSize: '0.7rem',
+                    fontWeight: 800,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    border: '1px solid rgba(239, 68, 68, 0.2)',
                   }}>
-                    {item.year}
+                    {cert.category} Certification
+                  </div>
+                  <span style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)', fontFamily: 'monospace' }}>
+                    {currentIndex + 1} / {achievements.length}
                   </span>
                 </div>
 
-                {/* Title */}
-                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: '6px', lineHeight: 1.4 }}>
-                  {item.title}
+                <h3 style={{ fontSize: '1.8rem', fontWeight: 800, color: 'var(--text-primary)', letterSpacing: '-0.02em', lineHeight: 1.2 }}>
+                  {cert.title}
                 </h3>
 
-                {/* Org */}
-                <p style={{ fontSize: '0.85rem', fontWeight: 700, color: '#ef4444', marginBottom: '12px', letterSpacing: '0.04em' }}>
-                  {item.org}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <p style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', opacity: 0.9 }}>
+                    {cert.org}
+                  </p>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontWeight: 500 }}>
+                    {cert.platform} • {cert.year}
+                  </p>
+                </div>
+
+                <p style={{ fontSize: '0.95rem', lineHeight: 1.7, color: 'var(--text-secondary)', margin: '8px 0' }}>
+                  {cert.description}
                 </p>
 
-                {/* Description */}
-                <p style={{ fontSize: '0.9rem', lineHeight: 1.7, color: 'var(--text-secondary)' }}>
-                  {item.description}
-                </p>
+                {/* Skills Pills */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', margin: '8px 0' }}>
+                  {cert.skills.map((skill) => (
+                    <span key={skill} className="tech-pill" style={{ 
+                      fontSize: '0.7rem', 
+                      background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.03)',
+                      border: '1px solid var(--card-border)',
+                      padding: '4px 10px',
+                    }}>
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+
+                <div style={{ marginTop: '16px', display: 'flex', gap: '12px' }}>
+                  <a 
+                    href="#" 
+                    className="btn-primary" 
+                    style={{ padding: '12px 24px', fontSize: '0.85rem', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}
+                  >
+                    View Certificate <ExternalLink size={16} />
+                  </a>
+                </div>
               </motion.div>
-            )
-          })}
+            </AnimatePresence>
+          </div>
         </div>
-
       </div>
+
+      {/* Background Decorative Glow */}
+      <div style={{
+        position: 'absolute',
+        bottom: '-10%',
+        right: '-5%',
+        width: '500px',
+        height: '500px',
+        background: `radial-gradient(circle, ${isDark ? 'rgba(239, 68, 68, 0.03)' : 'rgba(239, 68, 68, 0.015)'} 0%, transparent 70%)`,
+        filter: 'blur(100px)',
+        zIndex: 0,
+        pointerEvents: 'none',
+      }} />
     </section>
   )
 }
