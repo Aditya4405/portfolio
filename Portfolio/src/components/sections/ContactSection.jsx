@@ -10,8 +10,10 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay },
 })
 
-function ContactSection({ personalInfo, resumeUrl, formState, setFormState, sendEmail, formStatus }) {
+function ContactSection({ personalInfo, resumeUrl, formState, setFormState, sendEmail, formStatus, isSubmitting }) {
   const { theme } = useTheme()
+  const isSuccess = formStatus.toLowerCase().includes('successfully') || formStatus.toLowerCase().includes('sent')
+
   return (
     <section id="contact" className="alt-bg">
       <div className="container" style={{ position: 'relative' }}>
@@ -135,6 +137,7 @@ function ContactSection({ personalInfo, resumeUrl, formState, setFormState, send
             {[
               { field: 'name', label: 'Name', type: 'text', placeholder: 'Your name' },
               { field: 'email', label: 'Email', type: 'email', placeholder: 'your@email.com' },
+              { field: 'subject', label: 'Subject', type: 'text', placeholder: 'What is this about?' },
             ].map(({ field, label, type, placeholder }) => (
               <label key={field} style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 <span style={{ fontSize: '0.85rem', fontWeight: 700, color: 'var(--text-secondary)', opacity: 0.6 }}>{label}</span>
@@ -163,12 +166,42 @@ function ContactSection({ personalInfo, resumeUrl, formState, setFormState, send
               />
             </label>
 
-            <button type="submit" className="btn-primary" style={{ justifyContent: 'center', padding: '16px', marginTop: '8px' }}>
-              <Send size={18} /> Send Message
+            <button 
+              type="submit" 
+              className="btn-primary" 
+              disabled={isSubmitting}
+              style={{ 
+                justifyContent: 'center', 
+                padding: '16px', 
+                marginTop: '8px',
+                opacity: isSubmitting ? 0.7 : 1,
+                cursor: isSubmitting ? 'not-allowed' : 'pointer'
+              }}
+            >
+              {isSubmitting ? (
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
+                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
+                >
+                  <div style={{ width: '18px', height: '18px', border: '2px solid white', borderTopColor: 'transparent', borderRadius: '50%' }} />
+                  Sending...
+                </motion.div>
+              ) : (
+                <><Send size={18} /> Send Message</>
+              )}
             </button>
 
             {formStatus && (
-              <p style={{ fontSize: '0.9rem', color: '#ef4444', textAlign: 'center', fontWeight: 600 }}>{formStatus}</p>
+              <p style={{ 
+                fontSize: '0.9rem', 
+                color: isSuccess ? '#22c55e' : '#ef4444', 
+                textAlign: 'center', 
+                fontWeight: 600,
+                marginTop: '12px'
+              }}>
+                {formStatus}
+              </p>
             )}
           </motion.form>
 
