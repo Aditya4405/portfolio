@@ -1,43 +1,54 @@
 package com.portfolio.backend.service;
 
 import com.portfolio.backend.dto.ContactRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class MailService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    @Value("${RESEND_API_KEY}")
+    private String resendApiKey;
 
     @Value("${spring.mail.username}")
     private String adminEmail;
 
+    private final RestTemplate restTemplate = new RestTemplate();
+    private static final String RESEND_URL = "https://api.resend.com/emails";
+
     public void sendConfirmation(String toEmail, String name) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(adminEmail);
-        message.setTo(toEmail);
-        message.setSubject("Message Received!");
-        message.setText("Hi " + name + ",\n\n" +
+        String content = "Hi " + name + ",\n\n" +
                 "Thanks for reaching out! I've received your message through my portfolio and will get back to you as soon as possible.\n\n" +
-                "This is an automated response. You don't need to reply to this email.\n\n" +
-                "Best regards,\n" +
-                "Aditya Prajapati");
-        mailSender.send(message);
+                "Best regards,\nAditya Prajapati";
+        
+        sendViaResend(toEmail, "Message Received!", content);
     }
 
     public void sendToAdmin(ContactRequest request) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(adminEmail);
-        message.setTo(adminEmail);
-        message.setSubject("Portfolio Contact: " + request.getSubject());
-        message.setText("New message from: " + request.getFullName() + " (" + request.getEmail() + ")\n\n" +
+        String content = "New message from: " + request.getFullName() + " (" + request.getEmail() + ")\n\n" +
                 "Subject: " + request.getSubject() + "\n\n" +
-                "Message:\n" +
-                request.getMessage());
-        mailSender.send(message);
+                "Message:\n" + request.getMessage();
+
+        sendViaResend(adminEmail, "Portfolio Contact: " + request.getSubject(), content);
+    }
+
+    private void sendViaResend(String to, String subject, String text) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("Authorization", "Bearer " + resendApiKey);
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("from", "Portfolio <onboarding@resend.dev>"); // Resend default for free testing
+        body.put("to", to);
+        body.put("subject", subject);
+        body.put("text", text);
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+        restTemplate.postForEntity(RESEND_URL, entity, String.class);
     }
 }
