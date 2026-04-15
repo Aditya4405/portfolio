@@ -12,51 +12,58 @@ import java.util.Map;
 @Service
 public class MailService {
 
-    @Value("${RESEND_API_KEY}")
-    private String resendApiKey;
+    @Value("${EMAILJS_SERVICE_ID}")
+    private String serviceId;
 
-    @Value("${GMAIL_USERNAME:2k23.cs2313644@gmail.com}")
-    private String adminEmail;
+    @Value("${EMAILJS_TEMPLATE_ID}")
+    private String templateId;
+
+    @Value("${EMAILJS_PUBLIC_KEY}")
+    private String publicKey;
+
+    @Value("${EMAILJS_PRIVATE_KEY}")
+    private String privateKey;
 
     private final RestTemplate restTemplate = new RestTemplate();
-    private static final String RESEND_URL = "https://api.resend.com/emails";
-
-    public void sendConfirmation(String toEmail, String name) {
-        String content = "Hi " + name + ",\n\n" +
-                "Thanks for reaching out! I've received your message through my portfolio and will get back to you as soon as possible.\n\n" +
-                "Best regards,\nAditya Prajapati";
-        
-        sendViaResend(toEmail, "Message Received!", content);
-    }
+    private static final String EMAILJS_URL = "https://api.emailjs.com/api/v1.0/email/send";
 
     public void sendToAdmin(ContactRequest request) {
-        String content = "New message from: " + request.getFullName() + " (" + request.getEmail() + ")\n\n" +
-                "Subject: " + request.getSubject() + "\n\n" +
-                "Message:\n" + request.getMessage();
-
-        sendViaResend(adminEmail, "Portfolio Contact: " + request.getSubject(), content);
+        sendViaEmailJS(request);
     }
 
-    private void sendViaResend(String to, String subject, String text) {
+    // EmailJS handles both admin notification and auto-reply within its own template system
+    public void sendConfirmation(String toEmail, String name) {
+        // With EmailJS, the auto-reply is usually configured inside the EmailJS dashboard 
+        // as an 'Auto-Reply' or triggered by the same template. 
+        // We just need to make sure the API call is successful.
+    }
+
+    private void sendViaEmailJS(ContactRequest request) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        Map<String, Object> body = new HashMap<>();
+        body.put("service_id", serviceId);
+        body.put("template_id", templateId);
+        body.put("user_id", publicKey);
+        body.put("accessToken", privateKey);
+
+        Map<String, String> templateParams = new HashMap<>();
+        templateParams.put("from_name", request.getFullName());
+        templateParams.put("from_email", request.getEmail());
+        templateParams.put("subject", request.getSubject());
+        templateParams.put("message", request.getMessage());
+        // Ensure these keys match the {{variables}} in your EmailJS template!
+        
+        body.put("template_params", templateParams);
+
+        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+        
         try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_JSON);
-            headers.set("Authorization", "Bearer " + resendApiKey);
-
-            Map<String, Object> body = new HashMap<>();
-            body.put("from", "Aditya <onboarding@resend.dev>");
-            body.put("to", to);
-            body.put("subject", subject);
-            body.put("text", text);
-
-            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
-            ResponseEntity<String> response = restTemplate.postForEntity(RESEND_URL, entity, String.class);
-            System.out.println("Resend Response: " + response.getBody());
-        } catch (org.springframework.web.client.HttpClientErrorException e) {
-            System.err.println("Resend API Error: " + e.getResponseBodyAsString());
-            throw e; // Re-throw to trigger the 500 for now so we can see it
+            ResponseEntity<String> response = restTemplate.postForEntity(EMAILJS_URL, entity, String.class);
+            System.out.println("EmailJS Status: " + response.getStatusCode());
         } catch (Exception e) {
-            System.err.println("Generic Mail Error: " + e.getMessage());
+            System.err.println("EmailJS Error: " + e.getMessage());
             throw e;
         }
     }
