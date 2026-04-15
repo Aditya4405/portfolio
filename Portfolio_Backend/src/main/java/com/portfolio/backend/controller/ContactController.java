@@ -45,7 +45,7 @@ public class ContactController {
             return ResponseEntity.ok("Message sent successfully!");
             
         } catch (Exception e) {
-            // If confirmation email fails, treat the sender email as invalid/undeliverable
+            e.printStackTrace(); // This will show the real error in your Render logs
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body("Please enter a real valid email address.");
         }
