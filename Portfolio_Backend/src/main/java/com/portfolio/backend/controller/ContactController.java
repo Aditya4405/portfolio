@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/contact")
 @CrossOrigin(
-    origins = {"http://localhost:5173", "https://*.vercel.app"}, // Replace with your exact Vercel URL later for tighter security
+    origins = {
+        "http://localhost:5173", 
+        "https://portfolio-seven-mu-1bzs0b2u9m.vercel.app"
+    },
     allowCredentials = "true"
 )
 public class ContactController {
