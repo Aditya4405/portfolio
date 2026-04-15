@@ -11,9 +11,9 @@ import ContactSection from './components/sections/ContactSection'
 import HeroSection from './components/sections/HeroSection'
 import ProjectsSection from './components/sections/ProjectsSection'
 import SkillsSection from './components/sections/SkillsSection'
-import emailjs from 'emailjs-com'
 import BackgroundOrbs from './components/Effects/BackgroundOrbs'
 import { useTheme } from './hooks/useTheme.jsx'
+import axios from 'axios'
 import {
   aboutHighlights,
   achievements,
@@ -27,8 +27,9 @@ const resumeUrl = '/resume.pdf'
 const NAV_LINKS = ['about', 'skills', 'projects', 'achievements', 'contact']
 
 function App() {
-  const [formState, setFormState] = useState({ name: '', email: '', message: '' })
+  const [formState, setFormState] = useState({ name: '', email: '', subject: '', message: '' })
   const [formStatus, setFormStatus] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
@@ -74,19 +75,39 @@ function App() {
   const sendEmail = async (event) => {
     event.preventDefault()
     setFormStatus('Sending...')
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-    if (!serviceId || !templateId || !publicKey) {
-      setFormStatus('EmailJS keys not configured. Please email directly.')
-      return
-    }
+    setIsSubmitting(true)
+
     try {
-      await emailjs.send(serviceId, templateId, formState, publicKey)
-      setFormStatus('Message sent! Thanks for reaching out.')
-      setFormState({ name: '', email: '', message: '' })
-    } catch {
-      setFormStatus('Something went wrong. Please email me directly.')
+      // Replace with your production backend URL (e.g., https://your-backend.railway.app)
+      const API_URL = 'https://portfolio-1p0r.onrender.com'
+      
+      const payload = {
+        fullName: formState.name,
+        email: formState.email,
+        subject: formState.subject || 'Portfolio Inquiry', // Fallback subject
+        message: formState.message
+      }
+
+      const response = await axios.post(API_URL, payload)
+      
+      if (response.status === 200) {
+        setFormStatus('Message sent! Thanks for reaching out.')
+        setFormState({ name: '', email: '', subject: '', message: '' })
+      }
+    } catch (error) {
+      if (error.response) {
+        if (error.response.status === 429) {
+          setFormStatus('Daily limit reached. Try again tomorrow.')
+        } else if (error.response.status === 400) {
+          setFormStatus('Please enter a real valid email address.')
+        } else {
+          setFormStatus('Something went wrong. Please email me directly.')
+        }
+      } else {
+        setFormStatus('Connection error. Is the backend running?')
+      }
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -223,6 +244,7 @@ function App() {
           setFormState={setFormState}
           sendEmail={sendEmail}
           formStatus={formStatus}
+          isSubmitting={isSubmitting}
         />
       </main>
 
