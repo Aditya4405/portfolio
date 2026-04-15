@@ -63,8 +63,8 @@ function Chatbot({ replies = fallbackReplies }) {
                   <Bot size={18} />
                 </span>
                 <div>
-                  <p className="text-sm font-semibold text-white">AI Portfolio Assistant</p>
-                  <p className="text-xs text-slate-500">Instant answers with premium UI</p>
+                  <p className="text-sm font-bold text-zinc-900">Aditya&#39;s AI Assistant</p>
+                  <p className="text-xs font-medium text-zinc-600 mt-0.5">Ask me anything!</p>
                 </div>
               </div>
               <button type="button" onClick={() => setOpen(false)} className="chatbot-close">
@@ -93,6 +93,7 @@ function Chatbot({ replies = fallbackReplies }) {
             </div>
 
             <div className="p-4">
+              <div className="mb-2 text-xs font-medium text-zinc-500">Try asking:</div>
               <div className="mb-3 flex flex-wrap gap-2">
                 {quickReplies.map((reply) => (
                   <button key={reply} type="button" onClick={() => sendMessage(reply)} className="suggestion-chip">
@@ -108,12 +109,12 @@ function Chatbot({ replies = fallbackReplies }) {
                   sendMessage(input)
                 }}
               >
-                <MessageCircleMore size={16} className="text-slate-500" />
                 <input
                   value={input}
                   onChange={(event) => setInput(event.target.value)}
-                  className="flex-1 bg-transparent text-sm text-white outline-none placeholder:text-slate-500"
-                  placeholder="Ask something smart..."
+                  className="flex-1 bg-transparent px-4 py-2 text-sm outline-none placeholder:text-zinc-500"
+                  style={{ color: 'var(--text-primary)' }}
+                  placeholder="Ask me anything about Aditya..."
                 />
                 <button type="submit" className="chatbot-send">
                   <SendHorizonal size={16} />
