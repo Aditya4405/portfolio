@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Download } from 'lucide-react'
 import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi'
 import { SiLeetcode } from 'react-icons/si'
+import { useTheme } from '../../hooks/useTheme.jsx'
 
 const socialIcons = {
   GitHub: FiGithub,
@@ -45,7 +46,7 @@ function TypewriterText({ strings }) {
         display: 'inline-block',
         width: '2px',
         height: '1.1em',
-        background: 'var(--accent)',
+        background: '#ef4444',
         marginLeft: '3px',
         verticalAlign: 'middle',
         animation: 'blink 1s step-end infinite',
@@ -55,6 +56,8 @@ function TypewriterText({ strings }) {
 }
 
 function HeroSection({ personalInfo, resumeUrl }) {
+  const { theme } = useTheme()
+
   return (
     <section
       id="home"
@@ -62,13 +65,14 @@ function HeroSection({ personalInfo, resumeUrl }) {
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
-        paddingTop: '100px',
-        paddingBottom: '60px',
-        background: 'var(--bg-main)',
+        paddingTop: '120px',
+        paddingBottom: '80px',
+        background: 'transparent',
+        position: 'relative',
+        overflow: 'hidden',
       }}
     >
-      <div className="container">
-        <div style={{
+      <div className="container mx-auto px-6 relative z-10" style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
           gap: '64px',
@@ -80,55 +84,63 @@ function HeroSection({ personalInfo, resumeUrl }) {
 
             {/* Status badge */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: 'easeOut' }}
-              style={{ marginBottom: '24px' }}
+              initial={{ opacity: 0, y: 32, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+              style={{ marginBottom: '32px' }}
             >
               <span style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: '8px',
                 padding: '6px 14px',
-                borderRadius: '50px',
-                border: '1px solid rgba(59,130,246,0.35)',
-                background: 'rgba(59,130,246,0.08)',
-                fontSize: '0.8rem',
-                fontWeight: 600,
-                color: 'var(--accent-light)',
-                letterSpacing: '0.04em',
+                borderRadius: '999px',
+                border: theme === 'dark' ? '1px solid rgba(239, 68, 68, 0.25)' : '1px solid rgba(239, 68, 68, 0.15)',
+                background: theme === 'dark' ? 'rgba(239, 68, 68, 0.05)' : 'rgba(239, 68, 68, 0.03)',
+                fontSize: '11px',
+                fontWeight: 700,
+                color: '#ef4444',
+                letterSpacing: '0.22em',
+                textTransform: 'uppercase',
               }}>
-                <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#22c55e', display: 'inline-block', boxShadow: '0 0 6px #22c55e' }} />
-                Open to internships
+                <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#ef4444', boxShadow: '0 0 10px #ef4444' }} />
+                Welcome to my Universe
               </span>
             </motion.div>
 
             {/* Main heading */}
             <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, ease: 'easeOut', delay: 0.1 }}
+              initial={{ opacity: 0, y: 16, filter: 'blur(12px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.7, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
               style={{
-                fontSize: 'clamp(2.8rem, 6vw, 4.5rem)',
-                fontWeight: 800,
-                lineHeight: 1.08,
-                letterSpacing: '-1.5px',
-                color: 'var(--text-main)',
-                marginBottom: '16px',
+                fontSize: 'clamp(3rem, 7vw, 5.2rem)',
+                fontWeight: 900,
+                lineHeight: 1.02,
+                letterSpacing: '-0.04em',
+                marginBottom: '24px',
+                color: 'var(--text-primary)',
               }}
             >
-              Aditya Prajapati
+              Hi, I&#39;m <span style={{
+                background: theme === 'dark' 
+                  ? 'linear-gradient(135deg, #ffffff 20%, #ef4444 80%)'
+                  : 'none',
+                WebkitBackgroundClip: theme === 'dark' ? 'text' : 'unset',
+                WebkitTextFillColor: theme === 'dark' ? 'transparent' : 'unset',
+                color: theme === 'dark' ? 'transparent' : '#1e293b',
+              }}>{personalInfo.name}</span>
             </motion.h1>
 
             {/* Typewriter role */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.2 }}
+              initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.4 }}
               style={{
                 fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
                 fontWeight: 600,
-                color: 'var(--accent-light)',
+                color: '#ef4444',
                 marginBottom: '12px',
                 minHeight: '2rem',
               }}
@@ -143,7 +155,7 @@ function HeroSection({ personalInfo, resumeUrl }) {
               transition={{ duration: 0.5, ease: 'easeOut', delay: 0.25 }}
               style={{
                 fontSize: '0.92rem',
-                color: 'var(--text-soft)',
+                color: 'var(--text-secondary)',
                 marginBottom: '20px',
                 fontWeight: 500,
               }}
@@ -158,53 +170,72 @@ function HeroSection({ personalInfo, resumeUrl }) {
               transition={{ duration: 0.5, ease: 'easeOut', delay: 0.3 }}
               style={{
                 fontSize: '1rem',
-                color: 'var(--text-soft)',
+                color: 'var(--text-secondary)',
                 maxWidth: '500px',
                 lineHeight: 1.8,
                 marginBottom: '32px',
               }}
             >
-              I’m a 3rd-year Computer Science student passionate about building scalable full-stack applications and solving real-world problems through clean, impactful code. I love turning ideas into products and am actively seeking internship opportunities to grow as a software engineer.
+              I'm a 3rd-year Computer Science student passionate about building scalable full-stack applications and solving real-world problems through clean, impactful code. I love turning ideas into products and am actively seeking internship opportunities to grow as a software engineer.
             </motion.p>
 
             {/* CTAs */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.38 }}
-              style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '32px' }}
+              initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              transition={{ duration: 0.7, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
+              style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '40px' }}
             >
-              <a href="#projects" className="btn-primary">
-                View My Work <ArrowRight size={16} />
+              <a href="#projects" className="btn-primary" style={{ padding: '16px 36px', fontSize: '15px' }}>
+                View My Work <ArrowRight size={18} />
               </a>
-              <a href={resumeUrl} download className="btn-secondary">
-                <Download size={16} /> Download Resume
+              <a href={resumeUrl} download className="btn-secondary" style={{ padding: '16px 36px', fontSize: '15px', color: 'var(--text-primary)', borderColor: 'var(--card-border)' }}>
+                <Download size={18} /> Download Resume
               </a>
             </motion.div>
 
             {/* Social icons */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.45 }}
-              style={{ display: 'flex', gap: '10px' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 1, delay: 0.8 }}
+              style={{ display: 'flex', gap: '16px' }}
             >
-              {personalInfo.socials.map((social) => {
-                const Icon = socialIcons[social.label]
-                if (!Icon) return null
-                return (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="social-icon-btn"
-                    title={social.label}
-                  >
-                    <Icon size={18} />
-                  </a>
-                )
-              })}
+              {Object.entries(socialIcons).map(([name, Icon], i) => (
+                <motion.a
+                  key={name}
+                  href="#"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.5, delay: 0.8 + (i * 0.1), ease: [0.22, 1, 0.36, 1] }}
+                  style={{
+                    width: '44px',
+                    height: '44px',
+                    borderRadius: '12px',
+                    border: '1px solid var(--card-border)',
+                    background: 'var(--card-bg)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'var(--text-secondary)',
+                    transition: 'all 0.3s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = '#ef4444'
+                    e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)'
+                    e.currentTarget.style.background = 'rgba(239, 68, 68, 0.05)'
+                    e.currentTarget.style.transform = 'translateY(-4px)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'var(--text-secondary)'
+                    e.currentTarget.style.borderColor = 'var(--card-border)'
+                    e.currentTarget.style.background = 'var(--card-bg)'
+                    e.currentTarget.style.transform = 'translateY(0)'
+                  }}
+                >
+                  <Icon size={20} />
+                </motion.a>
+              ))}
             </motion.div>
           </div>
 
@@ -229,7 +260,7 @@ function HeroSection({ personalInfo, resumeUrl }) {
       objectFit: 'cover',
       borderRadius: '24px',
       display: 'block',
-      boxShadow: '0 20px 50px rgba(0,0,0,0.35)',
+      boxShadow: '0 28px 65px rgba(0,0,0,0.65), 0 0 0 1px rgba(192,57,43,0.12)',
     }}
   />
 
@@ -242,31 +273,31 @@ function HeroSection({ personalInfo, resumeUrl }) {
       position: 'absolute',
       bottom: '24px',
       right: '-20px',
-      background: 'var(--card-bg)',
-      border: '1px solid var(--border)',
-      borderRadius: '12px',
+      background: 'rgba(255,255,255,0.05)',
+      border: '1px solid rgba(192,57,43,0.35)',
+      borderRadius: '14px',
       padding: '12px 18px',
-      boxShadow: '0 8px 20px rgba(0,0,0,0.25)',
+      boxShadow: '0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(239,68,68,0.15)',
+      backdropFilter: 'blur(10px)',
     }}
   >
     <p style={{
       fontSize: '0.75rem',
-      fontWeight: 700,
-      color: 'var(--accent-light)',
+      fontWeight: 800,
+      color: '#ef4444',
       letterSpacing: '0.08em',
       textTransform: 'uppercase',
     }}>
       3rd Year
     </p>
-    <p style={{ fontSize: '0.75rem', color: 'var(--text-soft)', marginTop: '2px' }}>
+    <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.55)', marginTop: '2px' }}>
       B.Tech CSE
     </p>
   </motion.div>
 </motion.div>
 
         </div>
-      </div>
-    </section>
+      </section>
   )
 }
 
