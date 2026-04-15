@@ -1,8 +1,9 @@
-import {useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Chatbot from './components/Chatbot'
 import Lenis from '@studio-freight/lenis'
-import { ArrowUp } from 'lucide-react'
+import { ArrowUp, Sun, Moon } from 'lucide-react'
 import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi'
+import { motion, useScroll, useTransform } from 'framer-motion'
 import ScrollProgress from './components/Effects/ScrollProgress'
 import AboutSection from './components/sections/AboutSection'
 import AchievementsSection from './components/sections/AchievementsSection'
@@ -11,6 +12,8 @@ import HeroSection from './components/sections/HeroSection'
 import ProjectsSection from './components/sections/ProjectsSection'
 import SkillsSection from './components/sections/SkillsSection'
 import emailjs from 'emailjs-com'
+import BackgroundOrbs from './components/Effects/BackgroundOrbs'
+import { useTheme } from './hooks/useTheme.jsx'
 import {
   aboutHighlights,
   achievements,
@@ -28,9 +31,21 @@ function App() {
   const [formStatus, setFormStatus] = useState('')
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const { theme, toggleTheme } = useTheme()
+
+  const { scrollYProgress } = useScroll()
+
+  // Dynamic background color transition - adjusted for theme
+  const backgroundColor = useTransform(
+    scrollYProgress,
+    [0, 0.25, 0.5, 0.75, 1],
+    theme === 'dark' 
+      ? ['#050505', '#0f0505', '#121212', '#0f0505', '#050505']
+      : ['#fafafa', '#fceaea', '#f8f1f1', '#fceaea', '#fafafa']
+  )
 
   useEffect(() => {
-    const lenis = new Lenis({ duration: 1.1, smoothWheel: true })
+    const lenis = new Lenis({ duration: 1.1, smoothWheel: true, lerp: 0.15 })
     let frame = 0
     const raf = (time) => {
       lenis.raf(time)
@@ -43,9 +58,16 @@ function App() {
     }
   }, [])
 
+  // Navbar scroll logic
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 30)
-    window.addEventListener('scroll', onScroll, { passive: true })
+    const onScroll = () => {
+      setScrolled(window.scrollY > 50)
+    }
+
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', onScroll, { passive: true })
+      onScroll()
+    }
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
@@ -69,8 +91,10 @@ function App() {
   }
 
   return (
-    <div style={{ background: 'var(--bg-main)', color: 'var(--text-main)', minHeight: '100vh' }}>
+    <motion.div style={{ backgroundColor, color: theme === 'dark' ? '#ffffff' : '#0f172a', minHeight: '100vh', position: 'relative', overflowX: 'hidden' }}>
+
       <ScrollProgress />
+      <BackgroundOrbs />
 
       {/* ── NAV ── */}
       <header
@@ -79,27 +103,53 @@ function App() {
           top: 0,
           left: 0,
           right: 0,
-          zIndex: 50,
-          transition: 'background 0.3s ease, border-color 0.3s ease',
-          background: scrolled ? 'rgba(15,15,15,0.88)' : 'transparent',
-          borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
-          backdropFilter: 'blur(16px)',
-          WebkitBackdropFilter: 'blur(16px)',
+          zIndex: 100,
+          transition: 'all 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
+          background: scrolled 
+            ? (theme === 'dark' ? 'rgba(5, 5, 5, 0.8)' : 'rgba(250, 250, 250, 0.8)')
+            : 'transparent',
+          borderBottom: scrolled 
+            ? (theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.05)')
+            : '1px solid transparent',
+          backdropFilter: scrolled ? 'blur(20px)' : 'none',
+          WebkitBackdropFilter: scrolled ? 'blur(20px)' : 'none',
         }}
       >
-        <nav className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 0' }}>
+        <nav className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: scrolled ? '16px 0' : '24px 0', transition: 'padding 0.4s ease' }}>
           {/* Logo */}
-          <a href="#home" style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-main)', letterSpacing: '-0.02em' }}>
-            Aditya<span style={{ color: 'var(--accent)' }}>.</span>
+          <a href="#home" style={{ fontSize: '1.2rem', fontWeight: 900, color: theme === 'dark' ? '#ffffff' : '#0f172a', letterSpacing: '-0.03em' }}>
+            Aditya<span style={{ color: '#ef4444' }}>.</span>
           </a>
 
-          {/* Desktop links */}
-          <div className="nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
-            {NAV_LINKS.map((id) => (
-              <a key={id} href={`#${id}`} className="nav-link">
-                {id.charAt(0).toUpperCase() + id.slice(1)}
-              </a>
-            ))}
+          {/* Desktop Links + Theme Toggle */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+            <div className="nav-desktop" style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
+              {NAV_LINKS.map((id) => (
+                <a key={id} href={`#${id}`} className="nav-link" style={{ color: theme === 'dark' ? 'rgba(255,255,255,0.7' : 'rgba(15, 23, 42, 0.7)' }}>
+                  {id.charAt(0).toUpperCase() + id.slice(1)}
+                </a>
+              ))}
+            </div>
+
+            <button
+              onClick={toggleTheme}
+              style={{
+                background: theme === 'dark' ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
+                border: 'none',
+                width: '40px',
+                height: '40px',
+                borderRadius: '12px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                color: theme === 'dark' ? '#ffffff' : '#0f172a',
+                transition: 'all 0.3s ease',
+              }}
+              aria-label="Toggle theme"
+            >
+              {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+            </button>
           </div>
 
           {/* Hamburger (mobile) */}
@@ -122,7 +172,7 @@ function App() {
                 display: 'block',
                 width: '22px',
                 height: '2px',
-                background: 'var(--text-main)',
+                background: theme === 'dark' ? '#ffffff' : '#0f172a',
                 borderRadius: '2px',
                 transition: 'transform 0.25s ease, opacity 0.25s ease',
               }} />
@@ -133,9 +183,10 @@ function App() {
         {/* Mobile menu */}
         {menuOpen && (
           <div style={{
-            background: 'var(--bg-main)',
-            borderTop: '1px solid var(--border)',
+            background: 'var(--nav-bg)',
+            borderTop: '1px solid var(--card-border)',
             padding: '16px 0',
+            backdropFilter: 'blur(20px)',
           }}>
             <div className="container" style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
               {NAV_LINKS.map((id) => (
@@ -143,7 +194,11 @@ function App() {
                   key={id}
                   href={`#${id}`}
                   className="nav-link"
-                  style={{ padding: '10px 0', fontSize: '1rem' }}
+                  style={{ 
+                    padding: '10px 0', 
+                    fontSize: '1rem',
+                    color: theme === 'dark' ? 'rgba(255,255,255,0.7)' : 'rgba(15, 23, 42, 0.7)'
+                  }}
                   onClick={() => setMenuOpen(false)}
                 >
                   {id.charAt(0).toUpperCase() + id.slice(1)}
@@ -155,44 +210,38 @@ function App() {
       </header>
 
       {/* ── MAIN ── */}
-      <main>
+      <main style={{ position: 'relative', zIndex: 1, background: 'transparent' }}>
         <HeroSection personalInfo={personalInfo} resumeUrl={resumeUrl} />
-
-        <section id="about" className="alt-bg" style={{ padding: '90px 0' }}>
-          <AboutSection personalInfo={personalInfo} aboutHighlights={aboutHighlights} />
-        </section>
-
-        <section id="skills" style={{ padding: '90px 0' }}>
-          <SkillsSection />
-        </section>
-
-        <section id="projects" className="alt-bg" style={{ padding: '90px 0' }}>
-          <ProjectsSection projects={projects} />
-        </section>
-
-        <section id="achievements" style={{ padding: '90px 0' }}>
-          <AchievementsSection achievements={achievements} />
-        </section>
-
-        <section id="contact" className="alt-bg" style={{ padding: '90px 0' }}>
-          <ContactSection
-            personalInfo={personalInfo}
-            resumeUrl={resumeUrl}
-            formState={formState}
-            setFormState={setFormState}
-            sendEmail={sendEmail}
-            formStatus={formStatus}
-          />
-        </section>
+        <AboutSection personalInfo={personalInfo} aboutHighlights={aboutHighlights} />
+        <SkillsSection />
+        <ProjectsSection projects={projects} />
+        <AchievementsSection achievements={achievements} />
+        <ContactSection
+          personalInfo={personalInfo}
+          resumeUrl={resumeUrl}
+          formState={formState}
+          setFormState={setFormState}
+          sendEmail={sendEmail}
+          formStatus={formStatus}
+        />
       </main>
 
       {/* ── FOOTER ── */}
-      <footer style={{ borderTop: '1px solid var(--border)', padding: '28px 0' }}>
-        <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px' }}>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-soft)' }}>
-            © {new Date().getFullYear()} Aditya Prajapati · Built with React · Open to Internships
+      <footer style={{ 
+        padding: '64px 0', 
+        borderTop: '1px solid var(--card-border)',
+        background: 'var(--bg-secondary)',
+        position: 'relative',
+        zIndex: 10
+      }}>
+        <div className="container" style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '1.2rem', fontWeight: 900, color: 'var(--text-primary)', marginBottom: '16px' }}>
+            Aditya<span style={{ color: '#ef4444' }}>.</span>
+          </div>
+          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '32px' }}>
+            Built with React & Framer Motion. © {new Date().getFullYear()} Aditya Prajapati.
           </p>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
             {[
               { icon: FiGithub, href: 'https://github.com/Aditya4405', label: 'GitHub' },
               { icon: FiLinkedin, href: 'https://www.linkedin.com/in/adityaprajapati', label: 'LinkedIn' },
@@ -202,7 +251,7 @@ function App() {
                 <Icon size={16} />
               </a>
             ))}
-            <a href="#home" className="btn-secondary" style={{ padding: '7px 16px', fontSize: '0.8rem', borderRadius: '8px', marginLeft: '8px' }}>
+            <a href="#home" className="btn-secondary" style={{ padding: '7px 16px', fontSize: '0.75rem', borderRadius: '8px', marginLeft: '8px' }}>
               <ArrowUp size={14} /> Top
             </a>
           </div>
@@ -210,7 +259,7 @@ function App() {
       </footer>
 
     <Chatbot replies={chatbotReplies} />
-    </div>
+    </motion.div>
   )
 }
 
