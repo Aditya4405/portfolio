@@ -38,17 +38,26 @@ public class MailService {
     }
 
     private void sendViaResend(String to, String subject, String text) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Authorization", "Bearer " + resendApiKey);
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+            headers.set("Authorization", "Bearer " + resendApiKey);
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("from", "Portfolio <onboarding@resend.dev>"); // Resend default for free testing
-        body.put("to", to);
-        body.put("subject", subject);
-        body.put("text", text);
+            Map<String, Object> body = new HashMap<>();
+            body.put("from", "Aditya <onboarding@resend.dev>");
+            body.put("to", to);
+            body.put("subject", subject);
+            body.put("text", text);
 
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
-        restTemplate.postForEntity(RESEND_URL, entity, String.class);
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+            ResponseEntity<String> response = restTemplate.postForEntity(RESEND_URL, entity, String.class);
+            System.out.println("Resend Response: " + response.getBody());
+        } catch (org.springframework.web.client.HttpClientErrorException e) {
+            System.err.println("Resend API Error: " + e.getResponseBodyAsString());
+            throw e; // Re-throw to trigger the 500 for now so we can see it
+        } catch (Exception e) {
+            System.err.println("Generic Mail Error: " + e.getMessage());
+            throw e;
+        }
     }
 }
