@@ -79,7 +79,7 @@ function App() {
 
     try {
       // Replace with your production backend URL (e.g., https://your-backend.railway.app)
-      const API_URL = 'https://portfolio-1p0r.onrender.com'
+      const API_URL = 'https://portfolio-1p0r.onrender.com/api/contact/send'
       
       const payload = {
         fullName: formState.name,
