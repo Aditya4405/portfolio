@@ -1,12 +1,11 @@
-import { useState, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react'
 
-export function useTheme() {
+const ThemeContext = createContext()
+
+export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
       return localStorage.getItem('theme')
-    }
-    if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark'
     }
     return 'dark'
   })
@@ -22,5 +21,17 @@ export function useTheme() {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark')
   }
 
-  return { theme, toggleTheme }
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  )
+}
+
+export function useTheme() {
+  const context = useContext(ThemeContext)
+  if (context === undefined) {
+    throw new Error('useTheme must be used within a ThemeProvider')
+  }
+  return context
 }

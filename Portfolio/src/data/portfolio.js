@@ -149,13 +149,13 @@ export const counters = [
 
 export const chatbotReplies = {
   about:
-    'Aditya is a 3rd-year B.Tech CSE student at PSIT Kanpur, passionate about building full-stack web apps with the MERN stack.',
+    'Aditya is a 3rd-year B.Tech CSE student at PSIT Kanpur, focusing on Java Backend Development and building robust applications with Spring Boot.',
   projects:
     'Featured projects include Health Report Analyzer, Voice Cooking Assistant, AI Sign Language Translator, and MapmyPSIT.',
   skills:
-    'Aditya works with HTML, CSS, JavaScript, React, Node.js, Express, MongoDB, Java, Spring Boot, Git, and Postman.',
+    'Aditya is strong in React, Node.js, Java, Spring Boot, REST APIs, MySQL, MongoDB, and Firebase.',
   resume:
     'Use the Download Resume button in the hero or contact section.',
   contact:
-    'Reach out via the contact form, email at adityaprajapati.dev@gmail.com, or through the social links.',
+    'Reach out via the contact form, email at adityaprajapati4405@gmail.com, or through the social links.',
 }
