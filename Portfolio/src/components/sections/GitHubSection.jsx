@@ -5,14 +5,14 @@ import SectionHeading from '../SectionHeading'
 
 const VP = { once: true, amount: 0.1 }
 const base = { initial: { opacity: 0, y: 40 }, whileInView: { opacity: 1, y: 0 }, viewport: VP }
-const t = (delay = 0) => ({ transition: { duration: 0.7, ease: 'easeOut', delay } })
+const t = (delay = 0) => ({ transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay } })
 
 function GitHubSection({ personalInfo, github, githubHighlights }) {
   const languageTotal = github.languages.reduce((sum, [, count]) => sum + count, 0)
   const pieStops = github.languages.length
     ? github.languages.reduce(
         (acc, [, count], index) => {
-          const colors = ['#00D4FF', '#8b5cf6', '#60A5FA', '#a855f7', '#38bdf8']
+          const colors = ['#c0392b', '#e05030', '#8b1a1a', '#cc4433', '#a03020']
           const start = acc.offset
           const end = start + (count / languageTotal) * 100
           acc.stops.push(`${colors[index % colors.length]} ${start}% ${end}%`)
@@ -21,7 +21,7 @@ function GitHubSection({ personalInfo, github, githubHighlights }) {
         },
         { offset: 0, stops: [] },
       ).stops.join(', ')
-    : '#050816'
+    : '#0a0000'
 
   return (
     <section id="github" className="px-6 py-24 lg:px-10">
@@ -40,16 +40,16 @@ function GitHubSection({ personalInfo, github, githubHighlights }) {
           {/* Left column */}
           <div className="flex flex-col gap-6">
             <motion.div {...base} {...t(0.05)}
-              className="flex items-center gap-4 border border-white/10 bg-[#0B1120]/50 rounded-2xl p-5">
+              style={{ display: 'flex', alignItems: 'center', gap: '16px', border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.03)', borderRadius: '16px', padding: '20px', backdropFilter: 'blur(10px)' }}>
               <img
                 src={github.profile?.avatar_url ?? personalInfo.profileImage}
                 alt="GitHub avatar"
-                className="h-16 w-16 rounded-xl border border-white/10 object-cover"
+                style={{ width: '64px', height: '64px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)', objectFit: 'cover' }}
               />
               <div>
-                <p className="text-[0.65rem] uppercase tracking-[0.3em] text-[#00D4FF] font-bold">Profile Snapshot</p>
-                <h3 className="mt-1 text-lg font-bold text-white">{github.profile?.name ?? personalInfo.name}</h3>
-                <p className="mt-0.5 text-xs text-slate-400 leading-5">{github.profile?.bio ?? 'Full-stack engineer with a backend and AI mindset.'}</p>
+                <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.3em', color: '#e05030', fontWeight: 700 }}>Profile Snapshot</p>
+                <h3 style={{ marginTop: '4px', fontSize: '1.1rem', fontWeight: 700, color: '#ffffff' }}>{github.profile?.name ?? personalInfo.name}</h3>
+                <p style={{ marginTop: '2px', fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', lineHeight: 1.6 }}>{github.profile?.bio ?? 'Full-stack engineer with a backend and AI mindset.'}</p>
               </div>
             </motion.div>
 
@@ -59,25 +59,25 @@ function GitHubSection({ personalInfo, github, githubHighlights }) {
                 const Icon = icons[i] ?? GitBranch
                 return (
                   <motion.div key={item.label} {...base} {...t(i * 0.07)}
-                    className="border border-white/10 bg-[#0B1120]/50 rounded-2xl p-5 hover:border-[#00D4FF]/30 transition-colors">
-                    <Icon size={20} className="text-[#00D4FF]" />
-                    <p className="mt-3 text-[1.75rem] font-bold text-white">{item.value}</p>
-                    <p className="mt-1 text-[0.65rem] uppercase tracking-[0.25em] text-[#94A3B8] font-bold">{item.label}</p>
+                    style={{ border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.03)', borderRadius: '16px', padding: '20px', backdropFilter: 'blur(10px)', transition: 'border-color 0.3s ease, background 0.3s ease' }}
+                    whileHover={{ borderColor: 'rgba(192,57,43,0.35)', background: 'rgba(255,255,255,0.05)' }}>
+                    <Icon size={20} style={{ color: '#c0392b' }} />
+                    <p style={{ marginTop: '12px', fontSize: '1.75rem', fontWeight: 700, color: '#ffffff' }}>{item.value}</p>
+                    <p style={{ marginTop: '4px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.25em', color: 'rgba(255,255,255,0.5)', fontWeight: 700 }}>{item.label}</p>
                   </motion.div>
                 )
               })}
             </div>
 
             <motion.div {...base} {...t(0.1)}
-              className="border border-white/10 bg-[#0B1120]/50 rounded-2xl p-6 flex flex-col items-center">
-              <div className="w-20 h-20 rounded-full"
-                style={{ background: `conic-gradient(${pieStops})` }} />
-              <p className="mt-4 text-[0.65rem] uppercase tracking-[0.28em] text-[#94A3B8] font-bold">Language Graph</p>
-              <div className="mt-4 w-full space-y-2">
+              style={{ border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.03)', borderRadius: '16px', padding: '24px', display: 'flex', flexDirection: 'column', alignItems: 'center', backdropFilter: 'blur(10px)' }}>
+              <div style={{ width: '80px', height: '80px', borderRadius: '50%', background: `conic-gradient(${pieStops})` }} />
+              <p style={{ marginTop: '16px', fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.28em', color: 'rgba(255,255,255,0.5)', fontWeight: 700 }}>Language Graph</p>
+              <div style={{ marginTop: '16px', width: '100%' }}>
                 {github.languages.map(([lang, count]) => (
-                  <div key={lang} className="flex justify-between text-[0.85rem] text-slate-400 border-b border-white/5 py-1.5">
+                  <div key={lang} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', color: 'rgba(255,255,255,0.55)', borderBottom: '1px solid rgba(255,255,255,0.05)', padding: '6px 0' }}>
                     <span>{lang}</span>
-                    <span className="text-slate-500">{count} Repos</span>
+                    <span style={{ color: 'rgba(255,255,255,0.35)' }}>{count} Repos</span>
                   </div>
                 ))}
               </div>
@@ -85,18 +85,18 @@ function GitHubSection({ personalInfo, github, githubHighlights }) {
           </div>
 
           {/* Right column */}
-          <div className="space-y-6">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             <motion.div {...base} {...t(0.05)}
-              className="border border-white/10 bg-[#0B1120]/50 rounded-2xl p-6 overflow-hidden">
-              <p className="text-[0.65rem] uppercase tracking-[0.35em] text-[#00D4FF] font-bold mb-5">Contribution Grid</p>
-              <div className="overflow-x-auto">
+              style={{ border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.03)', borderRadius: '16px', padding: '24px', overflow: 'hidden', backdropFilter: 'blur(10px)' }}>
+              <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.35em', color: '#e05030', fontWeight: 700, marginBottom: '20px' }}>Contribution Grid</p>
+              <div style={{ overflowX: 'auto' }}>
                 <GitHubCalendar
                   username={personalInfo.githubUsername}
                   colorScheme="dark"
                   fontSize={11}
                   blockSize={11}
                   blockMargin={4}
-                  theme={{ dark: ['#050816', '#083344', '#155e75', '#0891b2', '#00D4FF'] }}
+                  theme={{ dark: ['#0a0000', '#2a0505', '#5a0f0f', '#8b1a1a', '#c0392b'] }}
                 />
               </div>
             </motion.div>
@@ -105,15 +105,16 @@ function GitHubSection({ personalInfo, github, githubHighlights }) {
               {github.repos.slice(0, 4).map((repo, i) => (
                 <motion.a key={repo.id} href={repo.html_url} target="_blank" rel="noreferrer"
                   {...base} {...t(i * 0.08)}
-                  className="flex flex-col border border-white/5 bg-[#0B1120] rounded-2xl p-5 hover:border-[#00D4FF]/30 hover:bg-white/5 transition-all hover:-translate-y-1">
-                  <p className="text-[0.65rem] uppercase tracking-[0.3em] text-[#00D4FF] font-bold">Repository</p>
-                  <h3 className="mt-2 text-lg font-bold text-white truncate">{repo.name}</h3>
-                  <p className="mt-2 text-[0.85rem] leading-6 text-slate-400 line-clamp-2">
+                  style={{ display: 'flex', flexDirection: 'column', border: '1px solid rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.03)', borderRadius: '16px', padding: '20px', backdropFilter: 'blur(10px)', transition: 'border-color 0.3s ease, background 0.3s ease, transform 0.3s ease' }}
+                  whileHover={{ borderColor: 'rgba(192,57,43,0.35)', background: 'rgba(255,255,255,0.05)', translateY: -4 }}>
+                  <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.3em', color: '#e05030', fontWeight: 700 }}>Repository</p>
+                  <h3 style={{ marginTop: '8px', fontSize: '1rem', fontWeight: 700, color: '#ffffff', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{repo.name}</h3>
+                  <p style={{ marginTop: '8px', fontSize: '0.85rem', lineHeight: 1.6, color: 'rgba(255,255,255,0.55)', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                     {repo.description ?? "A public project from Aditya's GitHub."}
                   </p>
-                  <div className="mt-auto flex items-center justify-between pt-4 text-[0.75rem] text-slate-500">
+                  <div style={{ marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '16px', fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)' }}>
                     <span>{repo.language ?? 'Mixed'}</span>
-                    <span className="flex items-center gap-1.5"><Zap size={12} className="text-[#A855F7]" />{repo.stargazers_count ?? 0}</span>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Zap size={12} style={{ color: '#c0392b' }} />{repo.stargazers_count ?? 0}</span>
                   </div>
                 </motion.a>
               ))}
