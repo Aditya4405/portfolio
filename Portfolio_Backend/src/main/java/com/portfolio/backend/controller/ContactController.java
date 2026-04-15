@@ -33,21 +33,25 @@ public class ContactController {
         }
 
         try {
-            // 2. Real Email Validation (Attempt to send confirmation email first)
-            mailService.sendConfirmation(request.getEmail(), request.getFullName());
-            
-            // 3. Send to Admin
+            // 1. Send reaching out notification to Admin (This is most important)
             mailService.sendToAdmin(request);
+
+            // 2. Try to send confirmation to user (Might fail on Resend free tier)
+            try {
+                mailService.sendConfirmation(request.getEmail(), request.getFullName());
+            } catch (Exception e) {
+                System.out.println("Wait: Resend free tier blocked visitor confirmation. Admin mail still sent.");
+            }
             
-            // 4. Increment Quota
+            // 3. Increment Quota
             quotaService.increment(request.getEmail());
 
             return ResponseEntity.ok("Message sent successfully!");
             
         } catch (Exception e) {
-            e.printStackTrace(); // This will show the real error in your Render logs
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Please enter a real valid email address.");
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Server error while sending message. Please try again later.");
         }
     }
 }
