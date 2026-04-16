@@ -97,9 +97,9 @@ function App() {
     } catch (error) {
       if (error.response) {
         if (error.response.status === 429) {
-          setFormStatus('Daily limit reached. Try again tomorrow.')
+          setFormStatus(error.response.data || 'Daily limit reached. Try again tomorrow.')
         } else if (error.response.status === 400) {
-          setFormStatus('Please enter a real valid email address.')
+          setFormStatus(error.response.data || 'Please enter a valid email address.')
         } else {
           setFormStatus('Something went wrong. Please email me directly.')
         }

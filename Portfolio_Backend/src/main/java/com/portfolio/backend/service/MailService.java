@@ -89,11 +89,13 @@ public class MailService {
             ResponseEntity<String> response = restTemplate.postForEntity(EMAILJS_URL, entity, String.class);
             System.out.println("EmailJS " + logPrefix + " [To: " + toEmail + "]: Success (" + response.getStatusCode() + ")");
         } catch (org.springframework.web.client.HttpStatusCodeException e) {
-            System.err.println("EmailJS " + logPrefix + " Error Status: " + e.getStatusCode());
-            System.err.println("EmailJS " + logPrefix + " Error Response: " + e.getResponseBodyAsString());
+            String errorMsg = "EmailJS " + logPrefix + " Error: " + e.getResponseBodyAsString();
+            System.err.println(errorMsg);
+            throw new RuntimeException("Email delivery failed: " + e.getResponseBodyAsString());
         } catch (Exception e) {
             System.err.println("EmailJS " + logPrefix + " Generic Error: " + e.getMessage());
             e.printStackTrace();
+            throw new RuntimeException("Generic email error: " + e.getMessage());
         }
     }
 }

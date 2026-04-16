@@ -36,18 +36,23 @@ public class ContactController {
             // 1. Send reaching out notification to Admin (This is most important)
             mailService.sendToAdmin(request);
 
-            // 2. Try to send confirmation to user (Might fail on Resend free tier)
-            try {
-                mailService.sendConfirmation(request.getEmail(), request.getFullName());
-            } catch (Exception e) {
-                System.out.println("Wait: Resend free tier blocked visitor confirmation. Admin mail still sent.");
-            }
+            // 2. Try to send confirmation to user
+            mailService.sendConfirmation(request.getEmail(), request.getFullName());
             
             // 3. Increment Quota
             quotaService.increment(request.getEmail());
 
             return ResponseEntity.ok("Message sent successfully!");
             
+        } catch (RuntimeException e) {
+            String message = e.getMessage();
+            if (message != null && message.contains("Email delivery failed")) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Invalid email address. Please check and try again.");
+            }
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Mail service error. Please try again later.");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
