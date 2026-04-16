@@ -31,6 +31,8 @@ function HomePage() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
+  
+  // THE CORRECT FILENAME IN PUBLIC FOLDER
   const resumeUrl = '/Aditya_Prajapati_Resume.pdf'
 
   const { scrollYProgress } = useScroll()
