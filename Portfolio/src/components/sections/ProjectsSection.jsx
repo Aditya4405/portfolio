@@ -308,11 +308,70 @@ function ProjectsSection({ projects }) {
         {/* Global Responsive Overrides for this section */}
         <style>
           {`
-            @media (max-width: 1024px) {
-              .project-visual-side, .project-content-side { flex: 1 1 100% !important; }
-              #projects .container > div { flex-direction: column !important; }
-              .project-visual-frame { max-height: 300px !important; }
-              .other-projects-grid { grid-template-columns: 1fr !important; }
+            @media (max-width: 768px) {
+              #projects { 
+                padding: 60px 0 !important; 
+              }
+
+              /* The project row wrapper */
+              #projects .container > div:nth-child(2) > div {
+                min-height: auto !important; /* Remove the 480px gap */
+                padding: 30px 0 !important;
+              }
+
+              /* The actual flex row that needs to become a column */
+              #projects .container > div:nth-child(2) > div > .container {
+                flex-direction: column !important;
+                gap: 20px !important;
+                align-items: flex-start !important;
+              }
+
+              .project-visual-side {
+                flex: 0 0 auto !important;
+                width: 100% !important;
+                margin-bottom: 20px !important;
+              }
+
+              .project-content-side {
+                flex: 0 0 auto !important;
+                width: 100% !important;
+                padding: 0 !important;
+                opacity: 1 !important; /* Force visibility */
+                transform: none !important; /* Prevent scroll-trigger delay/hidden state */
+              }
+
+              .project-visual-frame {
+                max-height: 220px !important;
+                height: auto !important;
+                aspect-ratio: 16/10 !important;
+              }
+
+              .project-content-side h3 {
+                font-size: 1.5rem !important;
+                margin-bottom: 8px !important;
+              }
+
+              .project-content-side p {
+                font-size: 0.9rem !important;
+                line-height: 1.5 !important;
+              }
+
+              /* Buttons spacing fix */
+              .project-content-side div[style*="display: flex"][style*="gap: 10px"] {
+                flex-wrap: wrap !important;
+                margin-top: 15px !important;
+              }
+
+              /* Safe bottom space - adjusted for better fit */
+              #projects .container > div:last-child {
+                margin-top: 40px !important;
+                padding-bottom: 60px !important;
+              }
+
+              .other-projects-grid {
+                grid-template-columns: 1fr !important;
+                padding-bottom: 80px !important;
+              }
             }
           `}
         </style>
