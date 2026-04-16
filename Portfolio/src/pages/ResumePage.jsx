@@ -32,7 +32,7 @@ const SectionHeader = ({ icon: Icon, title }) => (
 
 const ResumePage = () => {
   const { theme } = useTheme()
-  const resumeUrl = '/resume.pdf'
+  const resumeUrl = '/Aditya_Prajapati_Resume.pdf'
 
   useEffect(() => {
     window.scrollTo(0, 0)

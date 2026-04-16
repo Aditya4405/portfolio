@@ -31,7 +31,7 @@ function HomePage() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const { theme, toggleTheme } = useTheme()
-  const resumeUrl = '/resume.pdf'
+  const resumeUrl = '/Aditya_Prajapati_Resume.pdf'
 
   const { scrollYProgress } = useScroll()
 
