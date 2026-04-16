@@ -47,7 +47,6 @@ const ResumePage = () => {
     name: "ADITYA PRAJAPATI",
     location: "Kanpur, Uttar Pradesh, India",
     email: "adityaprajapati4405@gmail.com",
-    phone: "6388244464",
     linkedin: "linkedin.com/in/aditya-prajapati-4405q/",
     github: "github.com/Aditya4405",
     objective: "Motivated Computer Science undergraduate with hands-on experience in full-stack development using Java, Spring Boot, and React.js. Passionate about building scalable applications and solving real-world problems while continuously improving technical and collaborative skills.",
@@ -202,7 +201,6 @@ const ResumePage = () => {
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><MapPin size={15} style={{ color: '#ef4444' }} /> {resumeData.location}</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Mail size={15} style={{ color: '#ef4444' }} /> {resumeData.email}</div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}><Phone size={15} style={{ color: '#ef4444' }} /> {resumeData.phone}</div>
             </motion.div>
 
             <motion.div 
