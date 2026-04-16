@@ -71,8 +71,83 @@ function AchievementsSection({ achievements }) {
           position: 'relative',
           zIndex: 10,
         }} className="achievements-split">
-          <style>{`
-            @media (max-width: 1024px) {
+        <style>{`
+            @media (max-width: 768px) {
+              /* Section Header */
+              .section-title { font-size: clamp(1.8rem, 8vw, 2.5rem) !important; }
+              
+              /* Split Layout Fix */
+              .achievements-split { 
+                flex-direction: column !important; 
+                min-height: auto !important;
+                gap: 20px !important;
+              }
+              
+              /* Certificate Viewer - MUST BE VISIBLE */
+              .cert-viewer-side { 
+                flex: 0 0 auto !important; 
+                width: 100% !important;
+                height: 280px !important; /* Fixed height to prevent collapse */
+                min-height: 260px !important;
+                position: relative !important;
+                overflow: hidden !important;
+              }
+
+              .cert-viewer-side > div {
+                padding: 15px !important;
+              }
+
+              /* Certificate Image */
+              .cert-viewer-side img {
+                max-height: 180px !important;
+                width: auto !important;
+                height: auto !important;
+              }
+
+              /* Slider Controls - Attached to Image */
+              .cert-viewer-side button {
+                width: 36px !important;
+                height: 36px !important;
+                left: 10px !important;
+              }
+              .cert-viewer-side button:last-of-type {
+                left: auto !important;
+                right: 10px !important;
+              }
+              
+              /* Dots progress */
+              .cert-viewer-side div[style*="bottom: 20px"] {
+                bottom: 10px !important;
+              }
+
+              /* Details Side */
+              .cert-details-side { 
+                flex: 0 0 auto !important; 
+                width: 100% !important;
+                padding: 10px 0 !important;
+                text-align: left !important;
+              }
+
+              .cert-details-side h3 {
+                font-size: 1.5rem !important;
+                line-height: 1.2 !important;
+              }
+
+              /* Skills Pills Wrap */
+              .cert-details-side div[style*="display: flex"][style*="flex-wrap: wrap"] {
+                gap: 6px !important;
+              }
+
+              /* CTA Button Group */
+              .cert-details-side .btn-primary {
+                width: 100% !important;
+                justify-content: center !important;
+                margin-bottom: 90px !important; /* Safe space for chatbot */
+                padding: 14px !important;
+              }
+            }
+
+            @media (min-width: 769px) and (max-width: 1024px) {
               .achievements-split { flex-direction: column !important; }
               .cert-viewer-side { flex: 1 1 100% !important; height: 350px !important; }
               .cert-details-side { flex: 1 1 100% !important; padding: 0 !important; }
