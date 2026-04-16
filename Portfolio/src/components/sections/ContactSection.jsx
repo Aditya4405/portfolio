@@ -174,19 +174,35 @@ function ContactSection({ personalInfo, resumeUrl, formState, setFormState, send
                 justifyContent: 'center', 
                 padding: '16px', 
                 marginTop: '8px',
-                opacity: isSubmitting ? 0.7 : 1,
-                cursor: isSubmitting ? 'not-allowed' : 'pointer'
+                opacity: isSubmitting ? 0.9 : 1,
+                cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                overflow: 'hidden',
+                position: 'relative'
               }}
             >
               {isSubmitting ? (
-                <motion.div
-                  animate={{ rotate: 360 }}
-                  transition={{ repeat: Infinity, duration: 1, ease: 'linear' }}
-                  style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
-                >
-                  <div style={{ width: '18px', height: '18px', border: '2px solid white', borderTopColor: 'transparent', borderRadius: '50%' }} />
-                  Sending...
-                </motion.div>
+                <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+                  <div style={{ width: '120px', height: '14px', position: 'relative', overflow: 'hidden' }}>
+                    <motion.svg 
+                      width="240" 
+                      height="14" 
+                      viewBox="0 0 240 14"
+                      initial={{ x: -120 }}
+                      animate={{ x: 0 }}
+                      transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                    >
+                      <path 
+                        d="M0 7 L5 2 L10 7 L15 12 L20 7 L25 2 L30 7 L35 12 L40 7 L45 2 L50 7 L55 12 L60 7 L65 2 L70 7 L75 12 L80 7 L85 2 L90 7 L95 12 L100 7 L105 2 L110 7 L115 12 L120 7 L125 2 L130 7 L135 12 L140 7 L145 2 L150 7 L155 12 L160 7 L165 2 L170 7 L175 12 L180 7 L185 2 L190 7 L195 12 L200 7 L205 2 L210 7 L215 12 L220 7 L225 2 L230 7 L235 12 L240 7" 
+                        fill="none" 
+                        stroke="white" 
+                        strokeWidth="3" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round" 
+                      />
+                    </motion.svg>
+                  </div>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.05em' }}>SENDING...</span>
+                </div>
               ) : (
                 <><Send size={18} /> Send Message</>
               )}
