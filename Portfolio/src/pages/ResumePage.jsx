@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Download, Printer, Mail, MapPin, Phone, Github, Linkedin, ExternalLink, Award, BookOpen, Briefcase, Code, GraduationCap, CheckCircle2 } from 'lucide-react'
+import { ArrowLeft, Download, Printer, Mail, MapPin, Phone, ExternalLink, Award, BookOpen, Briefcase, Code, GraduationCap, CheckCircle2 } from 'lucide-react'
+import { FiGithub, FiLinkedin } from 'react-icons/fi'
 import { personalInfo } from '../data/portfolio'
 import { useTheme } from '../hooks/useTheme'
 
@@ -208,8 +209,8 @@ const ResumePage = () => {
                {...fadeUp(0.3)}
                style={{ display: 'flex', justifyContent: 'center', gap: '24px', fontSize: '0.9rem' }}
             >
-              <a href={"https://" + resumeData.linkedin} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)', textDecoration: 'none' }} className="link-hover"><Linkedin size={15} /> LinkedIn</a>
-              <a href={"https://" + resumeData.github} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)', textDecoration: 'none' }} className="link-hover"><Github size={15} /> GitHub</a>
+              <a href={"https://" + resumeData.linkedin} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)', textDecoration: 'none' }} className="link-hover"><FiLinkedin size={15} /> LinkedIn</a>
+              <a href={"https://" + resumeData.github} target="_blank" rel="noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)', textDecoration: 'none' }} className="link-hover"><FiGithub size={15} /> GitHub</a>
             </motion.div>
           </div>
 

@@ -185,13 +185,16 @@ function HeroSection({ personalInfo, resumeUrl }) {
               initial={{ opacity: 0, y: 24, filter: 'blur(10px)' }}
               animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
               transition={{ duration: 0.7, delay: 0.55, ease: [0.22, 1, 0.36, 1] }}
-              style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '40px' }}
+              style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', alignItems: 'center', marginBottom: '40px' }}
             >
               <a href="#projects" className="btn-primary" style={{ padding: '16px 36px', fontSize: '15px' }}>
                 View My Work <ArrowRight size={18} />
               </a>
-              <Link to="/resume" className="btn-secondary" style={{ padding: '16px 36px', fontSize: '15px', color: 'var(--text-primary)', borderColor: 'var(--card-border)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                View Resume
+              <a href={resumeUrl} download className="btn-secondary" style={{ padding: '16px 36px', fontSize: '15px', color: 'var(--text-primary)', borderColor: 'var(--card-border)', display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
+                <Download size={18} /> Download CV
+              </a>
+              <Link to="/resume" style={{ fontSize: '14px', fontWeight: 600, color: '#ef4444', textDecoration: 'none', marginLeft: '8px', display: 'flex', alignItems: 'center', gap: '6px' }} className="hover:underline">
+                View Digital Resume <ArrowRight size={14} />
               </Link>
             </motion.div>
 
