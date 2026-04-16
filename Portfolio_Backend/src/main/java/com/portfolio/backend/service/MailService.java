@@ -15,8 +15,11 @@ public class MailService {
     @Value("${EMAILJS_SERVICE_ID}")
     private String serviceId;
 
-    @Value("${EMAILJS_TEMPLATE_ID}")
-    private String templateId;
+    @Value("${EMAILJS_ADMIN_TEMPLATE_ID:${EMAILJS_TEMPLATE_ID}}")
+    private String adminTemplateId;
+
+    @Value("${EMAILJS_VISITOR_TEMPLATE_ID:${EMAILJS_TEMPLATE_ID}}")
+    private String visitorTemplateId;
 
     @Value("${EMAILJS_PUBLIC_KEY}")
     private String publicKey;
@@ -31,17 +34,19 @@ public class MailService {
     private static final String EMAILJS_URL = "https://api.emailjs.com/api/v1.0/email/send";
 
     public void sendToAdmin(ContactRequest request) {
-        sendViaEmailJS(request);
+        sendViaEmailJS(adminTemplateId, adminEmail, request.getFullName(), request.getEmail(), request.getSubject(), request.getMessage(), "New Contact Message");
     }
 
-    // EmailJS handles both admin notification and auto-reply within its own template system
     public void sendConfirmation(String toEmail, String name) {
-        // With EmailJS, the auto-reply is usually configured inside the EmailJS dashboard 
-        // as an 'Auto-Reply' or triggered by the same template. 
-        // We just need to make sure the API call is successful.
+        sendViaEmailJS(visitorTemplateId, toEmail, "Aditya Prajapati", "adityaprajapati4405@gmail.com", "Thanks for reaching out!", "I have received your message and will get back to you soon.", "Confirmation");
     }
 
-    private void sendViaEmailJS(ContactRequest request) {
+    private void sendViaEmailJS(String templateId, String toEmail, String fromName, String fromEmail, String subject, String message, String logPrefix) {
+        if (templateId == null || templateId.isEmpty()) {
+            System.err.println("EmailJS: Template ID is missing for " + logPrefix);
+            return;
+        }
+
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -52,12 +57,14 @@ public class MailService {
         body.put("accessToken", privateKey);
 
         Map<String, String> templateParams = new HashMap<>();
-        templateParams.put("name", request.getFullName());
-        templateParams.put("email", request.getEmail());
-        templateParams.put("to_email", adminEmail);
-        templateParams.put("subject", request.getSubject());
-        templateParams.put("message", request.getMessage());
-        // Ensure these keys match the {{variables}} in your EmailJS template!
+        templateParams.put("to_email", toEmail);
+        templateParams.put("from_name", fromName);
+        templateParams.put("from_email", fromEmail);
+        templateParams.put("reply_to", fromEmail);
+        templateParams.put("subject", subject);
+        templateParams.put("message", message);
+        templateParams.put("name", fromName); // Support different template variable names
+        templateParams.put("email", fromEmail);
         
         body.put("template_params", templateParams);
 
@@ -65,14 +72,12 @@ public class MailService {
         
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(EMAILJS_URL, entity, String.class);
-            System.out.println("EmailJS Success: " + response.getBody());
+            System.out.println("EmailJS " + logPrefix + " Success: " + response.getBody());
         } catch (org.springframework.web.client.HttpStatusCodeException e) {
-            System.err.println("EmailJS Error Status: " + e.getStatusCode());
-            System.err.println("EmailJS Error Response: " + e.getResponseBodyAsString());
-            throw e;
+            System.err.println("EmailJS " + logPrefix + " Error Status: " + e.getStatusCode());
+            System.err.println("EmailJS " + logPrefix + " Error Response: " + e.getResponseBodyAsString());
         } catch (Exception e) {
-            System.err.println("EmailJS Generic Error: " + e.getMessage());
-            throw e;
+            System.err.println("EmailJS " + logPrefix + " Generic Error: " + e.getMessage());
         }
     }
 }
