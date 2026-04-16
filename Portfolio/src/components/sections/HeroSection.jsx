@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Download } from 'lucide-react'
+import { ArrowLeft, ArrowRight, Download } from 'lucide-react'
 import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi'
 import { SiLeetcode } from 'react-icons/si'
 import { useTheme } from '../../hooks/useTheme.jsx'
