@@ -18,7 +18,7 @@ public class MailService {
     @Value("${EMAILJS_ADMIN_TEMPLATE_ID:${EMAILJS_TEMPLATE_ID}}")
     private String adminTemplateId;
 
-    @Value("${EMAILJS_VISITOR_TEMPLATE_ID:${EMAILJS_TEMPLATE_ID}}")
+    @Value("${EMAILJS_VISITOR_TEMPLATE_ID:}")
     private String visitorTemplateId;
 
     @Value("${EMAILJS_PUBLIC_KEY}")
@@ -34,16 +34,24 @@ public class MailService {
     private static final String EMAILJS_URL = "https://api.emailjs.com/api/v1.0/email/send";
 
     public void sendToAdmin(ContactRequest request) {
-        sendViaEmailJS(adminTemplateId, adminEmail, request.getFullName(), request.getEmail(), request.getSubject(), request.getMessage(), "New Contact Message");
+        // Send notification to you (Admin)
+        System.out.println("EmailJS: Sending Admin Notification using template: " + adminTemplateId);
+        sendViaEmailJS(adminTemplateId, adminEmail, request.getFullName(), request.getEmail(), request.getSubject(), request.getMessage(), "Admin Notification");
     }
 
-    public void sendConfirmation(String toEmail, String name) {
-        sendViaEmailJS(visitorTemplateId, toEmail, "Aditya Prajapati", "adityaprajapati4405@gmail.com", "Thanks for reaching out!", "I have received your message and will get back to you soon.", "Confirmation");
+    public void sendConfirmation(String visitorEmail, String visitorName) {
+        // Only send thank you mail if a separate template is provided
+        if (visitorTemplateId != null && !visitorTemplateId.isEmpty() && !visitorTemplateId.equals(adminTemplateId)) {
+            System.out.println("EmailJS: Sending Visitor Confirmation using template: " + visitorTemplateId);
+            sendViaEmailJS(visitorTemplateId, visitorEmail, "Aditya Prajapati", adminEmail, "Thanks for reaching out!", "I have received your message and will get back to you soon.", "Visitor Confirmation");
+        } else {
+            System.out.println("EmailJS: Skipping visitor confirmation as EMAILJS_VISITOR_TEMPLATE_ID is not set or same as admin template (" + visitorTemplateId + ")");
+        }
     }
 
     private void sendViaEmailJS(String templateId, String toEmail, String fromName, String fromEmail, String subject, String message, String logPrefix) {
-        if (templateId == null || templateId.isEmpty()) {
-            System.err.println("EmailJS: Template ID is missing for " + logPrefix);
+        if (templateId == null || templateId.isEmpty() || templateId.startsWith("template_xxx")) {
+            System.err.println("EmailJS: Invalid or missing Template ID for " + logPrefix + ": " + templateId);
             return;
         }
 
@@ -63,8 +71,16 @@ public class MailService {
         templateParams.put("reply_to", fromEmail);
         templateParams.put("subject", subject);
         templateParams.put("message", message);
-        templateParams.put("name", fromName); // Support different template variable names
+        
+        // Aliases for common EmailJS template variables to ensure they find the right data
+        templateParams.put("user_name", fromName);
+        templateParams.put("user_email", fromEmail);
+        templateParams.put("name", fromName);
         templateParams.put("email", fromEmail);
+        templateParams.put("contact_name", fromName);
+        templateParams.put("contact_email", fromEmail);
+        templateParams.put("visitor_name", fromName);
+        templateParams.put("visitor_email", fromEmail);
         
         body.put("template_params", templateParams);
 
@@ -72,12 +88,13 @@ public class MailService {
         
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(EMAILJS_URL, entity, String.class);
-            System.out.println("EmailJS " + logPrefix + " Success: " + response.getBody());
+            System.out.println("EmailJS " + logPrefix + " [To: " + toEmail + "]: Success (" + response.getStatusCode() + ")");
         } catch (org.springframework.web.client.HttpStatusCodeException e) {
             System.err.println("EmailJS " + logPrefix + " Error Status: " + e.getStatusCode());
             System.err.println("EmailJS " + logPrefix + " Error Response: " + e.getResponseBodyAsString());
         } catch (Exception e) {
             System.err.println("EmailJS " + logPrefix + " Generic Error: " + e.getMessage());
+            e.printStackTrace();
         }
     }
 }
