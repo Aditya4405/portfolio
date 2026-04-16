@@ -4,6 +4,7 @@ import { ArrowRight, Download } from 'lucide-react'
 import { FiGithub, FiLinkedin, FiMail } from 'react-icons/fi'
 import { SiLeetcode } from 'react-icons/si'
 import { useTheme } from '../../hooks/useTheme.jsx'
+import { Link } from 'react-router-dom'
 
 const socialIcons = {
   GitHub: FiGithub,
@@ -189,9 +190,9 @@ function HeroSection({ personalInfo, resumeUrl }) {
               <a href="#projects" className="btn-primary" style={{ padding: '16px 36px', fontSize: '15px' }}>
                 View My Work <ArrowRight size={18} />
               </a>
-              <a href={resumeUrl} download className="btn-secondary" style={{ padding: '16px 36px', fontSize: '15px', color: 'var(--text-primary)', borderColor: 'var(--card-border)' }}>
-                <Download size={18} /> Download Resume
-              </a>
+              <Link to="/resume" className="btn-secondary" style={{ padding: '16px 36px', fontSize: '15px', color: 'var(--text-primary)', borderColor: 'var(--card-border)', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                View Resume
+              </Link>
             </motion.div>
 
             {/* Social icons */}

@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion'
-import { Download, Mail, Send } from 'lucide-react'
+import { Download, Mail, Send, Eye } from 'lucide-react'
 import { FiGithub, FiLinkedin } from 'react-icons/fi'
 import { useTheme } from '../../hooks/useTheme.jsx'
+import { Link } from 'react-router-dom'
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 20, filter: 'blur(4px)' },
@@ -104,14 +105,13 @@ function ContactSection({ personalInfo, resumeUrl, formState, setFormState, send
               </a>
             ))}
 
-            <a
-              href={resumeUrl}
-              download
+            <Link
+              to="/resume"
               className="btn-primary"
-              style={{ marginTop: '12px', justifyContent: 'center', padding: '16px' }}
+              style={{ marginTop: '12px', justifyContent: 'center', padding: '16px', textDecoration: 'none' }}
             >
-              <Download size={18} /> Download Resume
-            </a>
+              <Eye size={18} /> View Resume
+            </Link>
           </motion.div>
 
           {/* RIGHT: Contact Form */}
