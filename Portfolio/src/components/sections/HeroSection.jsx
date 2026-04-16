@@ -191,7 +191,7 @@ function HeroSection({ personalInfo, resumeUrl }) {
                 View My Work <ArrowRight size={18} />
               </a>
               <a href={resumeUrl} download className="btn-secondary" style={{ padding: '16px 36px', fontSize: '15px', color: 'var(--text-primary)', borderColor: 'var(--card-border)', display: 'flex', alignItems: 'center', gap: '8px', textDecoration: 'none' }}>
-                <Download size={18} /> Download CV
+                <Download size={18} /> Resume
               </a>
               <Link to="/resume" style={{ fontSize: '14px', fontWeight: 600, color: '#ef4444', textDecoration: 'none', marginLeft: '8px', display: 'flex', alignItems: 'center', gap: '6px' }} className="hover:underline">
                 View Digital Resume <ArrowRight size={14} />
