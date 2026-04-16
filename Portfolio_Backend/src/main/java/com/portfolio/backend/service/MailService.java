@@ -12,19 +12,19 @@ import java.util.Map;
 @Service
 public class MailService {
 
-    @Value("${EMAILJS_SERVICE_ID}")
+    @Value("${EMAILJS_SERVICE_ID:}")
     private String serviceId;
 
-    @Value("${EMAILJS_ADMIN_TEMPLATE_ID:${EMAILJS_TEMPLATE_ID}}")
+    @Value("${EMAILJS_ADMIN_TEMPLATE_ID:}")
     private String adminTemplateId;
 
     @Value("${EMAILJS_VISITOR_TEMPLATE_ID:}")
     private String visitorTemplateId;
 
-    @Value("${EMAILJS_PUBLIC_KEY}")
+    @Value("${EMAILJS_PUBLIC_KEY:}")
     private String publicKey;
 
-    @Value("${EMAILJS_PRIVATE_KEY}")
+    @Value("${EMAILJS_PRIVATE_KEY:}")
     private String privateKey;
 
     @Value("${ADMIN_EMAIL:adityaprajapati4405@gmail.com}")
