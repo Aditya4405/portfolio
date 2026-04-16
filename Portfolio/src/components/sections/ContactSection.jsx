@@ -181,27 +181,31 @@ function ContactSection({ personalInfo, resumeUrl, formState, setFormState, send
               }}
             >
               {isSubmitting ? (
-                <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
-                  <div style={{ width: '120px', height: '14px', position: 'relative', overflow: 'hidden' }}>
+                <div style={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                  <div style={{ width: '140px', height: '12px', position: 'relative', overflow: 'hidden' }}>
+                    {/* Background track */}
+                    <div style={{ position: 'absolute', top: '5px', left: 0, width: '100%', height: '2px', background: 'rgba(255,255,255,0.2)', borderRadius: '1px' }} />
+                    
+                    {/* Flowing Wave */}
                     <motion.svg 
-                      width="240" 
-                      height="14" 
-                      viewBox="0 0 240 14"
-                      initial={{ x: -120 }}
+                      width="280" 
+                      height="12" 
+                      viewBox="0 0 280 12"
+                      initial={{ x: -140 }}
                       animate={{ x: 0 }}
-                      transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
+                      transition={{ repeat: Infinity, duration: 1.5, ease: "linear" }}
+                      style={{ position: 'absolute', top: 0, left: 0 }}
                     >
                       <path 
-                        d="M0 7 L5 2 L10 7 L15 12 L20 7 L25 2 L30 7 L35 12 L40 7 L45 2 L50 7 L55 12 L60 7 L65 2 L70 7 L75 12 L80 7 L85 2 L90 7 L95 12 L100 7 L105 2 L110 7 L115 12 L120 7 L125 2 L130 7 L135 12 L140 7 L145 2 L150 7 L155 12 L160 7 L165 2 L170 7 L175 12 L180 7 L185 2 L190 7 L195 12 L200 7 L205 2 L210 7 L215 12 L220 7 L225 2 L230 7 L235 12 L240 7" 
+                        d="M0 6 Q 5 1, 10 6 T 20 6 T 30 6 T 40 6 T 50 6 T 60 6 T 70 6 T 80 6 T 90 6 T 100 6 T 110 6 T 120 6 T 130 6 T 140 6 T 150 6 T 160 6 T 170 6 T 180 6 T 190 6 T 200 6 T 210 6 T 220 6 T 230 6 T 240 6 T 250 6 T 260 6 T 270 6 T 280 6" 
                         fill="none" 
-                        stroke="white" 
-                        strokeWidth="3" 
+                        stroke="#8ab4f8" 
+                        strokeWidth="2.5" 
                         strokeLinecap="round" 
-                        strokeLinejoin="round" 
                       />
                     </motion.svg>
                   </div>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 600, letterSpacing: '0.05em' }}>SENDING...</span>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'rgba(255,255,255,0.9)', letterSpacing: '0.05em' }}>SENDING...</span>
                 </div>
               ) : (
                 <><Send size={18} /> Send Message</>
