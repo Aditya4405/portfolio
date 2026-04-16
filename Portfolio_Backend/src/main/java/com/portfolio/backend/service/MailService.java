@@ -36,20 +36,20 @@ public class MailService {
     public void sendToAdmin(ContactRequest request) {
         // Send notification to you (Admin)
         System.out.println("EmailJS: Sending Admin Notification using template: " + adminTemplateId);
-        sendViaEmailJS(adminTemplateId, adminEmail, request.getFullName(), request.getEmail(), request.getSubject(), request.getMessage(), "Admin Notification");
+        sendViaEmailJS(adminTemplateId, adminEmail, request.getFullName(), request.getEmail(), request.getSubject(), request.getMessage(), request.getFullName(), "Admin Notification");
     }
 
     public void sendConfirmation(String visitorEmail, String visitorName) {
         // Only send thank you mail if a separate template is provided
         if (visitorTemplateId != null && !visitorTemplateId.isEmpty() && !visitorTemplateId.equals(adminTemplateId)) {
             System.out.println("EmailJS: Sending Visitor Confirmation using template: " + visitorTemplateId);
-            sendViaEmailJS(visitorTemplateId, visitorEmail, "Aditya Prajapati", adminEmail, "Thanks for reaching out!", "I have received your message and will get back to you soon.", "Visitor Confirmation");
+            sendViaEmailJS(visitorTemplateId, visitorEmail, "Aditya Prajapati", adminEmail, "Thanks for reaching out!", "I have received your message and will get back to you soon.", visitorName, "Visitor Confirmation");
         } else {
             System.out.println("EmailJS: Skipping visitor confirmation as EMAILJS_VISITOR_TEMPLATE_ID is not set or same as admin template (" + visitorTemplateId + ")");
         }
     }
 
-    private void sendViaEmailJS(String templateId, String toEmail, String fromName, String fromEmail, String subject, String message, String logPrefix) {
+    private void sendViaEmailJS(String templateId, String toEmail, String fromName, String fromEmail, String subject, String message, String visitorName, String logPrefix) {
         if (templateId == null || templateId.isEmpty() || templateId.startsWith("template_xxx")) {
             System.err.println("EmailJS: Invalid or missing Template ID for " + logPrefix + ": " + templateId);
             return;
@@ -72,15 +72,14 @@ public class MailService {
         templateParams.put("subject", subject);
         templateParams.put("message", message);
         
-        // Aliases for common EmailJS template variables to ensure they find the right data
+        // Aliases for common EmailJS template variables
         templateParams.put("user_name", fromName);
         templateParams.put("user_email", fromEmail);
-        templateParams.put("name", fromName);
-        templateParams.put("email", fromEmail);
-        templateParams.put("contact_name", fromName);
+        templateParams.put("name", (logPrefix.contains("Visitor")) ? visitorName : fromName); 
+        templateParams.put("email", toEmail); 
+        templateParams.put("contact_name", (logPrefix.contains("Visitor")) ? visitorName : fromName);
         templateParams.put("contact_email", fromEmail);
-        templateParams.put("visitor_name", fromName);
-        templateParams.put("visitor_email", fromEmail);
+        templateParams.put("visitor_name", visitorName);
         
         body.put("template_params", templateParams);
 
