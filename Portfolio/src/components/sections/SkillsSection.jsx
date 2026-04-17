@@ -37,7 +37,7 @@ function SkillsSection() {
           <span className="section-eyebrow">Skills</span>
           <h2 className="section-title">What I work with</h2>
           <p className="section-description">
-            Technologies I've used in real projects — nothing I haven't actually touched.
+            Technologies I use to design and build scalable applications.
           </p>
         </motion.div>
 
