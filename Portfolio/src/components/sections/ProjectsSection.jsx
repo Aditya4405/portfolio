@@ -27,13 +27,7 @@ function ShowcasePanel({ project, index, theme }) {
     return { text: 'Experimental', icon: <FlaskConical size={12} /> }
   }, [project.featured])
 
-  const learningHighlight = useMemo(() => {
-    if (project.title.toLowerCase().includes('health')) return 'Secure Role-Based Access'
-    if (project.title.toLowerCase().includes('voice')) return 'Native Web Speech APIs'
-    if (project.title.toLowerCase().includes('sign')) return 'ML Computer Vision Pipeline'
-    if (project.title.toLowerCase().includes('map')) return 'Interactive Geospatial Search'
-    return 'Industrial Architecture'
-  }, [project.title])
+
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -139,7 +133,7 @@ function ShowcasePanel({ project, index, theme }) {
              <Cpu size={14} style={{ color: 'var(--primary)' }} />
              <div>
                 <p style={{ fontSize: '9px', textTransform: 'uppercase', color: 'var(--primary)', fontWeight: 800, margin: 0 }}>Core Achievement</p>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-primary)', fontWeight: 500, margin: 0 }}>Secure Role Based Access</p>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-primary)', fontWeight: 500, margin: 0 }}>{project.achievement || 'Industrial Architecture'}</p>
              </div>
           </div>
 
