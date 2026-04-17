@@ -18,13 +18,13 @@ const categories = [
     emoji: '⚙️',
     title: 'Backend',
     color: '#ef4444',
-    skills: ['Node.js', 'Express', 'Java', 'Spring Boot', 'REST APIs'],
+    skills: ['Java', 'Spring Boot', 'REST APIs','Authentication'],
   },
   {
     emoji: '🛠️',
     title: 'Tools & Databases',
     color: '#ef4444',
-    skills: ['MongoDB', 'MySQL', 'Firebase', 'Git', 'GitHub', 'Postman'],
+    skills: ['MySQL', 'Firebase', 'Git', 'GitHub', 'Postman','Eclipse'],
   },
 ]
 
