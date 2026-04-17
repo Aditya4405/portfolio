@@ -64,7 +64,7 @@ export const projects = [
     stack: ['React', 'Spring Boot', 'MySQL', 'Tailwind CSS'],
     github: 'https://github.com/Aditya4405/smart-pet-care',
     demo: 'https://smart-pet-care-two.vercel.app/',
-    achievement: 'Full-Stack SaaS Architecture',
+    achievement: 'Industrial Grade SaaS Architecture',
     featured: true,
   },
   {
@@ -74,7 +74,7 @@ export const projects = [
     stack: ['JavaScript', 'Tailwind CSS', 'HTML5', 'Netlify'],
     github: 'https://github.com/Aditya4405/shorting-vizualizer',
     demo: 'https://sorting-view.netlify.app/',
-    achievement: 'Real-time Algorithm Analysis',
+    achievement: 'Advanced DSA Algorithm Visualization',
     featured: true,
   },
   {
