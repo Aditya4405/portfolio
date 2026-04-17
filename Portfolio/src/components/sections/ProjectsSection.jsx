@@ -139,7 +139,7 @@ function ShowcasePanel({ project, index, theme }) {
              <Cpu size={14} style={{ color: 'var(--primary)' }} />
              <div>
                 <p style={{ fontSize: '9px', textTransform: 'uppercase', color: 'var(--primary)', fontWeight: 800, margin: 0 }}>Core Achievement</p>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-primary)', fontWeight: 500, margin: 0 }}>{learningHighlight}</p>
+                <p style={{ fontSize: '0.8rem', color: 'var(--text-primary)', fontWeight: 500, margin: 0 }}>Secure Role Based Access</p>
              </div>
           </div>
 
