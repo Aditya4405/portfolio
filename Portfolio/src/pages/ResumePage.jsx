@@ -135,11 +135,11 @@ const ResumePage = () => {
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '12px 20px',
-        background: 'rgba(5, 5, 5, 0.8)',
+        background: theme === 'dark' ? 'rgba(10, 10, 10, 0.8)' : 'rgba(255, 255, 255, 0.95)',
         backdropFilter: 'blur(20px)',
         borderRadius: '16px',
-        border: '1px solid var(--card-border)',
-        boxShadow: '0 10px 30px rgba(0,0,0,0.1)'
+        border: theme === 'dark' ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(0, 0, 0, 0.05)',
+        boxShadow: theme === 'dark' ? '0 10px 30px rgba(0,0,0,0.4)' : '0 10px 30px rgba(0,0,0,0.05)'
       }} className="top-nav-wrap">
         <a href="/" style={{ 
           display: 'flex', 
@@ -147,7 +147,7 @@ const ResumePage = () => {
           gap: '8px', 
           fontSize: '0.9rem', 
           fontWeight: 600, 
-          color: 'var(--text-secondary)',
+          color: 'var(--text-primary)',
           textDecoration: 'none'
         }}>
           <ArrowLeft size={18} /> Back to Portfolio
