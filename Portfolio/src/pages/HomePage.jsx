@@ -193,27 +193,22 @@ function HomePage() {
         />
       </main>
 
-      <footer style={{ padding: '64px 0', borderTop: '1px solid var(--card-border)', background: 'var(--bg-secondary)', position: 'relative', zIndex: 10 }}>
-        <div className="container" style={{ textAlign: 'center' }}>
-          <div style={{ fontSize: '1.2rem', fontWeight: 900, color: 'var(--text-primary)', marginBottom: '16px' }}>
-            Aditya<span style={{ color: '#ef4444' }}>.</span>
-          </div>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '32px' }}>
-            Built with React & Framer Motion. © {new Date().getFullYear()} Aditya Prajapati.
-          </p>
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '20px' }}>
+      <footer style={{ padding: '40px 0', borderTop: '1px solid var(--card-border)', background: theme === 'dark' ? 'rgba(5, 5, 5, 0.4)' : 'rgba(255, 255, 255, 0.4)', position: 'relative', zIndex: 10, backdropFilter: 'blur(20px)' }}>
+        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '32px' }}>
+          <div style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
             {[
               { icon: FiGithub, href: personalInfo.socials[0].href, label: 'GitHub' },
               { icon: FiLinkedin, href: personalInfo.socials[1].href, label: 'LinkedIn' },
               { icon: FiMail, href: personalInfo.socials[2].href, label: 'Email' },
             ].map(({ icon: Icon, href, label }) => (
-              <a key={label} href={href} target="_blank" rel="noreferrer" className="social-icon-btn">
-                <Icon size={16} />
+              <a key={label} href={href} target={label === 'Email' ? '_self' : '_blank'} rel="noreferrer" className="social-icon-btn" style={{ width: '42px', height: '42px', borderRadius: '12px' }}>
+                <Icon size={20} />
               </a>
             ))}
-            <a href="#home" className="btn-secondary" style={{ padding: '7px 16px', fontSize: '0.75rem', borderRadius: '8px' }}>
-              <ArrowUp size={14} /> Top
-            </a>
+          </div>
+
+          <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', fontWeight: 500 }}>
+            © {new Date().getFullYear()} {personalInfo.name}. All rights reserved.
           </div>
         </div>
       </footer>

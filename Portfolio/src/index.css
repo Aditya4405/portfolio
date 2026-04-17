@@ -453,9 +453,10 @@ p {
 
 .social-icon-btn:hover {
   background: var(--primary-glow);
-  border-color: rgba(192, 57, 43, 0.5);
+  border-color: rgba(239, 68, 68, 0.4);
   color: #ef4444;
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 10px 20px rgba(239, 68, 68, 0.15);
 }
 
 /* ============================================================

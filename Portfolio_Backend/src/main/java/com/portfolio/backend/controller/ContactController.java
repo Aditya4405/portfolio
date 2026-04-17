@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/contact")
 @CrossOrigin(
-    originPatterns = "*", 
+    origins = "https://aditya-prajapati.vercel.app", 
     allowCredentials = "true",
     allowedHeaders = "*"
 )

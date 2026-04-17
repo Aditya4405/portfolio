@@ -1,4 +1,4 @@
-import profilePortrait from '../assets/images/p1.jpeg'
+import profilePortrait from '../assets/images/p1.png'
 import aboutPhoto from '../assets/images/p2.png'
 import petCarePreview from '../assets/images/smart-pet-care.png'
 import sortingPreview from '../assets/images/sorting-visualizer.png'
