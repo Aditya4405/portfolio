@@ -32,7 +32,7 @@ public class ContactController {
         // 1. Quota Check (By IP)
         if (!quotaService.isAllowed(clientIp)) {
             return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
-                    .body("Daily limit reached for your IP. Try again tomorrow.");
+                    .body("Try again later, limit reached");
         }
 
         try {
@@ -50,8 +50,8 @@ public class ContactController {
         } catch (RuntimeException e) {
             String message = e.getMessage();
             if (message != null && message.contains("Email delivery failed")) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body("Invalid email address. Please check and try again.");
+                return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS) // Change to 429 to match the "limit reached" context
+                        .body("Try again later, limit reached");
             }
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
