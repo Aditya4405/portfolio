@@ -3,6 +3,7 @@ package com.portfolio.backend.controller;
 import com.portfolio.backend.dto.ContactRequest;
 import com.portfolio.backend.service.MailService;
 import com.portfolio.backend.service.QuotaService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,22 +26,24 @@ public class ContactController {
     private QuotaService quotaService;
 
     @PostMapping("/send")
-    public ResponseEntity<?> sendContactMessage(@Valid @RequestBody ContactRequest request) {
-        // 1. Quota Check
-        if (!quotaService.isAllowed(request.getEmail())) {
+    public ResponseEntity<?> sendContactMessage(@Valid @RequestBody ContactRequest request, HttpServletRequest httpRequest) {
+        String clientIp = getClientIp(httpRequest);
+        
+        // 1. Quota Check (By IP)
+        if (!quotaService.isAllowed(clientIp)) {
             return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
-                    .body("Daily limit reached. Try again tomorrow.");
+                    .body("Daily limit reached for your IP. Try again tomorrow.");
         }
 
         try {
-            // 1. Send reaching out notification to Admin (This is most important)
+            // 2. Send reaching out notification to Admin
             mailService.sendToAdmin(request);
 
-            // 2. Try to send confirmation to user
+            // 3. Try to send confirmation to user
             mailService.sendConfirmation(request.getEmail(), request.getFullName());
             
-            // 3. Increment Quota
-            quotaService.increment(request.getEmail());
+            // 4. Increment Quota (By IP)
+            quotaService.increment(clientIp);
 
             return ResponseEntity.ok("Message sent successfully!");
             
@@ -58,5 +61,14 @@ public class ContactController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Server error while sending message. Please try again later.");
         }
+    }
+
+    private String getClientIp(HttpServletRequest request) {
+        String xForwardedFor = request.getHeader("X-Forwarded-For");
+        if (xForwardedFor != null && !xForwardedFor.isEmpty()) {
+            // X-Forwarded-For can be a comma-separated list of IPs. The first one is the client.
+            return xForwardedFor.split(",")[0].trim();
+        }
+        return request.getRemoteAddr();
     }
 }
