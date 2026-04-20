@@ -205,41 +205,46 @@ function HeroSection({ personalInfo, resumeUrl }) {
               transition={{ duration: 1, delay: 0.8 }}
               style={{ display: 'flex', gap: '16px' }}
             >
-              {Object.entries(socialIcons).map(([name, Icon], i) => (
-                <motion.a
-                  key={name}
-                  href="#"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.5, delay: 0.8 + (i * 0.1), ease: [0.22, 1, 0.36, 1] }}
-                  style={{
-                    width: '44px',
-                    height: '44px',
-                    borderRadius: '12px',
-                    border: '1px solid var(--card-border)',
-                    background: 'var(--card-bg)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'var(--text-secondary)',
-                    transition: 'all 0.3s ease',
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.color = '#ef4444'
-                    e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)'
-                    e.currentTarget.style.background = 'rgba(239, 68, 68, 0.05)'
-                    e.currentTarget.style.transform = 'translateY(-4px)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.color = 'var(--text-secondary)'
-                    e.currentTarget.style.borderColor = 'var(--card-border)'
-                    e.currentTarget.style.background = 'var(--card-bg)'
-                    e.currentTarget.style.transform = 'translateY(0)'
-                  }}
-                >
-                  <Icon size={20} />
-                </motion.a>
-              ))}
+              {personalInfo.socials.map((social, i) => {
+                const Icon = socialIcons[social.label] || FiGithub
+                return (
+                  <motion.a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.8 + (i * 0.1), ease: [0.22, 1, 0.36, 1] }}
+                    style={{
+                      width: '44px',
+                      height: '44px',
+                      borderRadius: '12px',
+                      border: '1px solid var(--card-border)',
+                      background: 'var(--card-bg)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'var(--text-secondary)',
+                      transition: 'all 0.3s ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.color = '#ef4444'
+                      e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.3)'
+                      e.currentTarget.style.background = 'rgba(239, 68, 68, 0.05)'
+                      e.currentTarget.style.transform = 'translateY(-4px)'
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.color = 'var(--text-secondary)'
+                      e.currentTarget.style.borderColor = 'var(--card-border)'
+                      e.currentTarget.style.background = 'var(--card-bg)'
+                      e.currentTarget.style.transform = 'translateY(0)'
+                    }}
+                  >
+                    <Icon size={20} />
+                  </motion.a>
+                )
+              })}
             </motion.div>
           </div>
 
