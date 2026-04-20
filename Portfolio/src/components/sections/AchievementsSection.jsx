@@ -372,7 +372,9 @@ function AchievementsSection({ achievements }) {
 
                 <div style={{ marginTop: '16px', display: 'flex', gap: '12px' }}>
                   <a 
-                    href="#" 
+                    href={cert.image} 
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="btn-primary" 
                     style={{ padding: '12px 24px', fontSize: '0.85rem', borderRadius: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}
                   >
